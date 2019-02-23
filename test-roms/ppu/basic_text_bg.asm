@@ -2,7 +2,7 @@ format binary as 'gba'
 
 main:
   b main_arm
-  include '../inc/header.inc'
+  include '../common/header.asm'
 
 main_arm:
   adr r0, main_thumb + 1
