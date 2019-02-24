@@ -95,6 +95,3 @@ main_thumb:
 
   infinite:
     b infinite
-
-
-

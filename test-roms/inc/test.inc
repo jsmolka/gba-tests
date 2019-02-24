@@ -21,7 +21,7 @@ macro TestInit {
   strh r0, [r1]
 }
 
-macro TestSucceded {
+macro TestSuccessful {
   ; Setup green color (0x5000000)
   mov r0, 0x1F
   lsl r0, r0, 5
