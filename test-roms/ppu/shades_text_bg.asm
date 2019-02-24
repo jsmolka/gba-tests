@@ -1,6 +1,7 @@
 format binary as 'gba'
 
-include '../inc/header.inc'
+include '../lib/header.inc'
+include '../lib/utility.inc'
 
 main:
   b main_arm
@@ -13,12 +14,9 @@ main_arm:
 code16
 align 2
 main_thumb:
-  ; Setup palette for different blue shades (0x5000000)
+  ; Setup different shades of blue
   mov r0, 0
-  mov r1, 5
-  lsl r1, r1, 24
-
-  ; Loop over all 16 shades
+  imm32t r1, 0x5000000
   mov r2, 16
   loop_color:
     strh r0, [r1]
@@ -32,14 +30,9 @@ main_thumb:
     sub r2, 1
     bne loop_color
 
-  ; Generate base address for background tiles (0x6004000)
-  mov r1, 6
-  lsl r1, r1, 12
-  add r1, 4
-  lsl r1, r1, 12
-
-  ; Generate background tiles (tile for each color)
+  ; Generate background tiles
   mov r0, 0
+  imm32t r1, 0x6004000
   mov r2, 16
   loop_tiles:
 
@@ -54,13 +47,8 @@ main_thumb:
     sub r2, 1
     bne loop_tiles
 
-  ; Generate base address for background map (0x6000800)
-  mov r1, 6
-  lsl r1, r1, 16
-  add r1, 8
-  lsl r1, r1, 8
-
   ; Generate background map
+  imm32t r1, 0x6000800
   mov r2, 32
   loop_map_row:
     mov r0, 0
@@ -79,18 +67,16 @@ main_thumb:
     sub r2, 1
     bne loop_map_row
 
-  ; Setup BG0CNT (0x4000008)
-  mov r0, 0x41
-  lsl r0, 2
-  mov r1, 1
-  lsl r1, 26
-  add r1, 8
-  str r0, [r1]
-
-  ; Setup DISPCNT (0x4000000)
+  ; Setup DISPCNT
   mov r0, 1
   lsl r0, 8
-  sub r1, 8
+  imm32t r1, 0x4000000
+  str r0, [r1]
+
+  ; Setup BG0CNT
+  mov r0, 0x41
+  lsl r0, 2
+  add r1, 8
   str r0, [r1]
 
   infinite:

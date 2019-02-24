@@ -1,7 +1,7 @@
 format binary as 'gba'
 
-include '../inc/header.inc'
-include '../inc/test.inc'
+include '../lib/header.inc'
+include '../lib/test.inc'
 
 main:
   b main_arm
@@ -16,11 +16,13 @@ align 2
 main_thumb:
   TestInit
 
+  ; Positive branch
   b success
 
   infinite:
     b infinite
 
 success:
-  TestSuccessful
+  TestPassed
+  ; Negative branch
   b infinite

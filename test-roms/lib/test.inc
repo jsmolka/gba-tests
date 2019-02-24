@@ -1,19 +1,8 @@
-format binary as 'gba'
+; Basic functions for testing
 
-include '../lib/header.inc'
-include '../lib/utility.inc'
+include 'utility.inc'
 
-main:
-  b main_arm
-  Header
-
-main_arm:
-  adr r0, main_thumb + 1
-  bx r0
-
-code16
-align 2
-main_thumb:
+macro TestInit {
   ; Setup red color
   mov r0, 0x1F
   imm32t r1, 0x5000000
@@ -29,6 +18,12 @@ main_thumb:
   mov r0, 0
   add r1, 8
   strh r0, [r1]
+}
 
-  infinite:
-    b infinite
+macro TestPassed {
+  ; Setup green color
+  mov r0, 0x1F
+  lsl r0, r0, 5
+  imm32t r1, 0x5000000
+  strh r0, [r1]
+}
