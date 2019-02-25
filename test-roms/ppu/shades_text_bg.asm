@@ -22,9 +22,9 @@ main_thumb:
     strh r0, [r1]
 
     ; Increment color
-    lsr r0, r0, 10
+    lsr r0, 10
     add r0, 2
-    lsl r0, r0, 10
+    lsl r0, 10
 
     add r1, 2
     sub r2, 1

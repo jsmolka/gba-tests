@@ -10,7 +10,7 @@ macro TestInit {
 
   ; Setup DISPCNT
   mov r0, 1
-  lsl r0, r0, 8
+  lsl r0, 8
   imm32t r1, 0x4000000
   strh r0, [r1]
 
@@ -23,7 +23,7 @@ macro TestInit {
 macro TestPassed {
   ; Setup green color
   mov r0, 0x1F
-  lsl r0, r0, 5
+  lsl r0, 5
   imm32t r1, 0x5000000
   strh r0, [r1]
 }

@@ -20,7 +20,7 @@ main_thumb:
   strh r0, [r1]
 
   ; Setup green color
-  lsl r0, r0, 5
+  lsl r0, 5
   add r1, 2
   strh r0, [r1]
 

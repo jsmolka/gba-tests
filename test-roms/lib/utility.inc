@@ -24,24 +24,24 @@ macro imm16 reg, immediate {
 
 macro imm32t reg, immediate {
   mov reg, immediate shr 24 and 0xFF
-  lsl reg, reg, 8
+  lsl reg, 8
   add reg, immediate shr 16 and 0xFF
-  lsl reg, reg, 8
+  lsl reg, 8
   add reg, immediate shr 8 and 0xFF
-  lsl reg, reg, 8
+  lsl reg, 8
   add reg, immediate and 0xFF
 }
 
 macro imm24t reg, immediate {
   mov reg, immediate shr 16 and 0xFF
-  lsl reg, reg, 8
+  lsl reg, 8
   add reg, immediate shr 8 and 0xFF
-  lsl reg, reg, 8
+  lsl reg, 8
   add reg, immediate and 0xFF
 }
 
 macro imm16t reg, immediate {
   mov reg, immediate shr 8 and 0xFF
-  lsl reg, reg, 8
+  lsl reg, 8
   add reg, immediate and 0xFF
 }

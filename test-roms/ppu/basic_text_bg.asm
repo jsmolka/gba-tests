@@ -21,7 +21,7 @@ main_thumb:
 
   ; Setup DISPCNT
   mov r0, 1
-  lsl r0, r0, 8
+  lsl r0, 8
   imm32t r1, 0x4000000
   strh r0, [r1]
 
