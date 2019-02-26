@@ -16,15 +16,21 @@ align 2
 main_thumb:
   TestInit
 
-  ; B
-  ; Thumb 18: b label
-  b label_b
-  success_b:
+  ; MOV
+  ; Thumb 3: mov rd, offset8
+  mov r0, 0
+  cmp r0, 0
+  bne infinite
+
+  mov r0, 8
+  cmp r0, 8
+  bne infinite
+
+  mov r0, 0xFF
+  cmp r0, 0xFF
+  bne infinite
 
   TestPassed
 
   infinite:
     b infinite
-
-label_b:
-  b success_b

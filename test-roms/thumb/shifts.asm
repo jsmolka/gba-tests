@@ -17,63 +17,86 @@ main_thumb:
   TestInit
 
   ; LSL
+  ; Thumb 1: lsl rd, rs, offset5
   mov r0, 1
-  lsl r0, 3
+  lsl r1, r0, 3
+  cmp r1, 8
+  bne infinite
+
+  lsl r0, r1, 3
+  cmp r0, 64
+  bne infinite
+
+  ; Thumb 4: lsl rd, rs
+  mov r0, 1
+  mov r1, 3
+  lsl r0, r1
   cmp r0, 8
   bne infinite
 
-  lsl r1, r0, 3
-  cmp r1, 64
-  bne infinite
-
-  ; LSL N flag
-  mov r0, 1
-  lsl r0, 31
-  bpl infinite
-
-  ; LSL Z and C flag
-  mov r0, 2
-  lsl r0, 31
-  bcc infinite
+  lsl r0, r1
+  cmp r0, 64
   bne infinite
 
   ; LSR
+  ; Thumb 1: lsr rd, rs, offset5
   mov r0, 64
-  lsr r0, 3
+  lsr r1, r0, 3
+  cmp r1, 8
+  bne infinite
+
+  lsr r0, r1, 3
+  cmp r0, 1
+  bne infinite
+
+  ; Thumb 4: lsr rd, rs
+  mov r0, 64
+  mov r1, 3
+  lsr r0, r1
   cmp r0, 8
   bne infinite
 
-  lsr r1, r0, 3
-  cmp r1, 1
-  bne infinite
-
-  ; LSR Z and C flag
-  mov r0, 2
-  lsr r0, 2
-  bcc infinite
+  lsr r0, r1
+  cmp r0, 1
   bne infinite
 
   ; ASR
+  ; Thumb 1: asr rd, rs, offset5
   mov r0, 64
-  asr r0, 3
-  cmp r0, 8
-  bne infinite
-
   asr r1, r0, 3
-  cmp r1, 1
+  cmp r1, 8
   bne infinite
 
-  lsl r0, r1, 31
-  asr r0, 3
-  mov r1, 0xF
-  lsl r1, 28
+  asr r0, r1, 3
+  cmp r0, 1
+  bne infinite
+
+  mov r0, 1
+  lsl r0, 31
+  asr r1, r0, 3
+  mov r0, 0xF
+  lsl r0, 28
   cmp r0, r1
   bne infinite
 
-  ; ASR Z and C flag
-  mov r0, 2
-  asr r0, 2
-  bcc infinite
+  ; Thumb 4: asr rd, rs
+  mov r0, 64
+  mov r1, 3
+  asr r0, r1
+  cmp r0, 8
+  bne infinite
+
+  asr r0, r1
+  cmp r0, 1
+  bne infinite
+
+  mov r0, 1
+  lsl r0, 31
+  mov r1, 3
+  asr r0, r1
+  mov r1, 0xF
+  lsl r1, 28
+  cmp r0, r1
   bne infinite
 
   TestPassed
