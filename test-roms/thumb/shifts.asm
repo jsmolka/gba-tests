@@ -38,6 +38,22 @@ main_thumb:
   cmp r0, 64
   bne infinite
 
+  ; Special case
+  mov r0, 1
+  mov r1, 0
+  cmp r0, 2
+  lsl r0, r1
+  bcs infinite
+  cmp r0, 1
+  bne infinite
+
+  mov r0, 1
+  cmp r0, r0
+  lsl r0, r1
+  bcc infinite
+  cmp r0, 1
+  bne infinite
+
   ; LSR
   ; Thumb 1: lsr rd, rs, offset5
   mov r0, 64
@@ -59,6 +75,18 @@ main_thumb:
   lsr r0, r1
   cmp r0, 1
   bne infinite
+
+  ; Special case
+  mov r0, 1
+  lsr r0, 32
+  bne infinite
+  bcs infinite
+
+  mov r0, 1
+  lsl r0, 31
+  lsr r0, 32
+  bne infinite
+  bcc infinite
 
   ; ASR
   ; Thumb 1: asr rd, rs, offset5
@@ -98,6 +126,45 @@ main_thumb:
   lsl r1, 28
   cmp r0, r1
   bne infinite
+
+  ; Special case
+  mov r0, 1
+  asr r0, 32
+  bne infinite
+  bcs infinite
+
+  imm32t r1, 0xFFFFFFFF
+  mov r0, 1
+  lsl r0, 31
+  asr r0, 32
+  bcc infinite
+  cmp r0, r1
+  bne infinite
+
+  ; ROR
+  ; Thumb 4: ror rd, rs
+  mov r0, 0xF0
+  mov r1, 4
+  ror r0, r1
+  cmp r0, 0xF
+  bne infinite
+
+  mov r0, 0xFF
+  imm32t r2, 0xF000000F
+  ror r0, r1
+  cmp r0, r2
+  bne infinite
+
+  ; Special case
+  ; mov r0, 1
+  ; mov r1, 0
+  ; mov r2, 1
+  ; lsl r2, 31
+  ; cmp r0, r0
+  ; ror r0, r1
+  ; cmp r0, r2
+  ; bne infinite
+  ; bcc infinite
 
   TestPassed
 

@@ -55,6 +55,16 @@ main_thumb:
   lsr r0, 1
   bcc infinite
 
+  ; C flag ROR
+  mov r0, 2
+  mov r1, 1
+  ror r0, r1
+  bcs infinite
+
+  mov r0, 1
+  ror r0, r1
+  bcc infinite
+
   ; C flag ADD
   imm32t r0, 0xFFFFFFFE
   add r0, 1
