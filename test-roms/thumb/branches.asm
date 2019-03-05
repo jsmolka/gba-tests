@@ -21,6 +21,11 @@ main_thumb:
   b label_b
   success_b:
 
+  ; BL
+  ; Thumb 19: bl label
+  bl label_bl
+  success_bl:
+
   TestPassed
 
   infinite:
@@ -28,3 +33,6 @@ main_thumb:
 
 label_b:
   b success_b
+
+label_bl:
+  bl success_bl
