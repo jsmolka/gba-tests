@@ -4,35 +4,42 @@ include '../lib/header.inc'
 include '../lib/test.inc'
 
 main:
-  b main_arm
-  Header
+        b       main_arm
+        Header
 
 main_arm:
-  adr r0, main_thumb + 1
-  bx r0
+        adr     r0, main_thumb + 1
+        bx      r0
 
 code16
 align 2
 main_thumb:
-  TestInit
+        TestInit
 
-  ; B
-  ; Thumb 18: b label
-  b label_b
-  success_b:
+b_1:
+        ; Thumb 18: b label
+        b       b_2
 
-  ; BL
-  ; Thumb 19: bl label
-  bl label_bl
-  success_bl:
+b_3:
+        b       bl_1
 
-  TestPassed
+bl_1:
+        ; Thumb 19: bl label
+        bl      bl_2
 
-  infinite:
-    b infinite
+bl_3:
+        bl      passed
 
-label_b:
-  b success_b
+        ; Todo: BX
 
-label_bl:
-  bl success_bl
+passed:
+        TestPassed
+
+infinite:
+        b       infinite
+
+b_2:
+        b       b_3
+
+bl_2:
+        bl      bl_3
