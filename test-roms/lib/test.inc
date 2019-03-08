@@ -19,7 +19,7 @@ macro TestInit {
       add     r1, 8
       strh    r0, [r1]
 
-      ; Reset status register
+      ; Reset test register
       mov     r7, 0
 }
 
@@ -31,9 +31,9 @@ macro TestPassed {
       strh    r0, [r1]
 }
 
-macro TestFailed status {
-      ; Set status register
-      mov     r7, status
+macro TestFailed test {
+      ; Set test register
+      mov     r7, test
       bl      test_loop
 }
 

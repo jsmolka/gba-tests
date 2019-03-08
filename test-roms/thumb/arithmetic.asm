@@ -23,7 +23,7 @@ add_1:
         add     r0, r1, 4
         cmp     r0, 20
         beq     add_2
-        b       add_failed
+        TestFailed 1
 
 add_2:
         ; Thumb 3: add rd, offset8
@@ -31,25 +31,31 @@ add_2:
         add     r0, 8
         cmp     r0, 16
         beq     add_3
-        b       add_failed
+        TestFailed 2
 
 add_3:
         ; Carry flag
         imm32t  r0, 0xFFFFFFFE
         add     r0, 1
-        bcs     add_failed
+        bcs     add_3_failed
         add     r0, 1
-        bcc     add_failed
+        bcc     add_3_failed
         b       add_4
+
+add_3_failed:
+        TestFailed 3
 
 add_4:
         ; Overflow flag
         imm32t  r0, 0x7FFFFFFE
         add     r0, 1
-        bvs     add_failed
+        bvs     add_4_failed
         add     r0, 1
-        bvc     add_failed
+        bvc     add_4_failed
         b       add_5
+
+add_4_failed:
+        TestFailed 4
 
 add_5:
         ; Thumb 5: add rd / hd, rs / hs
@@ -61,11 +67,7 @@ add_5:
         mov     r1, 15
         cmp     r8, r1
         beq     adc_1
-        b       add_failed
-
-add_failed:
-        mov     r7, 1
-        bl      infinite
+        TestFailed 5
 
 adc_1:
         ; Thumb 4: adc rd, rs
@@ -75,7 +77,7 @@ adc_1:
         adc     r0, r1
         cmp     r0, 17
         beq     adc_2
-        b       adc_failed
+        TestFailed 6
 
 adc_2:
         mov     r0, 8
@@ -84,11 +86,7 @@ adc_2:
         adc     r0, r1
         cmp     r0, 16
         beq     sub_1
-        b       adc_failed
-
-adc_failed:
-        mov     r7, 2
-        bl      infinite
+        TestFailed 7
 
 sub_1:
         ; Thumb 2: add rd, rs, rn / offset3
@@ -98,12 +96,7 @@ sub_1:
         sub     r0, r2, 4
         cmp     r0, 0
         beq     sbc_1
-        b       sub_failed
-
-sub_failed:
-        mov     r7, 3
-        bl      infinite
-
+        TestFailed 8
 
 sbc_1:
         ; Thumb 4: sbc rd, rs
@@ -113,7 +106,7 @@ sbc_1:
         sbc     r0, r1
         cmp     r0, 2
         beq     sbc_2
-        b       sbc_failed
+        TestFailed 9
 
 sbc_2:
         mov     r0, 4
@@ -122,11 +115,7 @@ sbc_2:
         sbc     r0, r1
         cmp     r0, 1
         beq     mul_1
-        b       sbc_failed
-
-sbc_failed:
-        mov     r7, 4
-        bl      infinite
+        TestFailed 10
 
 mul_1:
         ; Thumb 4: mul rd, rs
@@ -135,24 +124,21 @@ mul_1:
         mul     r0, r1
         cmp     r0, 20
         beq     mul_2
-        b       mul_failed
+        TestFailed 11
 
 mul_2:
         imm32t  r0, 0xFFFFFFFE
         mov     r1, 2
         mul     r0, r1
         imm32t  r1, 0xFFFFFFFC
-        bcs     mul_failed
+        bcs     mul_2_failed
         cmp     r0, r1
-        bne     mul_failed
+        bne     mul_2_failed
         b       passed
 
-mul_failed:
-        mov     r7, 5
-        bl      infinite
+mul_2_failed:
+        TestFailed 12
 
 passed:
         TestPassed
-
-infinite:
-        b       infinite
+        TestLoop

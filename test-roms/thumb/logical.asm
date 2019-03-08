@@ -23,11 +23,7 @@ and_1:
         and     r0, r1
         cmp     r0, 0xF
         beq     eor_1
-        b       and_failed
-
-and_failed:
-        mov     r7, 1
-        bl      infinite
+        TestFailed 1
 
 eor_1:
         ; Thumb 4: eor rd, rs
@@ -36,11 +32,7 @@ eor_1:
         eor     r0, r1
         cmp     r0, 0xFF
         beq     orr_1
-        b       eor_failed
-
-eor_failed:
-        mov     r7, 2
-        bl      infinite
+        TestFailed 2
 
 orr_1:
         ; Thumb 4: orr rd, rs
@@ -49,11 +41,7 @@ orr_1:
         orr     r0, r1
         cmp     r0, 0xFF
         beq     bic_1
-        b       orr_failed
-
-orr_failed:
-        mov     r7, 3
-        bl      infinite
+        TestFailed 3
 
 bic_1:
         ; Thumb 4: bic rd, rs
@@ -62,11 +50,7 @@ bic_1:
         bic     r0, r1
         cmp     r0, 0xF0
         beq     mvn_1
-        b       bic_failed
-
-bic_failed:
-        mov     r7, 4
-        bl      infinite
+        TestFailed 4
 
 mvn_1:
         ; Thumb 4: mvn rd, rs
@@ -75,14 +59,8 @@ mvn_1:
         lsr     r0, 8
         cmp     r0, r1
         beq     passed
-        b       mvn_failed
-
-mvn_failed:
-        mov     r7, 5
-        bl      infinite
+        TestFailed 5
 
 passed:
         TestPassed
-
-infinite:
-        b       infinite
+        TestLoop
