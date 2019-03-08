@@ -27,7 +27,7 @@ macro imm32t reg, imm {
       lsl    reg, 8
       add    reg, imm shr 16 and 0xFF
       lsl    reg, 8
-      add    reg, imm shr  8 and 0xFF
+      add    reg, imm shr 8 and 0xFF
       lsl    reg, 8
       add    reg, imm and 0xFF
 }
@@ -35,7 +35,7 @@ macro imm32t reg, imm {
 macro imm24t reg, imm {
       mov    reg, imm shr 16 and 0xFF
       lsl    reg, 8
-      add    reg, imm shr  8 and 0xFF
+      add    reg, imm shr 8 and 0xFF
       lsl    reg, 8
       add    reg, imm and 0xFF
 }

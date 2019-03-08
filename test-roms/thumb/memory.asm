@@ -14,76 +14,101 @@ main_arm:
 code16
 align 2
 main_thumb:
+        ; Todo
+        ; Offsets with odd numbers behave oddly
+
         TestInit
 
+        ; Setup initial values
         imm32t  r6, 0x02000000
+        imm32t  r5, 0xFFFFFFFF
+        imm32t  r4, 0x0F0F0F0F
+        mov     r3, 8
 
 mem_1:
         ; Thumb 7: ldr / str rd, [rb, ro]
-        imm32t  r0, 0xFFFFFFFF
-        str     r0, [r6]
-        ldr     r1, [r6]
-        cmp     r0, r1
+        str     r5, [r6, r3]
+        ldr     r0, [r6, r3]
+        cmp     r0, r5
         beq     mem_2
-        mov     r7, 1
-        bl      infinite
+        TestFailed 1
 
 mem_2:
-        imm32t  r0, 0xEEEEEEEE
-        mov     r1, 3
-        str     r0, [r6, r1]
-        ldr     r1, [r6, r1]
+        ; Thumb 7: ldrb / strb rd, [rb, ro]
+        lsr     r1, r4, 24
+        strb    r4, [r6, r3]
+        ldrb    r0, [r6, r3]
         cmp     r0, r1
         beq     mem_3
-        mov     r7, 2
-        bl      infinite
+        TestFailed 2
 
 mem_3:
-        ; Thumb 7: ldrb / strb rd, [rb, ro]
-        imm32t  r0, 0xDDDDDDDD
-        mov     r2, 0xDD
-        strb    r0, [r6]
-        ldrb    r1, [r6]
-        cmp     r1, r2
+        ; Thumb 8: ldrh / strh rd, [rb, ro]
+        lsr     r1, r5, 16
+        strh    r5, [r6, r3]
+        ldrh    r0, [r6, r3]
+        cmp     r0, r1
         beq     mem_4
-        mov     r7, 3
-        bl      infinite
+        TestFailed 3
 
 mem_4:
-        imm32t  r0, 0xCCCCCCCC
-        imm32t  r2, 0xCC
-        mov     r1, 3
-        strb    r0, [r6, r1]
-        ldrb    r1, [r6, r1]
-        cmp     r1, r2
+        ; Thumb 8: ldrsb rd, [rb, ro]
+        lsr     r1, r4, 24
+        str     r4, [r6, r3]
+        ldrsb   r0, [r6, r3]
+        cmp     r0, r1
         beq     mem_5
-        mov     r7, 4
-        bl      infinite
+        TestFailed 4
 
 mem_5:
-        ; Thumb 8: ldrh / strh rd, [rb, ro]
-        imm32t  r0, 0xBBBBBBBB
-        imm32t  r2, 0xBBBB
-        strh    r0, [r6]
-        ldrh    r1, [r6]
-        cmp     r1, r2
-        beq     passed;mem_6
-        mov     r7, 5
-        bl      infinite
+        str     r5, [r6, r3]
+        ldrsb   r0, [r6, r3]
+        cmp     r0, r5
+        beq     passed
+        TestFailed 5
 
-;mem_6:
-;        imm32t  r0, 0xAAAAAAAA
-;        imm32t  r2, 0xAAAA
-;        mov     r1, 3
-;        strh    r0, [r6, r1]
-;        ldrh    r3, [r6, r1]
-;        cmp     r3, r2
-;        beq     passed
-;        mov     r7, 6
-;        bl      infinite
+mem_6:
+        ; Thumb 8: ldrsh rd, [rb, ro]
+        lsr     r1, r4, 16
+        str     r4, [r6, r3]
+        ldrsh   r0, [r6, r3]
+        cmp     r0, r1
+        beq     mem_7
+        TestFailed 6
+
+mem_7:
+        str     r5, [r6, r3]
+        ldrsh   r0, [r6, r3]
+        cmp     r0, r5
+        beq     mem_8
+        TestFailed 7
+
+mem_8:
+        ; Thumb 9: ldr / str rd, [rb, offset5]
+        str     r4, [r6, 8]
+        ldr     r0, [r6, 8]
+        cmp     r0, r4
+        beq     mem_9
+        TestFailed 8
+
+mem_9:
+        ; Thumb 9: ldrb / strb rd, [rb, offset5]
+        lsr     r1, r5, 24
+        strb    r5, [r6, 8]
+        ldrb    r0, [r6, 8]
+        cmp     r0, r1
+        beq     mem_10
+        TestFailed 9
+
+mem_10:
+        ; Thumb 10: ldrh / strh rd, [rb, offset 5]
+        lsr     r1, r4, 16
+        strh    r4, [r6, 8]
+        ldrh    r0, [r6, 8]
+        cmp     r0, r1
+        beq     passed
+        TestFailed 10
 
 passed:
         TestPassed
-
-infinite:
-        b       infinite
+        TestLoop
