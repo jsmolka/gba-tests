@@ -1,53 +1,108 @@
-format binary as 'gba'
+test_branches:
+        ; Tests for branches
 
-include '../lib/header.inc'
-include '../lib/test.inc'
+test_150:
+        ; Thumb 18: b label
+        mov     r7, 150
+        b       test_150a
 
-main:
-        b       main_arm
-        Header
+test_150b:
+        mov     r7, 0
+        b       test_151
 
-main_arm:
-        adr     r0, main_thumb + 1
+test_150a:
+        b       test_150b
+
+test_151:
+        ; Thumb 19: bl label
+        mov     r7, 151
+        bl      test_151a
+
+test_151b:
+        mov     r7, 0
+        b       test_152
+
+test_151a:
+        bl      test_151b
+
+test_152:
+        ; Thumb 16: b<cond> label
+        mov     r7, 152
+        bne     test_152a
+
+test_152b:
+        mov     r7, 0
+        b       test_152eq
+
+test_152a:
+        bne     test_152b
+
+test_152eq:
+        mov     r0, 0
+        beq     test_152ne
+        b       test_152f
+
+test_152ne:
+        mov     r0, 1
+        bne     test_152cs
+        b       test_152f
+
+test_152cs:
+        cmp     r0, r0
+        bcs     test_152cc
+        b       test_152f
+
+test_152cc:
+        cmn     r0, r0
+        bcc     test_152mi
+        b       test_152f
+
+test_152mi:
+        mvn     r0, r0
+        bmi     test_152pl
+        b       test_152f
+
+test_152pl:
+        mov     r0, 0
+        bpl     test_152vs
+        b       test_152f
+
+test_152vs:
+        mov     r0, 1
+        lsl     r0, 31
+        sub     r0, 1
+        bvs     test_152vc
+        b       test_152f
+
+test_152vc:
+        cmp     r0, r0
+        bvc     test_153
+        b       test_152f
+
+test_152f:
+        TestFailed 152
+
+test_153:
+        ; Thumb 5: bx label
+        mov     r7, 153
+        adr     r0, test_153a
+        bx      r0
+
+code32
+align 4
+test_153a:
+        adr     r0, test_153b + 1
         bx      r0
 
 code16
 align 2
-main_thumb:
-        TestInit
+test_153b:
+        adr     r0, test_153c
+        mov     r0, r0
+        add     r0, 1
+        bx      r0
 
-bc_1:
-        ; Thumb 16: b[cond] label
-        bne     bc_2
-
-bc_3:
-        bne     b_1
-
-bc_2:
-        bne     bc_3
-
-b_1:
-        ; Thumb 18: b label
-        b       b_2
-
-b_3:
-        b       bl_1
-
-b_2:
-        b       b_3
-
-bl_1:
-        ; Thumb 19: bl label
-        bl      bl_2
-
-bl_3:
-        bl      passed
-
-bl_2:
-        bl      bl_3
-
-        ; Todo: BX
-
-passed:
-        TestPassed
-        TestLoop
+test_153c:
+        mov     r7, 0
+        ; Branch to memory.asm
+        b       test_memory

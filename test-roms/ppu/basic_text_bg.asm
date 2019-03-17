@@ -1,11 +1,10 @@
 format binary as 'gba'
 
-include '../lib/header.inc'
-include '../lib/utility.inc'
+include '../lib/thumb.inc'
 
 main:
         b       main_arm
-        Header
+        include '../lib/header.asm'
 
 main_arm:
         adr     r0, main_thumb + 1
@@ -16,13 +15,13 @@ align 2
 main_thumb:
         ; Setup red color
         mov     r0, 0x1F
-        imm32t  r1, 0x5000000
+        imm32   r1, 0x5000000
         strh    r0, [r1]
 
         ; Setup DISPCNT
         mov     r0, 1
         lsl     r0, 8
-        imm32t  r1, 0x4000000
+        imm32   r1, 0x4000000
         strh    r0, [r1]
 
         ; Setup BG0CNT

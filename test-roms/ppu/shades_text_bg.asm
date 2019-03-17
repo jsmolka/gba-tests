@@ -1,11 +1,10 @@
 format binary as 'gba'
 
-include '../lib/header.inc'
-include '../lib/utility.inc'
+include '../lib/thumb.inc'
 
 main:
         b       main_arm
-        Header
+        include '../lib/header.asm'
 
 main_arm:
         adr     r0, main_thumb + 1
@@ -16,7 +15,7 @@ align 2
 main_thumb:
         ; Setup shades of blue
         mov     r0, 0
-        imm32t  r1, 0x5000000
+        imm32   r1, 0x5000000
         mov     r2, 16
 
 loop_color:
@@ -33,7 +32,7 @@ loop_color:
 
         ; Generate 16 background tiles
         mov     r0, 0
-        imm32t  r1, 0x6004000
+        imm32   r1, 0x6004000
         mov     r2, 16
 
 loop_tiles:
@@ -50,7 +49,7 @@ loop_tile:
         bne     loop_tiles
 
         ; Generate background map
-        imm32t  r1, 0x6000800
+        imm32   r1, 0x6000800
         mov     r2, 32
 
 loop_map_row:
@@ -73,7 +72,7 @@ loop_map_col:
         ; Setup DISPCNT
         mov    r0, 1
         lsl    r0, 8
-        imm32t r1, 0x4000000
+        imm32  r1, 0x4000000
         str    r0, [r1]
 
         ; Setup BG0CNT

@@ -1,211 +1,198 @@
-format binary as 'gba'
-
-include '../lib/header.inc'
-include '../lib/test.inc'
-
-main:
-        b       main_arm
-        Header
-
-main_arm:
-        adr     r0, main_thumb + 1
-        bx      r0
-
-code16
-align 2
-main_thumb:
-        ; Todo: Offsets with odd numbers behaves weirdly
-
-        TestInit
+test_memory:
+        ; Tests for memory operations
 
         ; Setup initial values
-        imm32t  r6, 0x02000000
-        imm32t  r5, 0xFFFFFFFF
-        imm32t  r4, 0x0F0F0F0F
+        imm32   r6, 0x02000000
+        imm32   r5, 0xFFFFFFFF
+        imm32   r4, 0x0F0F0F0F
         mov     r3, 8
 
-test_1:
+test_200:
         ; Thumb 6: ldr rd, [pc, word8]
-        ldr     r0, [pc, 12]
+        ldr     r0, [pc, 4]
         cmp     r0, r5
-        beq     test_2
-        TestFailed 1
+        bne     test_200f
+
+        b       test_201
 
 align 4
-        ; Word aligned data
         db      255,255,255,255
 
-test_2:
+test_200f:
+        TestFailed 200
+
+test_201:
         ; Thumb 7: ldr / str rd, [rb, ro]
         str     r5, [r6, r3]
         ldr     r0, [r6, r3]
         cmp     r0, r5
-        beq     test_3
-        TestFailed 2
+        bne     test_201f
 
-test_3:
+        b       test_202
+
+test_201f:
+        TestFailed 201
+
+test_202:
         ; Thumb 7: ldrb / strb rd, [rb, ro]
         lsr     r1, r4, 24
+
         strb    r4, [r6, r3]
         ldrb    r0, [r6, r3]
         cmp     r0, r1
-        beq     test_4
-        TestFailed 3
+        bne     test_202f
 
-test_4:
+        b       test_203
+
+test_202f:
+        TestFailed 202
+
+test_203:
         ; Thumb 8: ldrh / strh rd, [rb, ro]
         lsr     r1, r5, 16
+
         strh    r5, [r6, r3]
         ldrh    r0, [r6, r3]
         cmp     r0, r1
-        beq     test_5
-        TestFailed 4
+        bne     test_203f
 
-test_5:
+        b       test_204
+
+test_203f:
+        TestFailed 203
+
+test_204:
         ; Thumb 8: ldrsb rd, [rb, ro]
-        ; Case without sign extension
         lsr     r1, r4, 24
+
         str     r4, [r6, r3]
         ldrsb   r0, [r6, r3]
         cmp     r0, r1
-        beq     test_6
-        TestFailed 5
+        bne     test_204f
 
-test_6:
-        ; Case with sign extension
         str     r5, [r6, r3]
         ldrsb   r0, [r6, r3]
         cmp     r0, r5
-        beq     test_7
-        TestFailed 6
+        bne     test_204f
 
-test_7:
+        b       test_205
+
+test_204f:
+        TestFailed 204
+
+test_205:
         ; Thumb 8: ldrsh rd, [rb, ro]
-        ; Case without sign extension
         lsr     r1, r4, 16
+
         str     r4, [r6, r3]
         ldrsh   r0, [r6, r3]
         cmp     r0, r1
-        beq     test_8
-        TestFailed 7
+        bne     test_205f
 
-test_8:
-        ; Case with sign extension
         str     r5, [r6, r3]
         ldrsh   r0, [r6, r3]
         cmp     r0, r5
-        beq     test_9
-        TestFailed 8
+        bne     test_205f
 
-test_9:
+        b       test_206
+
+test_205f:
+        TestFailed 205
+
+test_206:
         ; Thumb 9: ldr / str rd, [rb, offset5]
         str     r4, [r6, 8]
         ldr     r0, [r6, 8]
         cmp     r0, r4
-        beq     test_10
-        TestFailed 9
+        bne     test_206f
 
-test_10:
+        b       test_207
+
+test_206f:
+        TestFailed 206
+
+test_207:
         ; Thumb 9: ldrb / strb rd, [rb, offset5]
         lsr     r1, r5, 24
+
         strb    r5, [r6, 8]
         ldrb    r0, [r6, 8]
         cmp     r0, r1
-        beq     test_11
-        TestFailed 10
+        bne     test_207f
 
-test_11:
+        b       test_208
+
+test_207f:
+        TestFailed 207
+
+test_208:
         ; Thumb 10: ldrh / strh rd, [rb, offset5]
         lsr     r1, r4, 16
+
         strh    r4, [r6, 8]
         ldrh    r0, [r6, 8]
         cmp     r0, r1
-        beq     test_12
-        TestFailed 11
+        bne     test_208f
 
-test_12:
+        b       test_209
+
+test_208f:
+        TestFailed 208
+
+test_209:
         ; Thumb 11: ldr / str rd, [sp, word8]
-        str     r5, [sp, 8]
-        ; Increment sp by pushing
+        str     r5, [sp, 4]
         push    {r0}
-        ldr     r0, [sp, 12]
+        ldr     r0, [sp, 8]
         cmp     r0, r5
-        beq     test_13
-        TestFailed 12
+        bne     test_209f
 
-test_13:
-        ; Thumb 12: add rd, pc, word8
-        mov     r0, r15
-        add     r1, pc, 4
-        add     r0, 4
-        cmp     r0, r1
-        beq     test_14
-        TestFailed 13
+        b       test_210
 
-test_14:
-        ; Thumb 12: add rd, sp, word8
-        mov     r0, r13
-        add     r1, sp, 4
-        add     r0, 4
-        cmp     r0, r1
-        beq     test_15
-        TestFailed 14
+test_209f:
+        TestFailed 209
 
-test_15:
-        ; Thumb 13: add sp, sword7
-        mov     r0, r13
-        add     sp, 4
-        add     r0, 4
-        cmp     r0, r13
-        bne     test_15_failed
-        add     sp, -8
-        sub     r0, 8
-        cmp     r0, r13
-        bne     test_15_failed
-        b       test_16
-
-test_15_failed:
-        TestFailed 15
-
-test_16:
+test_210:
         ; Thumb 14: push / pop {rlist}
         mov     r0, 1
         mov     r1, 2
+
         push    {r0, r1}
         pop     {r2, r3}
         cmp     r0, r2
-        bne     test_16_failed
+        bne     test_210f
+
         cmp     r1, r3
-        bne     test_16_failed
-        b       test_17
+        bne     test_210f
 
-test_16_failed:
-        TestFailed 16
+        b       test_211
 
-test_17:
-        ; Thumb 15: ldmia / stmia rb!, {rlist}
+test_210f:
+        TestFailed 210
+
+test_211:
+        ; Thumb 15: ldmia / stmia rd!, {rlist}
         mov     r0, 2
         mov     r1, 4
         mov     r3, r6
+
         stmia   r3!, {r0, r1}
-        ; Decrement to original value
         sub     r3, 8
         cmp     r3, r6
-        bne     test_17_failed
+        bne     test_211f
+
         ldmia   r3!, {r2, r4}
-        ; Decrement to original value
         sub     r3, 8
         cmp     r3, r6
-        bne     test_17_failed
+        bne     test_211f
+
         cmp     r0, r2
-        bne     test_17_failed
+        bne     test_211f
+
         cmp     r1, r4
-        bne     test_17_failed
-        b       passed
+        bne     test_211f
 
-test_17_failed:
-        TestFailed 17
+        b       test_passed
 
-passed:
-        TestPassed
-        TestLoop
+test_211f:
+        TestFailed 211

@@ -1,165 +1,277 @@
-format binary as 'gba'
+test_shifts:
+        ; Tests for shifts
 
-include '../lib/header.inc'
-include '../lib/test.inc'
-
-main:
-        b       main_arm
-        Header
-
-main_arm:
-        adr     r0, main_thumb + 1
-        bx      r0
-
-code16
-align 2
-main_thumb:
-        TestInit
-
-lsl_1:
+test_50:
         ; Thumb 1: lsl rd, rs, offset5
         mov     r0, 1
-        lsl     r1, r0, 3
-        lsl     r0, r1, 3
-        cmp     r0, 64
-        beq     lsl_2
-        TestFailed 1
 
-lsl_2:
+        lsl     r0, r0, 6
+        lsl     r0, r0, 1
+        cmp     r0, 128
+        bne     test_50f
+
+        b       test_51
+
+test_50f:
+        TestFailed 50
+
+test_51:
         ; Thumb 4: lsl rd, rs
         mov     r0, 1
-        mov     r1, 3
-        lsl     r0, r1
-        lsl     r0, r1
-        cmp     r0, 64
-        beq     lsl_3
-        TestFailed 2
+        mov     r1, 6
 
-lsl_3:
-        ; Special case LSL #0
+        lsl     r0, r1
+
+        mov     r1, 1
+
+        lsl     r0, r1
+        cmp     r0, 128
+        bne     test_51f
+
+        b       test_52
+
+test_51f:
+        TestFailed 51
+
+test_52:
+        ; Carry flag lsl
+        mov     r0, 0
+
+        lsl     r0, 1
+        bcs     test_52f
+
+        mvn     r0, r0
+
+        lsl     r0, 1
+        bcc     test_52f
+
+        b       test_53
+
+test_52f:
+        TestFailed 52
+
+test_53:
+        ; Special case lsl
         mov     r0, 1
         mov     r1, 0
-        cmp     r0, r0
+        cmn     r0, r0
+
         lsl     r0, r1
-        bcs     lsl_4
-        TestFailed 3
+        bcs     test_53f
 
-lsl_4:
-        ; Carry flag
-        mov     r0, 2
-        lsl     r0, 31
-        bcs     lsr_1
-        TestFailed 4
+        cmp     r0, r0
 
-lsr_1:
+        lsl     r0, r1
+        bcc     test_53f
+
+        cmp     r0, 1
+        bne     test_53f
+
+        b       test_54
+
+test_53f:
+        TestFailed 53
+
+test_54:
         ; Thumb 1: lsr rd, rs, offset5
-        mov     r0, 64
-        lsr     r1, r0, 3
-        lsr     r0, r1, 3
-        cmp     r0, 1
-        beq     lsr_2
-        TestFailed 5
+        mov     r0, 128
 
-lsr_2:
+        lsr     r0, r0, 6
+        lsr     r0, r0, 1
+        cmp     r0, 1
+        bne     test_54f
+
+        b       test_55
+
+test_54f:
+        TestFailed 54
+
+test_55:
         ; Thumb 4: lsr rd, rs
-        mov     r0, 64
-        mov     r1, 3
+        mov     r0, 128
+        mov     r1, 6
+
         lsr     r0, r1
+
+        mov     r1, 1
+
         lsr     r0, r1
         cmp     r0, 1
-        beq     lsr_3
-        TestFailed 6
+        bne     test_55f
 
-lsr_3:
-        ; Special case LSR #32
+        b       test_56
+
+test_55f:
+        TestFailed 55
+
+test_56:
+        ; Carry flag lsr
+        mov     r0, 2
+
+        lsr     r0, 1
+        bcs     test_56f
+
+        lsr     r0, 1
+        bcc     test_56f
+
+        b       test_57
+
+test_56f:
+        TestFailed 56
+
+test_57:
+        ; Special case lsr
         mov     r0, 1
-        lsl     r0, 31
+
         lsr     r0, 32
-        bne     lsr_3_failed
-        bcc     lsr_3_failed
-        b       lsr_4
+        bne     test_57f
+        bcs     test_57f
 
-lsr_3_failed:
-        TestFailed 7
-
-lsr_4:
-        ; Carry flag
-        mov     r0, 8
-        lsr     r0, 4
-        bcs     asr_1
-        TestFailed 8
-
-asr_1:
-        ; Thumb 1: asr rd, rs, offset5
-        mov     r0, 64
-        asr     r1, r0, 3
-        asr     r0, r1, 3
-        cmp     r0, 1
-        beq     asr_2
-        TestFailed 9
-
-asr_2:
-        ; Thumb 4: asr rd, rs
-        mov     r0, 64
-        mov     r1, 3
-        asr     r0, r1
-        asr     r0, r1
-        cmp     r0, 1
-        beq     asr_3
-        TestFailed 10
-
-asr_3:
-        ; Special case ASR #32
-        imm32t  r1, 0xFFFFFFFF
         mov     r0, 1
         lsl     r0, 31
-        asr     r0, 32
+
+        lsr     r0, 32
+        bne     test_57f
+        bcc     test_57f
+
+        b       test_58
+
+test_57f:
+        TestFailed 57
+
+test_58:
+        ; Thumb 1: asr rd, rs, offset8
+        mov     r0, 128
+
+        asr     r0, r0, 6
+        asr     r0, r0, 1
+        cmp     r0, 1
+        bne     test_58f
+
+        mov     r0, 1
+        lsl     r0, 31
+        mov     r1, 0
+        mvn     r1, r1
+
+        asr     r0, r0, 31
         cmp     r0, r1
-        bne     asr_3_failed
-        bcc     asr_3_failed
-        b       asr_4
+        bne     test_58f
 
-asr_3_failed:
-        TestFailed 11
+        b       test_59
 
-asr_4:
-        ; Carry flag
-        mov     r0, 8
-        asr     r0, 4
-        bcs     ror_1
-        TestFailed 12
+test_58f:
+        TestFailed 58
 
-ror_1:
+test_59:
+        ; Thumb 4: asr rd, rs
+        mov     r0, 128
+        mov     r1, 6
+
+        asr     r0, r1
+
+        mov     r1, 1
+
+        asr     r0, r1
+        cmp     r0, 1
+        bne     test_59f
+
+        mov     r0, 1
+        lsl     r0, 31
+        mov     r1, 31
+        mov     r2, 0
+        mvn     r2, r2
+
+        asr     r0, r1
+        cmp     r0, r2
+        bne     test_59f
+
+        b       test_60
+
+test_59f:
+        TestFailed 59
+
+test_60:
+        ; Carry flag asr
+        mov     r0, 2
+
+        asr     r0, 1
+        bcs     test_60f
+
+        asr     r0, 1
+        bcc     test_60f
+
+        b       test_61
+
+test_60f:
+        TestFailed 60
+
+test_61:
+        ; Special case asr
+        mov     r0, 1
+
+        asr     r0, 32
+        bne     test_61f
+        bcs     test_61f
+
+        mov     r0, 1
+        lsl     r0, 31
+
+        asr     r0, 32
+        bcc     test_61f
+
+        mov     r1, 0
+        mvn     r1, r1
+        cmp     r0, r1
+        bne     test_61f
+
+        b       test_62
+
+test_61f:
+        TestFailed 61
+
+test_62:
         ; Thumb 4: ror rd, rs
-        mov     r0, 0xFF
+        mov     r0, 0xF0
         mov     r1, 4
-        imm32t  r2, 0xF000000F
+
+        ror     r0, r1
+        cmp     r0, 0xF
+        bne     test_62f
+
+        imm32   r2, 0xF0000000
+
         ror     r0, r1
         cmp     r0, r2
-        beq     ror_2
-        TestFailed 13
+        bne     test_62f
 
-ror_2:
-        ; Special case ROR #0
-        mov     r0, 1
-        mov     r1, 0
-        cmp     r0, r0
+        b       test_63
+
+test_62f:
+        TestFailed 62
+
+test_63:
+        ; Carry flag ror
+        mov     r0, 2
+        mov     r1, 1
+
         ror     r0, r1
-        cmp     r0, 1
-        bne     ror_2_failed
-        bcc     ror_2_failed
-        b       ror_3
+        bcs     test_63f
 
-ror_2_failed:
-        TestFailed 14
+        ror     r0, r1
+        bcc     test_63f
 
-ror_3:
-        ; Carry flag
-        mov     r0, 8
-        asr     r0, 4
-        bcs     passed
-        TestFailed 15
+        b       test_64
 
-passed:
-        TestPassed
-        TestLoop
+test_63f:
+        TestFailed 63
+
+test_64:
+        ; Special case ror
+
+        ; Todo: which mnemonic should be used?
+
+        ; Branch to arithmetic.asm
+        b       test_arithmetic
+
+test_64f:
+       TestFailed 64
