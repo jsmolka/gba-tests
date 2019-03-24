@@ -1,4 +1,4 @@
-test_memory:
+memory:
         ; Tests for memory operations
 
         ; Setup initial values
@@ -7,152 +7,152 @@ test_memory:
         imm32   r4, 0x0F0F0F0F
         mov     r3, 8
 
-test_200:
+t200:
         ; Thumb 6: ldr rd, [pc, word8]
         ldr     r0, [pc, 4]
         cmp     r0, r5
-        bne     test_200f
+        bne     t200f
 
-        b       test_201
+        b       t201
 
 align 4
         db      255,255,255,255
 
-test_200f:
-        TestFailed 200
+t200f:
+        Failed 200
 
-test_201:
+t201:
         ; Thumb 7: ldr / str rd, [rb, ro]
         str     r5, [r6, r3]
         ldr     r0, [r6, r3]
         cmp     r0, r5
-        bne     test_201f
+        bne     t201f
 
-        b       test_202
+        b       t202
 
-test_201f:
-        TestFailed 201
+t201f:
+        Failed 201
 
-test_202:
+t202:
         ; Thumb 7: ldrb / strb rd, [rb, ro]
         lsr     r1, r4, 24
 
         strb    r4, [r6, r3]
         ldrb    r0, [r6, r3]
         cmp     r0, r1
-        bne     test_202f
+        bne     t202f
 
-        b       test_203
+        b       t203
 
-test_202f:
-        TestFailed 202
+t202f:
+        Failed 202
 
-test_203:
+t203:
         ; Thumb 8: ldrh / strh rd, [rb, ro]
         lsr     r1, r5, 16
 
         strh    r5, [r6, r3]
         ldrh    r0, [r6, r3]
         cmp     r0, r1
-        bne     test_203f
+        bne     t203f
 
-        b       test_204
+        b       t204
 
-test_203f:
-        TestFailed 203
+t203f:
+        Failed 203
 
-test_204:
+t204:
         ; Thumb 8: ldrsb rd, [rb, ro]
         lsr     r1, r4, 24
 
         str     r4, [r6, r3]
         ldrsb   r0, [r6, r3]
         cmp     r0, r1
-        bne     test_204f
+        bne     t204f
 
         str     r5, [r6, r3]
         ldrsb   r0, [r6, r3]
         cmp     r0, r5
-        bne     test_204f
+        bne     t204f
 
-        b       test_205
+        b       t205
 
-test_204f:
-        TestFailed 204
+t204f:
+        Failed 204
 
-test_205:
+t205:
         ; Thumb 8: ldrsh rd, [rb, ro]
         lsr     r1, r4, 16
 
         str     r4, [r6, r3]
         ldrsh   r0, [r6, r3]
         cmp     r0, r1
-        bne     test_205f
+        bne     t205f
 
         str     r5, [r6, r3]
         ldrsh   r0, [r6, r3]
         cmp     r0, r5
-        bne     test_205f
+        bne     t205f
 
-        b       test_206
+        b       t206
 
-test_205f:
-        TestFailed 205
+t205f:
+        Failed 205
 
-test_206:
+t206:
         ; Thumb 9: ldr / str rd, [rb, offset5]
         str     r4, [r6, 8]
         ldr     r0, [r6, 8]
         cmp     r0, r4
-        bne     test_206f
+        bne     t206f
 
-        b       test_207
+        b       t207
 
-test_206f:
-        TestFailed 206
+t206f:
+        Failed 206
 
-test_207:
+t207:
         ; Thumb 9: ldrb / strb rd, [rb, offset5]
         lsr     r1, r5, 24
 
         strb    r5, [r6, 8]
         ldrb    r0, [r6, 8]
         cmp     r0, r1
-        bne     test_207f
+        bne     t207f
 
-        b       test_208
+        b       t208
 
-test_207f:
-        TestFailed 207
+t207f:
+        Failed 207
 
-test_208:
+t208:
         ; Thumb 10: ldrh / strh rd, [rb, offset5]
         lsr     r1, r4, 16
 
         strh    r4, [r6, 8]
         ldrh    r0, [r6, 8]
         cmp     r0, r1
-        bne     test_208f
+        bne     t208f
 
-        b       test_209
+        b       t209
 
-test_208f:
-        TestFailed 208
+t208f:
+        Failed 208
 
-test_209:
+t209:
         ; Thumb 11: ldr / str rd, [sp, word8]
         str     r5, [sp, 4]
         push    {r0}
         ldr     r0, [sp, 8]
         cmp     r0, r5
-        bne     test_209f
+        bne     t209f
 
-        b       test_210
+        b       t210
 
-test_209f:
-        TestFailed 209
+t209f:
+        Failed 209
 
-test_210:
+t210:
         ; Thumb 14: push / pop {rlist}
         mov     r0, 1
         mov     r1, 2
@@ -160,17 +160,17 @@ test_210:
         push    {r0, r1}
         pop     {r2, r3}
         cmp     r0, r2
-        bne     test_210f
+        bne     t210f
 
         cmp     r1, r3
-        bne     test_210f
+        bne     t210f
 
-        b       test_211
+        b       t211
 
-test_210f:
-        TestFailed 210
+t210f:
+        Failed 210
 
-test_211:
+t211:
         ; Thumb 15: ldmia / stmia rd!, {rlist}
         mov     r0, 2
         mov     r1, 4
@@ -179,20 +179,20 @@ test_211:
         stmia   r3!, {r0, r1}
         sub     r3, 8
         cmp     r3, r6
-        bne     test_211f
+        bne     t211f
 
         ldmia   r3!, {r2, r4}
         sub     r3, 8
         cmp     r3, r6
-        bne     test_211f
+        bne     t211f
 
         cmp     r0, r2
-        bne     test_211f
+        bne     t211f
 
         cmp     r1, r4
-        bne     test_211f
+        bne     t211f
 
-        b       test_passed
+        b       passed
 
-test_211f:
-        TestFailed 211
+t211f:
+        Failed 211

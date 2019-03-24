@@ -1,183 +1,183 @@
-test_logical:
+logical:
         ; Tests for logical operations
 
-test_1:
+t1:
         ; Zero flag
         mov     r0, 0
-        bne     test_1f
+        bne     t1f
 
         mov     r0, 1
-        beq     test_1f
+        beq     t1f
 
-        b       test_2
+        b       t2
 
-test_1f:
-        TestFailed 1
+t1f:
+        Failed 1
 
-test_2:
+t2:
         ; Negative flag
         mov     r0, 0
-        bmi     test_2f
+        bmi     t2f
 
         mvn     r0, r0
-        bpl     test_2f
+        bpl     t2f
 
-        b       test_3
+        b       t3
 
-test_2f:
-        TestFailed 2
+t2f:
+        Failed 2
 
-test_3:
+t3:
         ; Thumb 3: mov rd, offset8
         mov     r0, 0
-        bne     test_3f
+        bne     t3f
 
         mov     r0, 255
         cmp     r0, 255
-        bne     test_3f
+        bne     t3f
 
-        b       test_4
+        b       t4
 
-test_3f:
-        TestFailed 3
+t3f:
+        Failed 3
 
-test_4:
+t4:
         ; Thumb 2: mov rd, rs
         mov     r1, 0
         mov     r2, 255
 
         mov     r0, r1
-        bne     test_4f
+        bne     t4f
 
         mov     r0, r2
         cmp     r0, r2
-        bne     test_4f
+        bne     t4f
 
-        b       test_5
+        b       t5
 
-test_4f:
-        TestFailed 4
+t4f:
+        Failed 4
 
-test_5:
+t5:
         ; Thumb 5: mov rd, rs (high registers)
         mov     r0, 1
         mov     r8, r0
         mov     r9, r8
         mov     r0, r9
         cmp     r0, 1
-        bne     test_5f
+        bne     t5f
 
-        b       test_6
+        b       t6
 
-test_5f:
-        TestFailed 5
+t5f:
+        Failed 5
 
-test_6:
+t6:
         ; Thumb 4: mvn rd, rs
         mov     r0, 0
         imm32   r1, 0xFFFFFFFF
 
         mvn     r2, r0
         cmp     r2, r1
-        bne     test_6f
+        bne     t6f
 
         mvn     r2, r1
-        bne     test_6f
+        bne     t6f
 
-        b       test_7
+        b       t7
 
-test_6f:
-        TestFailed 6
+t6f:
+        Failed 6
 
-test_7:
+t7:
         ; Thumb 4: and rd, rs
         mov     r0, 0xFF
         mov     r1, 0x0F
 
         and     r0, r1
         cmp     r0, 0xF
-        bne     test_7f
+        bne     t7f
 
         mov     r1, 0
 
         and     r0, r1
-        bne     test_7f
+        bne     t7f
 
-        b       test_8
+        b       t8
 
-test_7f:
-        TestFailed 7
+t7f:
+        Failed 7
 
-test_8:
+t8:
         ; Thumb 4: tst rd, rs
         mov     r0, 0xF0
         mov     r1, 0x0F
 
         tst     r0, r1
-        bne     test_8f
-        bmi     test_8f
+        bne     t8f
+        bmi     t8f
 
         mov     r0, 0
         mvn     r0, r0
 
         tst     r0, r0
-        beq     test_8f
-        bpl     test_8f
+        beq     t8f
+        bpl     t8f
 
-        b       test_9
+        b       t9
 
-test_8f:
-        TestFailed 8
+t8f:
+        Failed 8
 
-test_9:
+t9:
         ; Thumb 4: bic rd, rs
         mov     r0, 0xFF
         mov     r1, 0xF0
 
         bic     r0, r1
         cmp     r0, 0xF
-        bne     test_9f
+        bne     t9f
 
         bic     r0, r0
-        bne     test_9f
+        bne     t9f
 
-        b       test_10
+        b       t10
 
-test_9f:
-        TestFailed 9
+t9f:
+        Failed 9
 
-test_10:
+t10:
         ; Thumb 4: orr rd, rs
         mov     r0, 0xF0
         mov     r1, 0x0F
 
         orr     r0, r1
         cmp     r0, 0xFF
-        bne     test_10f
+        bne     t10f
 
         orr     r0, r0
         cmp     r0, 0xFF
-        bne     test_10f
+        bne     t10f
 
-        b       test_11
+        b       t11
 
-test_10f:
-        TestFailed 10
+t10f:
+        Failed 10
 
-test_11:
+t11:
         ; Thumb 4: eor rd, rs
         mov     r0, 0xF0
         mov     r1, 0x0F
 
         eor     r0, r1
         cmp     r0, 0xFF
-        bne     test_11f
+        bne     t11f
 
         eor     r0, r0
-        bne     test_11f
+        bne     t11f
 
         ; Branch to shifts.asm
-        b       test_shifts
+        b       shifts
 
-test_11f:
-        TestFailed 11
+t11f:
+        Failed 11

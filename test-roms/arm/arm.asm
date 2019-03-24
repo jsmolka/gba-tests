@@ -1,10 +1,10 @@
 format binary as 'gba'
 
-include '../lib/thumb.inc'
+include '../lib/arm.inc'
 
 macro Failed test {
-        mov     r7, test
-        bl      loop
+        mov     r12, test
+        b       loop
 }
 
 main:
@@ -12,21 +12,15 @@ main:
         include '../lib/header.asm'
 
 main_arm:
-        adr     r0, main_thumb + 1
-        bx      r0
-
-code16
-align 2
-main_thumb:
         ; Setup red color
         mov     r0, 0x1F
-        imm32   r1, 0x5000000
+        mov     r1, 0x5000000
         strh    r0, [r1]
 
         ; Setup DISPCNT
         mov     r0, 1
         lsl     r0, 8
-        imm32   r1, 0x4000000
+        mov     r1, 0x4000000
         strh    r0, [r1]
 
         ; Setup BG0CNT
@@ -35,24 +29,28 @@ main_thumb:
         strh    r0, [r1]
 
         ; Reset test register
-        mov     r7, 0
+        mov     r12, 0
 
         ; Tests start at 1
-        include 'logical.asm'
+        include 'arm1.asm'
         ; Tests start at 50
-        include 'shifts.asm'
+        include 'arm2.asm'
         ; Tests start at 100
-        include 'arithmetic.asm'
+        include 'arm3.asm'
         ; Tests start at 150
-        include 'branches.asm'
-        ; Tests start at 200
-        include 'memory.asm'
+        include 'arm4.asm'
+        ; Tests start at 150
+        include 'arm5.asm'
+        ; Tests start at 250
+        include 'arm6.asm'
+        ; Tests start at 300
+        include 'arm7.asm'
 
 passed:
         ; Setup green color
         mov     r0, 0x1F
         lsl     r0, 5
-        imm32   r1, 0x5000000
+        mov     r1, 0x5000000
         strh    r0, [r1]
 
 loop:

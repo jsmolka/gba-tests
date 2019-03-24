@@ -1,100 +1,100 @@
-test_arithmetic:
+arithmetic:
         ; Tests for arithmetic operations
 
-test_100:
+t100:
         ; Carry flag addition
         imm32   r0, 0xFFFFFFFE
 
         add     r0, 1
-        bcs     test_100f
+        bcs     t100f
 
         add     r0, 1
-        bcc     test_100f
+        bcc     t100f
 
-        b       test_101
+        b       t101
 
-test_100f:
-        TestFailed 100
+t100f:
+        Failed 100
 
-test_101:
+t101:
         ; Carry flag subtraction
         mov     r0, 1
 
         sub     r0, 2
-        bcs     test_101f
+        bcs     t101f
 
         mov     r0, 3
 
         sub     r0, 2
-        bcc     test_101f
+        bcc     t101f
 
         sub     r0, 1
-        bcc     test_101f
+        bcc     t101f
 
-        b       test_102
+        b       t102
 
-test_101f:
-        TestFailed 101
+t101f:
+        Failed 101
 
-test_102:
+t102:
         ; Overflow flag addition
         imm32   r0, 0x7FFFFFFE
 
         add     r0, 1
-        bvs     test_102f
+        bvs     t102f
 
         add     r0, 1
-        bvc     test_102f
+        bvc     t102f
 
-        b       test_103
+        b       t103
 
-test_102f:
-        TestFailed 102
+t102f:
+        Failed 102
 
-test_103:
+t103:
         ; Overflow flag subtraction
         imm32   r0, 0x80000001
 
         sub     r0, 1
-        bvs     test_103f
+        bvs     t103f
 
         sub     r0, 1
-        bvc     test_103f
+        bvc     t103f
 
-        b       test_104
+        b       t104
 
-test_103f:
-        TestFailed 103
+t103f:
+        Failed 103
 
-test_104:
-        ; Thumb 2: add rd, rs, offset3
-        mov     r0, 0
+t104:
+        ; Thumb 2: add rd, rs, imm3
+        mov     r0, #0
 
-        add     r0, r0, 3
+        add     r0, r0, #3
         add     r0, r0, 7
         cmp     r0, 10
-        bne     test_104f
+        bne     t104f
 
-        b       test_105
+        b       t105
 
-test_104f:
-        TestFailed 104
+t104f:
+        Failed 104
 
-test_105:
-        ; Thumb 3: add rd, offset8
+t105:
+        ; Thumb 3: add rd, imm8
         mov     r0, 0
 
         add     r0, 128
         add     r0, 127
         cmp     r0, 255
-        bne     test_105f
+        bne     t105f
 
-        b       test_106
+        b       t106
 
-test_105f:
-        TestFailed 105
+t105f:
+        Failed 105
 
-test_106:
+t106:
         ; Thumb 5: add rd, rs (high registers)
         mov     r0, 1
         mov     r1, 0
@@ -105,105 +105,105 @@ test_106:
         add     r9, r8
         add     r0, r9
         cmp     r0, 2
-        bne     test_106f
+        bne     t106f
 
-        b       test_107
+        b       t107
 
-test_106f:
-        TestFailed 106
+t106f:
+        Failed 106
 
-test_107:
-        ; Thumb 12: add rd, sp, offset8
+t107:
+        ; Thumb 12: add rd, sp, imm8 << 2
         mov     r0, sp
         add     r0, 128
         mov     r1, 0
 
         add     r1, sp, 128
         cmp     r1, r0
-        bne     test_107f
+        bne     t107f
 
-        b       test_108
+        b       t108
 
-test_107f:
-        TestFailed 107
+t107f:
+        Failed 107
 
-test_108:
-        ; Thumb 12: add rd, pc, offset8
+t108:
+        ; Thumb 12: add rd, pc, imm8 << 2
         mov     r0, pc
         add     r0, 10
         mov     r1, 0
 
         add     r1, pc, 4
         cmp     r1, r0
-        bne     test_108f
+        bne     t108f
 
-        b       test_109
+        b       t109
 
-test_108f:
-        TestFailed 108
+t108f:
+        Failed 108
 
-test_109:
-        ; Thumb 13: add sp, sword7
+t109:
+        ; Thumb 13: add sp, imm7 << 2
         mov     r0, sp
 
         add     sp, 128
         add     sp, -128
         cmp     sp, r0
-        bne     test_109f
+        bne     t109f
 
-        b       test_110
+        b       t110
 
-test_109f:
-        TestFailed 109
+t109f:
+        Failed 109
 
-test_110:
+t110:
         ; Thumb 4: adc rd, rs
         mov     r0, 8
         cmn     r0, r0
 
         adc     r0, r0
         cmp     r0, 16
-        bne     test_110f
+        bne     t110f
 
         cmp     r0, r0
 
         adc     r0, r0
         cmp     r0, 33
-        bne     test_110f
+        bne     t110f
 
-        b       test_111
+        b       t111
 
-test_110f:
-        TestFailed 110
+t110f:
+        Failed 110
 
-test_111:
-        ; Thumb 2: sub rd, rs, offset3
+t111:
+        ; Thumb 2: sub rd, rs, imm3
         mov     r0, 10
 
         sub     r0, r0, 3
         sub     r0, r0, 7
-        bne     test_111f
+        bne     t111f
 
-        b       test_112
+        b       t112
 
-test_111f:
-        TestFailed 111
+t111f:
+        Failed 111
 
-test_112:
-        ; Thumb 3: sub rd, offset8
+t112:
+        ; Thumb 3: sub rd, imm8
         mov     r0, 255
         add     r0, 10
 
         sub     r0, 255
         sub     r0, 10
-        bne     test_112f
+        bne     t112f
 
-        b       test_113
+        b       t113
 
-test_112f:
-        TestFailed 112
+t112f:
+        Failed 112
 
-test_113:
+t113:
         ; Thumb 2: sub rd, rs, rn
         mov     r0, 255
         add     r0, 10
@@ -213,14 +213,14 @@ test_113:
 
         sub     r0, r1
         sub     r0, r2
-        bne     test_113f
+        bne     t113f
 
-        b       test_114
+        b       t114
 
-test_113f:
-        TestFailed 113
+t113f:
+        Failed 113
 
-test_114:
+t114:
         ; Thumb 4: sbc rd, rs
         mov     r0, 64
         mov     r1, 16
@@ -228,20 +228,20 @@ test_114:
 
         sbc     r0, r1
         cmp     r0, 47
-        bne     test_114f
+        bne     t114f
 
         cmp     r0, r0
 
         sbc     r0, r1
         cmp     r0, 31
-        bne     test_114f
+        bne     t114f
 
-        b       test_115
+        b       t115
 
-test_114f:
-        TestFailed 114
+t114f:
+        Failed 114
 
-test_115:
+t115:
         ; Thumb 4: neg rd, rs
         mov     r0, 4
         mov     r1, 0
@@ -249,116 +249,116 @@ test_115:
 
         neg     r0, r0
         cmp     r0, r1
-        bne     test_115f
+        bne     t115f
 
-        b       test_116
+        b       t116
 
-test_115f:
-        TestFailed 115
+t115f:
+        Failed 115
 
-test_116:
-        ; Thumb 3: cmp rd, offset8
+t116:
+        ; Thumb 3: cmp rd, imm8
         mov     r0, 128
 
         cmp     r0, 128
-        bne     test_116f
-        bmi     test_116f
-        bcc     test_116f
-        bvs     test_116f
+        bne     t116f
+        bmi     t116f
+        bcc     t116f
+        bvs     t116f
 
         cmp     r0, 255
-        beq     test_116f
-        bpl     test_116f
-        bcs     test_116f
+        beq     t116f
+        bpl     t116f
+        bcs     t116f
 
         mov     r0, 1
         lsl     r0, 31
 
         cmp     r0, 255
-        bvc     test_116f
+        bvc     t116f
 
-        b       test_117
+        b       t117
 
-test_116f:
-        TestFailed 116
+t116f:
+        Failed 116
 
-test_117:
+t117:
         ; Thumb 4: cmp rd, rs
         mov     r0, 128
         mov     r1, 255
 
         cmp     r0, r0
-        bne     test_117f
-        bmi     test_117f
-        bcc     test_117f
-        bvs     test_117f
+        bne     t117f
+        bmi     t117f
+        bcc     t117f
+        bvs     t117f
 
         cmp     r0, r1
-        beq     test_117f
-        bpl     test_117f
-        bcs     test_117f
+        beq     t117f
+        bpl     t117f
+        bcs     t117f
 
         mov     r0, 1
         lsl     r0, 31
 
         cmp     r0, r1
-        bvc     test_117f
+        bvc     t117f
 
-        b       test_118
+        b       t118
 
-test_117f:
-        TestFailed 117
+t117f:
+        Failed 117
 
-test_118:
-        ; Thumb 5: cmp rd, rs
+t118:
+        ; Thumb 5: cmp rd, rs (high registers)
         mov     r0, 128
         mov     r1, 255
         mov     r8, r0
         mov     r9, r1
 
         cmp     r8, r8
-        bne     test_118f
-        bmi     test_118f
-        bcc     test_118f
-        bvs     test_118f
+        bne     t118f
+        bmi     t118f
+        bcc     t118f
+        bvs     t118f
 
         cmp     r8, r9
-        beq     test_118f
-        bpl     test_118f
-        bcs     test_118f
+        beq     t118f
+        bpl     t118f
+        bcs     t118f
 
         mov     r0, 1
         lsl     r0, 31
         mov     r8, r0
 
         cmp     r8, r9
-        bvc     test_118f
+        bvc     t118f
 
-        b       test_119
+        b       t119
 
-test_118f:
-        TestFailed 118
+t118f:
+        Failed 118
 
-test_119:
+t119:
         ; Thumb 4: cmn rd, rs
         mov     r0, 128
 
         cmn     r0, r0
-        beq     test_119f
-        bmi     test_119f
-        bcs     test_119f
-        bvs     test_119f
+        beq     t119f
+        bmi     t119f
+        bcs     t119f
+        bvs     t119f
 
         mov     r0, 0
 
         cmn     r0, r0
-        bne     test_119f
+        bne     t119f
 
         mvn     r0, r0
 
         cmn     r0, r0
-        bpl     test_119f
-        bcc     test_119f
+        bpl     t119f
+        bcc     t119f
 
         mov     r0, 1
         lsl     r0, 31
@@ -366,24 +366,24 @@ test_119:
         mov     r1, 1
 
         cmn     r0, r1
-        bvc     test_119f
+        bvc     t119f
 
-        b       test_120
+        b       t120
 
-test_119f:
-        TestFailed 119
+t119f:
+        Failed 119
 
-test_120:
+t120:
         ; Thumb 4: mul rd, rs
         mov     r0, 2
 
         mul     r0, r0
         mul     r0, r0
         cmp     r0, 16
-        bne     test_120f
+        bne     t120f
 
         ; Branch to branches.asm
-        b       test_branches
+        b       branches
 
-test_120f:
-        TestFailed 120
+t120f:
+        Failed 120

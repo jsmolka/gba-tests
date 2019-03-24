@@ -1,108 +1,108 @@
-test_branches:
+branches:
         ; Tests for branches
 
-test_150:
+t150:
         ; Thumb 18: b label
         mov     r7, 150
-        b       test_150a
+        b       t150a
 
-test_150b:
+t150b:
         mov     r7, 0
-        b       test_151
+        b       t151
 
-test_150a:
-        b       test_150b
+t150a:
+        b       t150b
 
-test_151:
+t151:
         ; Thumb 19: bl label
         mov     r7, 151
-        bl      test_151a
+        bl      t151a
 
-test_151b:
+t151b:
         mov     r7, 0
-        b       test_152
+        b       t152
 
-test_151a:
-        bl      test_151b
+t151a:
+        bl      t151b
 
-test_152:
+t152:
         ; Thumb 16: b<cond> label
         mov     r7, 152
-        bne     test_152a
+        bne     t152a
 
-test_152b:
+t152b:
         mov     r7, 0
-        b       test_152eq
+        b       t152eq
 
-test_152a:
-        bne     test_152b
+t152a:
+        bne     t152b
 
-test_152eq:
+t152eq:
         mov     r0, 0
-        beq     test_152ne
-        b       test_152f
+        beq     t152ne
+        b       t152f
 
-test_152ne:
+t152ne:
         mov     r0, 1
-        bne     test_152cs
-        b       test_152f
+        bne     t152cs
+        b       t152f
 
-test_152cs:
+t152cs:
         cmp     r0, r0
-        bcs     test_152cc
-        b       test_152f
+        bcs     t152cc
+        b       t152f
 
-test_152cc:
+t152cc:
         cmn     r0, r0
-        bcc     test_152mi
-        b       test_152f
+        bcc     t152mi
+        b       t152f
 
-test_152mi:
+t152mi:
         mvn     r0, r0
-        bmi     test_152pl
-        b       test_152f
+        bmi     t152pl
+        b       t152f
 
-test_152pl:
+t152pl:
         mov     r0, 0
-        bpl     test_152vs
-        b       test_152f
+        bpl     t152vs
+        b       t152f
 
-test_152vs:
+t152vs:
         mov     r0, 1
         lsl     r0, 31
         sub     r0, 1
-        bvs     test_152vc
-        b       test_152f
+        bvs     t152vc
+        b       t152f
 
-test_152vc:
+t152vc:
         cmp     r0, r0
-        bvc     test_153
-        b       test_152f
+        bvc     t153
+        b       t152f
 
-test_152f:
-        TestFailed 152
+t152f:
+        Failed 152
 
-test_153:
+t153:
         ; Thumb 5: bx label
         mov     r7, 153
-        adr     r0, test_153a
+        adr     r0, t153a
         bx      r0
 
 code32
 align 4
-test_153a:
-        adr     r0, test_153b + 1
+t153a:
+        adr     r0, t153b + 1
         bx      r0
 
 code16
 align 2
-test_153b:
-        adr     r0, test_153c
+t153b:
+        adr     r0, t153c
         mov     r0, r0
         add     r0, 1
         bx      r0
 
-test_153c:
+t153c:
         mov     r7, 0
         ; Branch to memory.asm
-        b       test_memory
+        b       memory

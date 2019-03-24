@@ -30,6 +30,6 @@ header:
         ; Software version (1 byte)
         db      0
         ; Complement check (1 byte)
-        db      0
+        db      0x19
         ; Reserved (2 bytes)
         db      0,0
