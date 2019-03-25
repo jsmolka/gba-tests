@@ -35,16 +35,6 @@ main_arm:
         include 'arm1.asm'
         ; Tests start at 50
         include 'arm2.asm'
-        ; Tests start at 100
-        include 'arm3.asm'
-        ; Tests start at 150
-        include 'arm4.asm'
-        ; Tests start at 150
-        include 'arm5.asm'
-        ; Tests start at 250
-        include 'arm6.asm'
-        ; Tests start at 300
-        include 'arm7.asm'
 
 passed:
         ; Setup green color

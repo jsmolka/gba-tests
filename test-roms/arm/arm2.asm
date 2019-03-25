@@ -1,2 +1,5 @@
 arm2:
-        ; Tests for ARM 2 instruction
+        ; Tests for Arm 2 instruction
+
+t50:
+        ; Arm 2: b(l)(cond) <expression>
