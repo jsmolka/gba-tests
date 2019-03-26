@@ -7,11 +7,10 @@ macro Failed test {
         bl      loop
 }
 
-main:
-        b       main_arm
+header:
         include '../lib/header.asm'
 
-main_arm:
+main:
         adr     r0, main_thumb + 1
         bx      r0
 

@@ -7,11 +7,10 @@ macro Failed test {
         b       loop
 }
 
-main:
-        b       main_arm
+header:
         include '../lib/header.asm'
 
-main_arm:
+main:
         ; Setup red color
         mov     r0, 0x1F
         mov     r1, 0x5000000
