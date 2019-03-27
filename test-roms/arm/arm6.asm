@@ -141,7 +141,7 @@ t107:
         cmp     r4, r1
         bne     t107f
 
-        b       passed
+        b       arm7
 
 t107f:
         Failed 107

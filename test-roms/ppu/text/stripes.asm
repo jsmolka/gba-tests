@@ -1,9 +1,9 @@
 format binary as 'gba'
 
-include '../lib/thumb.inc'
+include '../../lib/thumb.inc'
 
 header:
-        include '../lib/header.asm'
+        include '../../lib/header.asm'
 
 main:
         adr     r0, main_thumb + 1
