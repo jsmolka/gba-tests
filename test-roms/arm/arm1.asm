@@ -21,5 +21,5 @@ t1b:
 
 t1c:
         mov     r12, 0
-        ; Branch to arm2.asm
-        b       arm2
+        ; Branch to arm5.asm
+        b       arm5
