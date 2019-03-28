@@ -25,7 +25,7 @@ t301:
         bcs     t301f
         bvs     t301f
 
-        b       passed
+        b       arm9
 
 t301f:
         Failed 301

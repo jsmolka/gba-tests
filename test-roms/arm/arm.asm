@@ -43,7 +43,9 @@ main:
         ; Tests start at 250
         ;include 'arm10.asm'
         ; Tests start at 300
-        include 'arm4.asm'
+        ;include 'arm4.asm'
+        ; Tests start at 350
+        include 'arm9.asm'
 
 passed:
         ; Setup green color
