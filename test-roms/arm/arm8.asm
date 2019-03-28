@@ -33,7 +33,7 @@ t201:
         cmp     r0, r1
         bne     t201f
 
-        b       passed
+        b       arm10
 
 t201f:
         Failed 201

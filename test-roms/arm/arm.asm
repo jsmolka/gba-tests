@@ -3,7 +3,7 @@ format binary as 'gba'
 include '../lib/arm.inc'
 
 macro Failed test {
-        mov     r12, test
+        imm16   r12, test
         b       loop
 }
 
@@ -31,15 +31,17 @@ main:
         mov     r12, 0
 
         ; Tests start at 1
-        include 'arm1.asm'
+        ;include 'arm1.asm'
         ; Tests start at 50
-        include 'arm5.asm'
+        ;include 'arm5.asm'
         ; Tests start at 100
-        include 'arm6.asm'
+        ;include 'arm6.asm'
         ; Tests start at 150
-        include 'arm7.asm'
+        ;include 'arm7.asm'
         ; Tests start at 200
-        include 'arm8.asm'
+        ;include 'arm8.asm'
+        ; Tests start at 250
+        include 'arm10.asm'
 
 passed:
         ; Setup green color
