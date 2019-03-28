@@ -33,7 +33,7 @@ t251:
         cmp     r0, 0xAA
         bne     t251f
 
-        b       passed
+        b       arm4
 
 t251f:
         Failed 251
