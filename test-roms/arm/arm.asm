@@ -1,8 +1,16 @@
 format binary as 'gba'
 
 include '../lib/arm.inc'
+include '../lib/memory.inc'
 
-macro Failed test {
+; CPSR flag masks
+N = 1 shl 31
+Z = 1 shl 30
+C = 1 shl 29
+V = 1 shl 28
+
+; Instruction for failed tests
+macro failed test {
         imm16   r12, test
         b       loop
 }
@@ -13,45 +21,29 @@ header:
 main:
         ; Setup red color
         mov     r0, 0x1F
-        mov     r1, 0x5000000
+        mov     r1, PALETTE
         strh    r0, [r1]
 
         ; Setup DISPCNT
-        mov     r0, 1
-        lsl     r0, 8
-        mov     r1, 0x4000000
+        mov     r0, 1 shl 8
+        mov     r1, DISPCNT
         strh    r0, [r1]
 
         ; Setup BG0CNT
         mov     r0, 0
-        add     r1, 8
+        imm32   r1, BG0CNT
         strh    r0, [r1]
 
         ; Reset test register
         mov     r12, 0
 
         ; Tests start at 1
-        ;include 'arm1.asm'
-        ; Tests start at 50
-        ;include 'arm5.asm'
-        ; Tests start at 100
-        ;include 'arm6.asm'
-        ; Tests start at 150
-        ;include 'arm7.asm'
-        ; Tests start at 200
-        ;include 'arm8.asm'
-        ; Tests start at 250
-        ;include 'arm10.asm'
-        ; Tests start at 300
-        ;include 'arm4.asm'
-        ; Tests start at 350
-        include 'arm9.asm'
+        include 'conditions.asm'
 
 passed:
         ; Setup green color
-        mov     r0, 0x1F
-        lsl     r0, 5
-        mov     r1, 0x5000000
+        mov     r0, 0x1F shl 5
+        mov     r1, PALETTE
         strh    r0, [r1]
 
 loop:
