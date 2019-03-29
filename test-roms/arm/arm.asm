@@ -39,6 +39,10 @@ main:
 
         ; Tests start at 1
         include 'conditions.asm'
+        ; Tests start at 50
+        include 'branches.asm'
+        ; Tests start at 100
+        include 'data_processing.asm'
 
 passed:
         ; Setup green color

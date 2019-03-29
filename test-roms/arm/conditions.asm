@@ -1,5 +1,5 @@
 conditions:
-        ; Tests for ARM conditions
+        ; Tests for conditions
 
 t1:
         ; EQ - Z set
@@ -112,5 +112,7 @@ t19:
 
 t20:
         ; AL - always
-        bal     passed
+        bal     conditions_end
         failed  20
+
+conditions_end:
