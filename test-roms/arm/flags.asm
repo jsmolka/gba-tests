@@ -94,7 +94,3 @@ t105f:
         failed  105
 
 flags_end:
-
-
-
-

@@ -43,6 +43,8 @@ main:
         include 'branches.asm'
         ; Tests start at 100
         include 'flags.asm'
+        ; Tests start at 150
+        include 'shifts.asm'
 
 passed:
         ; Setup green color
