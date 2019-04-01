@@ -2,12 +2,12 @@ shifts:
         ; Tests for shift operations
 
 t150:
-        ; ARM 3: mov rd, rs, lsl imm5 / rm
+        ; Logical shift left
         mov     r0, 1
         mov     r1, 3
 
-        mov     r0, r0, lsl 3
-        mov     r0, r0, lsl r1
+        lsl     r0, 3
+        lsl     r0, r1
         cmp     r0, 64
         bne     t150f
 
@@ -17,13 +17,13 @@ t150f:
         failed  150
 
 t151:
-        ; Carry flag lsl
-        mov     r0, 0
-        movs    r0, r0, lsl 1
+        ; Logical shift left carry
+        mov     r0, 1 shl 30
+
+        lsls    r0, 1
         bcs     t151f
 
-        mvn     r0, 0
-        movs    r0, r0, lsl 1
+        lsls    r0, 1
         bcc     t151f
 
         b       t152
@@ -32,15 +32,15 @@ t151f:
         failed  151
 
 t152:
-        ; Special case lsl
+        ; Logical shift left special
         mov     r0, 0
 
         msr     CPSR_flg, 0
-        movs    r0, r0, lsl r0
+        lsls    r0, r0
         bcs     t152f
 
         msr     CPSR_flg, C
-        movs    r0, r0, lsl r0
+        lsls    r0, r0
         bcc     t152f
 
         b       t153
@@ -49,12 +49,12 @@ t152f:
         failed  152
 
 t153:
-        ; ARM 3: mov rd, rs, lsr imm5 / rm
+        ; Logical shift right
         mov     r0, 64
         mov     r1, 3
 
-        mov     r0, r0, lsr 3
-        mov     r0, r0, lsr r1
+        lsr     r0, 3
+        lsr     r0, r1
         cmp     r0, 1
         bne     t153f
 
@@ -64,13 +64,13 @@ t153f:
         failed  153
 
 t154:
-        ; Carry flag lsr
-        mov     r0, 0
-        movs    r0, r0, lsr 1
+        ; Logical shift right carry
+        mov     r0, 2
+
+        lsrs    r0, 1
         bcs     t154f
 
-        mov     r0, 1
-        movs    r0, r0, lsr 1
+        lsrs    r0, 1
         bcc     t154f
 
         b       t155
@@ -79,14 +79,14 @@ t154f:
         failed  154
 
 t155:
-        ; Special case lsr
-        mov     r0, 0
-        movs    r0, r0, lsr 32
+        ; Logical shift right special
+        mov     r0, 1
+        lsrs    r0, 32
         bne     t155f
         bcs     t155f
 
-        mov     r0, 0x80000000
-        movs    r0, r0, lsr 32
+        mov     r0, 1 shl 31
+        lsrs    r0, 32
         bne     t155f
         bcc     t155f
 
@@ -96,19 +96,19 @@ t155f:
         failed  155
 
 t156:
-        ; ARM 3: mov rd, rs, asr imm5 / rm
+        ; Arithmetic shift right
         mov     r0, 64
         mov     r1, 3
 
-        mov     r0, r0, asr 3
-        mov     r0, r0, asr r1
+        asr     r0, 3
+        asr     r0, r1
         cmp     r0, 1
         bne     t156f
 
-        mov     r0, 0x80000000
+        mov     r0, 1 shl 31
         mvn     r1, 0
 
-        mov     r0, r0, asr 31
+        asr     r0, 31
         cmp     r0, r1
         bne     t156f
 
@@ -118,13 +118,13 @@ t156f:
         failed  156
 
 t157:
-        ; Carry flag asr
-        mov     r0, 0
-        movs    r0, r0, asr 1
+        ; Arithmetic shift right carry
+        mov     r0, 2
+
+        asrs    r0, 1
         bcs     t157f
 
-        mov     r0, 1
-        movs    r0, r0, asr 1
+        asrs    r0, 1
         bcc     t157f
 
         b       t158
@@ -133,16 +133,17 @@ t157f:
         failed  157
 
 t158:
-        ; Special case asr
-        mov     r0, 0
-        movs    r0, r0, asr 32
+        ; Arithmetic shift right special
+        mov     r0, 1
+        asrs    r0, 32
         bne     t158f
         bcs     t158f
 
-        mov     r0, 0x80000000
-        mvn     r1, 0
-        movs    r0, r0, asr 32
+        mov     r0, 1 shl 31
+        asrs    r0, 32
         bcc     t158f
+
+        mvn     r1, 0
         cmp     r0, r1
         bne     t158f
 
@@ -152,14 +153,13 @@ t158f:
         failed  158
 
 t159:
-        ; ARM 3: mov rd, rs, ror imm5 / rm
+        ; Rotate right (shifted register)
         mov     r0, 2
         mov     r1, 1
-        mov     r2, 0x80000000
 
-        mov     r0, r0, ror 1
-        mov     r0, r0, ror r1
-        cmp     r0, r2
+        ror     r0, 1
+        ror     r0, r1
+        cmp     r0, 1 shl 31
         bne     t159f
 
         b       t160
@@ -168,14 +168,15 @@ t159f:
         failed  159
 
 t160:
-        ; ARM 3: mov rd, imm8, ror imm4 << 1
+        ; Rotate right (rotated immediate)
         mov     r0, 1
-        mov     r0, r0, lsl 31
-        cmp     r0, 0x80000000
+
+        lsl     r0, 31
+        cmp     r0, 1 shl 31
         bne     t160f
 
-        mov     r0, r0, lsr 1
-        cmp     r0, 0x40000000
+        lsr     r0, 1
+        cmp     r0, 1 shl 30
         bne     t160f
 
         b       t161
@@ -184,13 +185,13 @@ t160f:
         failed  160
 
 t161:
-        ; Carry flag ror
-        mov     r0, 0
-        movs    r0, r0, ror 1
+        ; Rotate right carry
+        mov     r0, 2
+
+        rors    r0, 1
         bcs     t161f
 
-        mov     r0, 1
-        movs    r0, r0, ror 1
+        rors    r0, 1
         bcc     t161f
 
         b       t162
@@ -199,13 +200,82 @@ t161f:
         failed  161
 
 t162:
-        ; Special case ror
+        ; Rotate right special
+        msr     CPSR_flg, C
+        mov     r0, 0
+        rrxs    r0
+        bcs     t162f
+        bpl     t162f
 
-        ; Todo: which mnemonic should be used?
-        b       shifts_end
+        msr     CPSR_flg, 0
+        mov     r0, 1
+        rrxs    r0
+        bcc     t162f
+        bne     t162f
+
+        b       t163
 
 t162f:
         failed  162
 
+t163:
+        ; Shifts by zero (carry clear)
+        mov     r0, 1 shl 31
+        mov     r1, 0
+        msr     CPSR_flg, 0
 
-shifts_end:
+        lsls    r0, r1
+        bpl     t163f
+        bcs     t163f
+
+        lsrs    r0, r1
+        bpl     t163f
+        bcs     t163f
+
+        asrs    r0, r1
+        bpl     t163f
+        bcs     t163f
+
+        rors    r0, r1
+        bpl     t163f
+        bcs     t163f
+
+        movs    r0, 1
+        bcs     t163f
+
+        b       shifts_passed
+
+t163f:
+        failed  163
+
+t164:
+        ; Shifts by zero (carry set)
+        mov     r0, 1 shl 31
+        mov     r1, 0
+        msr     CPSR_flg, C
+
+        lsls    r0, r1
+        bpl     t164f
+        bcc     t164f
+
+        lsrs    r0, r1
+        bpl     t164f
+        bcc     t164f
+
+        asrs    r0, r1
+        bpl     t164f
+        bcc     t164f
+
+        rors    r0, r1
+        bpl     t164f
+        bcc     t164f
+
+        movs    r0, 1
+        bcc     t164f
+
+        b       shifts_passed
+
+t164f:
+        failed  164
+
+shifts_passed:

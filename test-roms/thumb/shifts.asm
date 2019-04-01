@@ -1,5 +1,6 @@
 shifts:
         ; Tests for shifts
+        bl      t64
 
 t50:
         ; Thumb 1: lsl rd, rs, offset5
@@ -266,12 +267,59 @@ t63f:
         Failed 63
 
 t64:
-        ; Special case ror
+        ; Shifts by zero (carry clear)
+        mov     r0, 1
+        lsl     r0, 31
+        mov     r1, 0
+        cmn     r1, r1
 
-        ; Todo: which mnemonic should be used?
+        lsl     r0, r1
+        bpl     t64f
+        bcs     t64f
 
-        ; Branch to arithmetic.asm
-        b       arithmetic
+        lsr     r0, r1
+        bpl     t64f
+        bcs     t64f
+
+        asr     r0, r1
+        bpl     t64f
+        bcs     t64f
+
+        ror     r0, r1
+        bpl     t64f
+        bcs     t64f
+
+        b       t65
 
 t64f:
-       Failed 64
+        Failed 64
+
+t65:
+        ; Shifts by zero (carry clear)
+        mov     r0, 1
+        lsl     r0, 31
+        mov     r1, 0
+        cmp     r0, r0
+
+        lsl     r0, r1
+        bpl     t65f
+        bcc     t65f
+
+        lsr     r0, r1
+        bpl     t65f
+        bcc     t65f
+
+        asr     r0, r1
+        bpl     t65f
+        bcc     t65f
+
+        ror     r0, r1
+        bpl     t65f
+        bcc     t65f
+
+        b       shifts_passed
+
+t65f:
+        Failed 65
+
+shifts_passed:
