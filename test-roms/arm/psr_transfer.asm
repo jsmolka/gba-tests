@@ -42,9 +42,37 @@ t252:
         bcs     t252f
         bvs     t252f
 
-        b       psr_transfer_passed
+        b       t253
 
 t252f:
         failed  252
+
+t253:
+        ; Switch mode
+        msr     cpsr_flg, 0xF0000000
+
+        mrs     r0, cpsr
+        mov     r1, r0
+
+        bic     r0, 0xF0000000
+        bic     r0, 0x1F
+        orr     r0, 0x17
+
+        msr     cpsr, r0
+        beq     t253f
+        bmi     t253f
+        bcs     t253f
+        bvs     t253f
+
+        msr     cpsr, r1
+        bne     t253f
+        bpl     t253f
+        bcc     t253f
+        bvc     t253f
+
+        b       psr_transfer_passed
+
+t253f:
+        failed  253
 
 psr_transfer_passed:
