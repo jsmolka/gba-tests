@@ -45,6 +45,10 @@ main:
         include 'flags.asm'
         ; Tests start at 150
         include 'shifts.asm'
+        ; Tests start at 200
+        include 'data_processing.asm'
+        ; Tests start at 250
+        include 'psr_transfer.asm'
 
 passed:
         ; Setup green color

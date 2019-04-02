@@ -243,7 +243,7 @@ t163:
         movs    r0, 1
         bcs     t163f
 
-        b       shifts_passed
+        b       t164
 
 t163f:
         failed  163
@@ -273,9 +273,38 @@ t164:
         movs    r0, 1
         bcc     t164f
 
-        b       shifts_passed
+        b       t165
 
 t164f:
         failed  164
+
+t165:
+        ; Shift saved in lowest byte
+        mov     r0, 1
+        imm16   r1, 0xFF03
+
+        lsl     r0, r1
+        cmp     r0, 8
+        bne     t165f
+
+        b       t166
+
+t165f:
+        failed  165
+
+t166:
+        ; Update carry in data processing
+        msr     CPSR_flg, 0
+
+        movs    r0, 0xF000000F
+        bcc     t166f
+
+        movs    r0, 0x0FF00000
+        bcs     t166f
+
+        b       shifts_passed
+
+t166f:
+        failed  166
 
 shifts_passed:
