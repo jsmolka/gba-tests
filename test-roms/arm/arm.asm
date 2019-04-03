@@ -49,6 +49,8 @@ main:
         include 'data_processing.asm'
         ; Tests start at 250
         include 'psr_transfer.asm'
+        ; Tests start at 300
+        include 'multiply.asm'
 
 passed:
         ; Setup green color
