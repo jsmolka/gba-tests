@@ -53,6 +53,8 @@ main:
         include 'multiply.asm'
         ; Tests start at 350
         include 'single_transfer.asm'
+        ; Tests start at 400
+        include 'block_transfer.asm'
 
 passed:
         ; Setup green color
