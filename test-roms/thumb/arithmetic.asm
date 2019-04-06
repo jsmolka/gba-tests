@@ -2,8 +2,9 @@ arithmetic:
         ; Tests for arithmetic operations
 
 t100:
-        ; Carry flag addition
-        imm32   r0, 0xFFFFFFFE
+        ; Carry addition
+        mov     r0, 1
+        mvn     r0, r0
 
         add     r0, 1
         bcs     t100f
@@ -14,88 +15,88 @@ t100:
         b       t101
 
 t100f:
-        Failed 100
+        failed  100
 
 t101:
-        ; Carry flag subtraction
+        ; Carry subtraction
         mov     r0, 1
-
         sub     r0, 2
         bcs     t101f
 
-        mov     r0, 3
-
-        sub     r0, 2
+        mov     r0, 1
+        sub     r0, 1
         bcc     t101f
 
-        sub     r0, 1
+        mov     r0, 1
+        sub     r0, 0
         bcc     t101f
 
         b       t102
 
 t101f:
-        Failed 101
+        failed  101
 
 t102:
-        ; Overflow flag addition
-        imm32   r0, 0x7FFFFFFE
-
-        add     r0, 1
-        bvs     t102f
+        ; Overflow addition
+        mov     r0, 1
+        lsl     r0, 31
+        sub     r0, 1
 
         add     r0, 1
         bvc     t102f
 
+        add     r0, 1
+        bvs     t102f
+
         b       t103
 
 t102f:
-        Failed 102
+        failed  102
 
 t103:
-        ; Overflow flag subtraction
-        imm32   r0, 0x80000001
-
-        sub     r0, 1
-        bvs     t103f
+        ; Overflow subtraction
+        mov     r0, 1
+        lsl     r0, 31
 
         sub     r0, 1
         bvc     t103f
 
+        sub     r0, 1
+        bvs     t103f
+
         b       t104
 
 t103f:
-        Failed 103
+        failed  103
 
 t104:
-        ; Thumb 2: add rd, rs, imm3
-        mov     r0, #0
-
-        add     r0, r0, #3
-        add     r0, r0, 7
-        cmp     r0, 10
+        ; THUMB 2: add rd, rs, imm3
+        mov     r0, 0
+        add     r0, 4
+        add     r0, 4
+        cmp     r0, 8
         bne     t104f
 
         b       t105
 
 t104f:
-        Failed 104
+        failed  104
 
 t105:
-        ; Thumb 3: add rd, imm8
+        ; THUMB 3: add rd, imm8
         mov     r0, 0
-
+        add     r0, 64
         add     r0, 128
-        add     r0, 127
-        cmp     r0, 255
+        cmp     r0, 192
         bne     t105f
 
         b       t106
 
 t105f:
-        Failed 105
+        failed  105
 
 t106:
-        ; Thumb 5: add rd, rs (high registers)
+        ; THUMB 5: add rd, rs (high registers)
         mov     r0, 1
         mov     r1, 0
         mov     r8, r1
@@ -110,63 +111,57 @@ t106:
         b       t107
 
 t106f:
-        Failed 106
+        failed  106
 
 t107:
-        ; Thumb 12: add rd, sp, imm8 << 2
-        mov     r0, sp
-        add     r0, 128
-        mov     r1, 0
-
-        add     r1, sp, 128
+        ; THUMB 12: add rd, sp, imm8 << 2
+        add     r0, sp, 64
+        mov     r1, sp
+        add     r1, 64
         cmp     r1, r0
         bne     t107f
 
         b       t108
 
 t107f:
-        Failed 107
+        failed  107
 
 t108:
-        ; Thumb 12: add rd, pc, imm8 << 2
-        mov     r0, pc
-        add     r0, 10
-        mov     r1, 0
-
-        add     r1, pc, 4
+        ; THUMB 12: add rd, pc, imm8 << 2
+        add     r0, pc, 64
+        mov     r1, pc
+        add     r1, 62
         cmp     r1, r0
         bne     t108f
 
         b       t109
 
 t108f:
-        Failed 108
+        failed  108
 
 t109:
-        ; Thumb 13: add sp, imm7 << 2
+        ; THUMB 13: add sp, imm7 << 2
         mov     r0, sp
-
-        add     sp, 128
-        add     sp, -128
+        add     sp, 64
+        add     sp, -64
         cmp     sp, r0
         bne     t109f
 
         b       t110
 
 t109f:
-        Failed 109
+        failed  109
 
 t110:
-        ; Thumb 4: adc rd, rs
+        ; THUMB 4: adc rd, rs
         mov     r0, 8
-        cmn     r0, r0
 
+        cmn     r0, r0
         adc     r0, r0
         cmp     r0, 16
         bne     t110f
 
         cmp     r0, r0
-
         adc     r0, r0
         cmp     r0, 33
         bne     t110f
@@ -174,79 +169,70 @@ t110:
         b       t111
 
 t110f:
-        Failed 110
+        failed  110
 
 t111:
-        ; Thumb 2: sub rd, rs, imm3
-        mov     r0, 10
-
-        sub     r0, r0, 3
-        sub     r0, r0, 7
+        ; THUMB 2: sub rd, rs, imm3
+        mov     r0, 14
+        sub     r0, 7
+        sub     r0, 7
         bne     t111f
 
         b       t112
 
 t111f:
-        Failed 111
+        failed  111
 
 t112:
-        ; Thumb 3: sub rd, imm8
-        mov     r0, 255
-        add     r0, 10
-
-        sub     r0, 255
-        sub     r0, 10
+        ; THUMB 3: sub rd, imm8
+        mov     r0, 64
+        sub     r0, 32
+        sub     r0, 32
         bne     t112f
 
         b       t113
 
 t112f:
-        Failed 112
+        failed  112
 
 t113:
-        ; Thumb 2: sub rd, rs, rn
-        mov     r0, 255
-        add     r0, 10
-
-        mov     r1, 255
-        mov     r2, 10
-
+        ; THUMB 2: sub rd, rs, rn
+        mov     r0, 64
+        mov     r1, 32
         sub     r0, r1
-        sub     r0, r2
+        sub     r0, r1
         bne     t113f
 
         b       t114
 
 t113f:
-        Failed 113
+        failed  113
 
 t114:
-        ; Thumb 4: sbc rd, rs
-        mov     r0, 64
-        mov     r1, 16
-        cmn     r0, r0
+        ; THUMB 4: sbc rd, rs
+        mov     r0, 32
+        mov     r1, 8
 
+        cmn     r0, r0
         sbc     r0, r1
-        cmp     r0, 47
+        cmp     r0, 23
         bne     t114f
 
         cmp     r0, r0
-
         sbc     r0, r1
-        cmp     r0, 31
+        cmp     r0, 15
         bne     t114f
 
         b       t115
 
 t114f:
-        Failed 114
+        failed  114
 
 t115:
-        ; Thumb 4: neg rd, rs
+        ; THUMB 4: neg rd, rs
         mov     r0, 4
         mov     r1, 0
         sub     r1, r0
-
         neg     r0, r0
         cmp     r0, r1
         bne     t115f
@@ -254,38 +240,37 @@ t115:
         b       t116
 
 t115f:
-        Failed 115
+        failed  115
 
 t116:
-        ; Thumb 3: cmp rd, imm8
-        mov     r0, 128
+        ; THUMB 3: cmp rd, imm8
+        mov     r0, 32
 
-        cmp     r0, 128
+        cmp     r0, 32
         bne     t116f
         bmi     t116f
         bcc     t116f
         bvs     t116f
 
-        cmp     r0, 255
+        cmp     r0, 64
         beq     t116f
         bpl     t116f
         bcs     t116f
 
         mov     r0, 1
         lsl     r0, 31
-
-        cmp     r0, 255
+        cmp     r0, 32
         bvc     t116f
 
         b       t117
 
 t116f:
-        Failed 116
+        failed  116
 
 t117:
-        ; Thumb 4: cmp rd, rs
-        mov     r0, 128
-        mov     r1, 255
+        ; THUMB 4: cmp rd, rs
+        mov     r0, 32
+        mov     r1, 64
 
         cmp     r0, r0
         bne     t117f
@@ -300,19 +285,18 @@ t117:
 
         mov     r0, 1
         lsl     r0, 31
-
         cmp     r0, r1
         bvc     t117f
 
         b       t118
 
 t117f:
-        Failed 117
+        failed  117
 
 t118:
-        ; Thumb 5: cmp rd, rs (high registers)
-        mov     r0, 128
-        mov     r1, 255
+        ; THUMB 5: cmp rd, rs (high registers)
+        mov     r0, 32
+        mov     r1, 64
         mov     r8, r0
         mov     r9, r1
 
@@ -330,19 +314,17 @@ t118:
         mov     r0, 1
         lsl     r0, 31
         mov     r8, r0
-
         cmp     r8, r9
         bvc     t118f
 
         b       t119
 
 t118f:
-        Failed 118
+        failed  118
 
 t119:
-        ; Thumb 4: cmn rd, rs
-        mov     r0, 128
-
+        ; THUMB 4: cmn rd, rs
+        mov     r0, 32
         cmn     r0, r0
         beq     t119f
         bmi     t119f
@@ -350,12 +332,11 @@ t119:
         bvs     t119f
 
         mov     r0, 0
-
         cmn     r0, r0
         bne     t119f
 
+        mov     r0, 0
         mvn     r0, r0
-
         cmn     r0, r0
         bpl     t119f
         bcc     t119f
@@ -364,26 +345,25 @@ t119:
         lsl     r0, 31
         sub     r0, 1
         mov     r1, 1
-
         cmn     r0, r1
         bvc     t119f
 
         b       t120
 
 t119f:
-        Failed 119
+        failed  119
 
 t120:
-        ; Thumb 4: mul rd, rs
+        ; THUMB 4: mul rd, rs
         mov     r0, 2
-
         mul     r0, r0
         mul     r0, r0
         cmp     r0, 16
         bne     t120f
 
-        ; Branch to branches.asm
-        b       branches
+        b       arithmetic_passed
 
 t120f:
-        Failed 120
+        failed  120
+
+arithmetic_passed:

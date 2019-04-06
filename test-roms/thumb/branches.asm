@@ -2,107 +2,144 @@ branches:
         ; Tests for branches
 
 t150:
-        ; Thumb 18: b label
+        ; THUMB 18: b label
         mov     r7, 150
-        b       t150a
-
-t150b:
-        mov     r7, 0
         b       t151
 
-t150a:
-        b       t150b
+t152:
+        mov     r7, 152
+        b       t153
 
 t151:
-        ; Thumb 19: bl label
         mov     r7, 151
-        bl      t151a
-
-t151b:
-        mov     r7, 0
         b       t152
 
-t151a:
-        bl      t151b
+t153:
+        ; THUMB 19: bl label
+        mov     r7, 153
+        bl      t154
 
-t152:
-        ; Thumb 16: b<cond> label
-        mov     r7, 152
-        bne     t152a
+t155:
+        mov     r7, 155
+        b       t156
 
-t152b:
-        mov     r7, 0
-        b       t152eq
+t154:
+        mov     r7, 154
+        bl      t155
 
-t152a:
-        bne     t152b
+t156:
+        ; THUMB 16: b<cond> label
+        mov     r7, 156
+        bne     t157
 
-t152eq:
+t158:
+        mov     r7, 158
+        b       t159
+
+t157:
+        mov     r7, 157
+        bne     t158
+
+t159:
         mov     r0, 0
-        beq     t152ne
-        b       t152f
+        beq     t160
 
-t152ne:
+t159f:
+        failed  159
+
+t160:
         mov     r0, 1
-        bne     t152cs
-        b       t152f
+        bne     t161
 
-t152cs:
-        cmp     r0, r0
-        bcs     t152cc
-        b       t152f
+t160f:
+        failed  160
 
-t152cc:
-        cmn     r0, r0
-        bcc     t152mi
-        b       t152f
-
-t152mi:
-        mvn     r0, r0
-        bmi     t152pl
-        b       t152f
-
-t152pl:
+t161:
         mov     r0, 0
-        bpl     t152vs
-        b       t152f
+        cmp     r0, r0
+        bcs     t162
 
-t152vs:
+t161f:
+        failed  161
+
+t162:
+        mov     r0, 0
+        cmn     r0, r0
+        bcc     t163
+
+t162f:
+        failed  162
+
+t163:
+        mov     r0, 0
+        mvn     r0, r0
+        bmi     t164
+
+t163f:
+        failed  163
+
+t164:
+        mov     r0, 0
+        bpl     t165
+
+t164f:
+        failed  164
+
+t165:
         mov     r0, 1
         lsl     r0, 31
         sub     r0, 1
-        bvs     t152vc
-        b       t152f
+        bvs     t166
 
-t152vc:
+t165f:
+        failed  165
+
+t166:
+        mov     r0, 1
+        lsl     r0, 31
+        sub     r0, 1
         cmp     r0, r0
-        bvc     t153
-        b       t152f
+        bvc     t167
 
-t152f:
-        Failed 152
+t166f:
+        failed  166
 
-t153:
-        ; Thumb 5: bx label
-        mov     r7, 153
-        adr     r0, t153a
+t167:
+        ; THUMB 5: bx label
+        mov     r7, 167
+        adr     r0, t168
         bx      r0
 
 code32
 align 4
-t153a:
-        adr     r0, t153b + 1
+t168:
+        mov     r7, 168
+        adr     r0, t169 + 1
         bx      r0
 
 code16
 align 2
-t153b:
-        adr     r0, t153c
-        mov     r0, r0
+t169:
+        mov     r7, 169
+        adr     r0, t170
         add     r0, 1
         bx      r0
 
-t153c:
+t170:
+        ; THUMB 5: Branch exchange alignment
+        mov     r7, 170
+        adr     r0, t171
+        add     r0, 2
+        bx      r0
+
+code32
+align 4
+t171:
+        mov     r7, 171
+        adr     r0, branches_passed + 1
+        bx      r0
+
+code16
+align 2
+branches_passed:
         mov     r7, 0
-        ; Branch to memory.asm
-        b       memory

@@ -2,7 +2,7 @@ format binary as 'gba'
 
 include '../lib/thumb.inc'
 
-macro Failed test {
+macro failed test {
         mov     r7, test
         bl      loop
 }

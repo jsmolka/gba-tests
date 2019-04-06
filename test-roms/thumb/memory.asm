@@ -1,198 +1,330 @@
 memory:
         ; Tests for memory operations
-
-        ; Setup initial values
-        imm32   r6, 0x02000000
-        imm32   r5, 0xFFFFFFFF
-        imm32   r4, 0x0F0F0F0F
-        mov     r3, 8
+        ; Todo: t200
+        ; Todo: str(h) alignment
+        ; Todo: ldr, ldrh, ldsh special cases
+        ; Todo: t14, sp aligned?
+        ; Todo: push, pop, ldm, stm force align?
+        mov     r6, 2
+        lsl     r6, 24
 
 t200:
-        ; Thumb 6: ldr rd, [pc, word8]
-        ldr     r0, [pc, 4]
-        cmp     r0, r5
-        bne     t200f
-
+        ; THUMB 6: ldr rd, [pc, imm8 << 2]
         b       t201
 
-align 4
-        db      255,255,255,255
-
-t200f:
-        Failed 200
-
 t201:
-        ; Thumb 7: ldr / str rd, [rb, ro]
-        str     r5, [r6, r3]
-        ldr     r0, [r6, r3]
-        cmp     r0, r5
+        ; THUMB 7: <ldr|str> rd, [rb, ro]
+        mov     r0, 0
+        mvn     r0, r0
+        mov     r1, 4
+
+        str     r0, [r6, r1]
+        ldr     r2, [r6, r1]
+        cmp     r2, r0
         bne     t201f
 
+        add     r6, 16
         b       t202
 
 t201f:
-        Failed 201
+        failed  201
 
 t202:
-        ; Thumb 7: ldrb / strb rd, [rb, ro]
-        lsr     r1, r4, 24
+        ; THUMB 7: <ldrb|strb> rd, [rb, ro]
+        mov     r0, 0
+        mvn     r0, r0
+        mov     r1, 4
 
-        strb    r4, [r6, r3]
-        ldrb    r0, [r6, r3]
-        cmp     r0, r1
+        strb    r0, [r6, r1]
+        ldr     r2, [r6, r1]
+        cmp     r2, 0xFF
         bne     t202f
 
+        add     r6, 16
         b       t203
 
 t202f:
-        Failed 202
+        failed  202
 
 t203:
-        ; Thumb 8: ldrh / strh rd, [rb, ro]
-        lsr     r1, r5, 16
+        mov     r0, 0
+        mvn     r0, r0
+        mov     r1, 4
 
-        strh    r5, [r6, r3]
-        ldrh    r0, [r6, r3]
-        cmp     r0, r1
+        str     r0, [r6, r1]
+        ldrb    r2, [r6, r1]
+        cmp     r2, 0xFF
         bne     t203f
 
+        add     r6, 16
         b       t204
 
 t203f:
-        Failed 203
+        failed  203
 
 t204:
-        ; Thumb 8: ldrsb rd, [rb, ro]
-        lsr     r1, r4, 24
+        ; THUMB 8: <ldrh|strh> rd, [rb, ro]
+        mov     r0, 0
+        mvn     r0, r0
+        lsr     r1, r0, 16
+        mov     r2, 4
 
-        str     r4, [r6, r3]
-        ldrsb   r0, [r6, r3]
-        cmp     r0, r1
+        strh    r0, [r6, r2]
+        ldr     r3, [r6, r2]
+        cmp     r3, r1
         bne     t204f
 
-        str     r5, [r6, r3]
-        ldrsb   r0, [r6, r3]
-        cmp     r0, r5
-        bne     t204f
-
+        add     r6, 16
         b       t205
 
 t204f:
-        Failed 204
+        failed  204
 
 t205:
-        ; Thumb 8: ldrsh rd, [rb, ro]
-        lsr     r1, r4, 16
+        mov     r0, 0
+        mvn     r0, r0
+        lsr     r1, r0, 16
+        mov     r2, 4
 
-        str     r4, [r6, r3]
-        ldrsh   r0, [r6, r3]
-        cmp     r0, r1
+        str     r0, [r6, r2]
+        ldrh    r3, [r6, r2]
+        cmp     r3, r1
         bne     t205f
 
-        str     r5, [r6, r3]
-        ldrsh   r0, [r6, r3]
-        cmp     r0, r5
-        bne     t205f
-
+        add     r6, 16
         b       t206
 
 t205f:
-        Failed 205
+        failed  205
 
 t206:
-        ; Thumb 9: ldr / str rd, [rb, offset5]
-        str     r4, [r6, 8]
-        ldr     r0, [r6, 8]
-        cmp     r0, r4
+        ; THUMB 8: ldrsb rd, [rb, ro]
+        mov     r0, 0x0F
+        mov     r1, 4
+
+        str     r0, [r6, r1]
+        ldrsb   r2, [r6, r1]
+        cmp     r2, r0
         bne     t206f
 
+        add     r6, 16
         b       t207
 
 t206f:
-        Failed 206
+        failed  206
 
 t207:
-        ; Thumb 9: ldrb / strb rd, [rb, offset5]
-        lsr     r1, r5, 24
+        mov     r0, 0xFF
+        mov     r1, 0
+        mvn     r1, r1
+        mov     r2, 4
 
-        strb    r5, [r6, 8]
-        ldrb    r0, [r6, 8]
-        cmp     r0, r1
+        str     r0, [r6, r2]
+        ldrsb   r3, [r6, r2]
+        cmp     r3, r1
         bne     t207f
 
+        add     r6, 16
         b       t208
 
 t207f:
-        Failed 207
+        failed  207
 
 t208:
-        ; Thumb 10: ldrh / strh rd, [rb, offset5]
-        lsr     r1, r4, 16
+        ; THUMB 8: ldrsh rd, [rb, ro]
+        mov     r0, 0xFF
+        lsl     r0, 4
+        mov     r1, 4
 
-        strh    r4, [r6, 8]
-        ldrh    r0, [r6, 8]
-        cmp     r0, r1
+        str     r0, [r6, r1]
+        ldrsh   r2, [r6, r1]
+        cmp     r2, r0
         bne     t208f
 
+        add     r6, 16
         b       t209
 
 t208f:
-        Failed 208
+        failed  208
 
 t209:
-        ; Thumb 11: ldr / str rd, [sp, word8]
-        str     r5, [sp, 4]
-        push    {r0}
-        ldr     r0, [sp, 8]
-        cmp     r0, r5
+        mov     r0, 0xFF
+        lsl     r0, 8
+        mov     r1, 4
+
+        str     r0, [r6, r1]
+        ldrsh   r2, [r6, r1]
+        mov     r3, 1
+        lsl     r3, 31
+        asr     r3, 23
+        cmp     r3, r2
         bne     t209f
 
+        add     r6, 16
         b       t210
 
 t209f:
-        Failed 209
+        failed  209
 
 t210:
-        ; Thumb 14: push / pop {rlist}
+        ; THUMB 9: <ldr|str> rd, [rb, imm5 << 2]
+        mov     r0, 0
+        mvn     r0, r0
+
+        str     r0, [r6, 4]
+        ldr     r1, [r6, 4]
+        cmp     r1, r0
+        bne     t210f
+
+        add     r6, 16
+        b       t211
+
+t210f:
+        failed  210
+
+t211:
+        ; THUMB 9: <ldrb|strb> rd, [rb, imm5]
+        mov     r0, 0
+        mvn     r0, r0
+
+        strb    r0, [r6, 4]
+        ldr     r1, [r6, 4]
+        cmp     r1, 0xFF
+        bne     t211f
+
+        add     r6, 16
+        b       t212
+
+t211f:
+        failed  211
+
+t212:
+        mov     r0, 0
+        mvn     r0, r0
+
+        str     r0, [r6, 4]
+        ldrb    r1, [r6, 4]
+        cmp     r1, 0xFF
+        bne     t212f
+
+        add     r6, 16
+        b       t213
+
+t212f:
+        failed  212
+
+t213:
+        ; THUMB 10: <ldrh|strh> rd, [rb, imm5 << 1]
+        mov     r0, 0
+        mvn     r0, r0
+        lsr     r1, r0, 16
+
+        strh    r0, [r6, 4]
+        ldr     r2, [r6, 4]
+        cmp     r2, r1
+        bne     t213f
+
+        add     r6, 16
+        b       t214
+
+t213f:
+        failed  213
+
+t214:
+        mov     r0, 0
+        mvn     r0, r0
+        lsr     r1, r0, 16
+
+        str     r0, [r6, 4]
+        ldrh    r2, [r6, 4]
+        cmp     r2, r1
+        bne     t214f
+
+        add     r6, 16
+        b       t215
+
+t214f:
+        failed  214
+
+t215:
+        ; THUMB 11: <ldr|str> rd, [sp, imm8 << 2]
+        mov     r0, 0
+        mvn     r0, r0
+        str     r0, [sp, 4]
+        ldr     r1, [sp, 4]
+        cmp     r1, r0
+        bne     t215f
+
+        add     r6, 16
+        b       t216
+
+t215f:
+        failed  215
+
+t216:
+        ; THUMB 14: <push|pop> {rlist}
         mov     r0, 1
         mov     r1, 2
 
         push    {r0, r1}
         pop     {r2, r3}
         cmp     r0, r2
-        bne     t210f
-
+        bne     t216f
         cmp     r1, r3
-        bne     t210f
+        bne     t216f
 
-        b       t211
+        b       t217
 
-t210f:
-        Failed 210
+t216f:
+        failed  216
 
-t211:
-        ; Thumb 15: ldmia / stmia rd!, {rlist}
-        mov     r0, 2
-        mov     r1, 4
+t217:
+        ; THUMB 14: Store LR / load PC
+        adr     r0, t218
+        mov     lr, r0
+
+        push    {r1, lr}
+        pop     {r1, pc}
+
+t217f:
+        failed  217
+
+t218:
+        ; THUMB 14: Align PC
+        adr     r0, t219
+        add     r0, 1
+        mov     lr, r0
+
+        push    {r1, lr}
+        pop     {r1, pc}
+
+t218f:
+        failed  218
+
+t219:
+        ; THUMB 15: <ldmia|stmia> rd!, {rlist}
+        mov     r0, 1
+        mov     r1, 2
         mov     r3, r6
 
         stmia   r3!, {r0, r1}
         sub     r3, 8
         cmp     r3, r6
-        bne     t211f
+        bne     t219f
 
         ldmia   r3!, {r2, r4}
         sub     r3, 8
         cmp     r3, r6
-        bne     t211f
+        bne     t219f
 
         cmp     r0, r2
-        bne     t211f
-
+        bne     t219f
         cmp     r1, r4
-        bne     t211f
+        bne     t219f
 
-        b       passed
+        b       memory_passed
 
-t211f:
-        Failed 211
+t219f:
+        failed  219
+
+memory_passed:
