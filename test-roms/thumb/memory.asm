@@ -1,16 +1,23 @@
 memory:
         ; Tests for memory operations
-        ; Todo: t200
-        ; Todo: str(h) alignment
-        ; Todo: ldr, ldrh, ldsh special cases
-        ; Todo: t14, sp aligned?
-        ; Todo: push, pop, ldm, stm force align?
         mov     r6, 2
         lsl     r6, 24
 
 t200:
         ; THUMB 6: ldr rd, [pc, imm8 << 2]
+        mov     r0, 0
+        mvn     r0, r0
+        ldr     r1, [pc, 8]
+        cmp     r1, r0
+        bne     t200f
+
         b       t201
+
+align 4
+        db      255, 255, 255, 255
+
+t200f:
+        failed  200
 
 t201:
         ; THUMB 7: <ldr|str> rd, [rb, ro]
@@ -30,7 +37,7 @@ t201f:
         failed  201
 
 t202:
-        ; THUMB 7: <ldrb|strb> rd, [rb, ro]
+        ; THUMB 7: strb rd, [rb, ro]
         mov     r0, 0
         mvn     r0, r0
         mov     r1, 4
@@ -47,6 +54,7 @@ t202f:
         failed  202
 
 t203:
+        ; THUMB 7: ldrb rd, [rb, ro]
         mov     r0, 0
         mvn     r0, r0
         mov     r1, 4
@@ -63,7 +71,7 @@ t203f:
         failed  203
 
 t204:
-        ; THUMB 8: <ldrh|strh> rd, [rb, ro]
+        ; THUMB 8: strh rd, [rb, ro]
         mov     r0, 0
         mvn     r0, r0
         lsr     r1, r0, 16
@@ -81,6 +89,7 @@ t204f:
         failed  204
 
 t205:
+        ; THUMB 8: ldrh rd, [rb, ro]
         mov     r0, 0
         mvn     r0, r0
         lsr     r1, r0, 16
@@ -183,7 +192,7 @@ t210f:
         failed  210
 
 t211:
-        ; THUMB 9: <ldrb|strb> rd, [rb, imm5]
+        ; THUMB 9: strb rd, [rb, imm5]
         mov     r0, 0
         mvn     r0, r0
 
@@ -199,6 +208,7 @@ t211f:
         failed  211
 
 t212:
+        ; THUMB 9: ldrb rd, [rb, imm5]
         mov     r0, 0
         mvn     r0, r0
 
@@ -214,7 +224,7 @@ t212f:
         failed  212
 
 t213:
-        ; THUMB 10: <ldrh|strh> rd, [rb, imm5 << 1]
+        ; THUMB 10: strh rd, [rb, imm5 << 1]
         mov     r0, 0
         mvn     r0, r0
         lsr     r1, r0, 16
@@ -231,6 +241,7 @@ t213f:
         failed  213
 
 t214:
+        ; THUMB 10: ldrh rd, [rb, imm5 << 1]
         mov     r0, 0
         mvn     r0, r0
         lsr     r1, r0, 16
@@ -281,6 +292,7 @@ t216f:
 t217:
         ; THUMB 14: Store LR / load PC
         adr     r0, t218
+        mov     r0, r0
         mov     lr, r0
 
         push    {r1, lr}
@@ -290,7 +302,7 @@ t217f:
         failed  217
 
 t218:
-        ; THUMB 14: Align PC
+        ; THUMB 14: Alignment PC
         adr     r0, t219
         add     r0, 1
         mov     lr, r0
@@ -322,9 +334,175 @@ t219:
         cmp     r1, r4
         bne     t219f
 
-        b       memory_passed
+        add     r6, 16
+        b       t220
 
 t219f:
         failed  219
+
+t220:
+        ; Store alignment
+        mov     r0, 0xAA
+        mov     r1, 1
+        str     r0, [r6, r1]
+        ldr     r1, [r6]
+        cmp     r1, r0
+        bne     t220f
+
+        mov     r0, 0xBB
+        mov     r1, 3
+        str     r0, [r6, r1]
+        ldr     r1, [r6]
+        cmp     r1, r0
+        bne     t220f
+
+        add     r6, 16
+        b       t221
+
+t220f:
+        failed  220
+
+t221:
+        ; Store half alignment
+        mov     r0, 0xCC
+        mov     r1, 1
+        strh    r0, [r6, r1]
+        ldrh    r1, [r6]
+        cmp     r1, r0
+        bne     t221f
+
+        mov     r0, 0xDD
+        mov     r1, 3
+        strh    r0, [r6, r1]
+        ldrh    r1, [r6, 2]
+        cmp     r1, r0
+        bne     t221f
+
+        add     r6, 16
+        b       t222
+
+t221f:
+        failed  221
+
+t222:
+        ; Misaligned load
+        mov     r0, 0xEE
+        lsl     r0, 8
+        mov     r1, 1
+        str     r0, [r6]
+        ldr     r1, [r6, r1]
+        cmp     r1, 0xEE
+        bne     t222f
+
+        add     r6, 16
+        b       t223
+
+t222f:
+        failed  222
+
+t223:
+        ; Misaligned load half
+        mov     r0, 0xFF
+        lsl     r0, 8
+        mov     r1, 1
+        str     r0, [r6]
+        ldrh    r1, [r6, r1]
+        cmp     r1, 0xFF
+        bne     t223f
+
+        add     r6, 16
+        b       t224
+
+t223f:
+        failed  223
+
+t224:
+        ; Misaligned load half sign extended
+        imm16   r0, 0xFFEE
+        mov     r1, 0
+        mvn     r1, r1
+        mov     r2, 1
+        str     r0, [r6]
+        ldrsh   r2, [r6, r2]
+        cmp     r2, r1
+        bne     t224f
+
+        add     r6, 16
+        b       t225
+
+t224f:
+        failed  224
+
+t225:
+        ; THUMB 14: Aligned pop
+        mov     r0, 0xA
+        mov     r1, 0xB
+        push    {r0, r1}
+
+        mov     r2, sp
+        add     r2, 1
+        mov     sp, r2
+
+        pop     {r3, r4}
+        cmp     r0, r3
+        bne     t225f
+        cmp     r1, r4
+        bne     t225f
+
+        sub     r2, 1
+        mov     sp, r2
+
+        b       t226
+
+t225f:
+        failed  225
+
+t226:
+        ; THUMB 14: Aligned push
+        mov     r0, 0xC
+        mov     r1, 0xD
+        mov     r2, sp
+        add     r2, 1
+        mov     sp, r2
+        push    {r0, r1}
+
+        sub     r2, 9
+        mov     sp, r2
+
+        pop     {r3, r4}
+        cmp     r0, r3
+        bne     t226f
+        cmp     r1, r4
+        bne     t226f
+
+        b       t227
+
+t226f:
+        failed  226
+
+t227:
+        ; THUMB 15: Aligned load / store multiple
+        mov     r0, 0xE
+        add     r1, r6, 4
+
+        add     r2, r6, 1
+        stmia   r2!, {r0}
+        cmp     r2, r1
+        bne     t227f
+
+        add     r2, r6, 1
+        ldmia   r2!, {r3}
+        cmp     r2, r1
+        bne     t227f
+
+        cmp     r3, r0
+        bne     t227f
+
+        b       t228
+
+t227f:
+        failed  227
+
+t228:
 
 memory_passed:

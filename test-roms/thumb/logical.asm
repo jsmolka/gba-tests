@@ -139,7 +139,6 @@ t9:
         bne     t9f
 
         bic     r0, r0
-        cmp     r0, 0
         bne     t9f
 
         b       t10
@@ -188,7 +187,6 @@ t11f:
 t12:
         ; THUMB 5: Write to PC
         adr     r0, t13
-        mov     r0, r0
         mov     pc, r0
 
 t12f:
