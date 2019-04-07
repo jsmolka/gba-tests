@@ -498,11 +498,9 @@ t227:
         cmp     r3, r0
         bne     t227f
 
-        b       t228
+        b       memory_passed
 
 t227f:
         failed  227
-
-t228:
 
 memory_passed:
