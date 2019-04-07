@@ -32,9 +32,8 @@ t52:
         lsl     r0, 1
         bcs     t52f
 
-        mov     r0, 1
+        mov     r0, 2
         lsl     r0, 31
-        lsl     r0, 1
         bcc     t52f
 
         b       t53
@@ -238,7 +237,7 @@ t63f:
         failed  63
 
 t64:
-        ; THUMB 4: Shifts by zero (carry clear)
+        ; THUMB 4: Shifts by 0 (carry clear)
         mov     r0, 1
         mov     r1, 0
         cmn     r0, r0
@@ -258,7 +257,7 @@ t64f:
         failed  64
 
 t65:
-        ; THUMB 4: Shifts by zero (carry set)
+        ; THUMB 4: Shifts by 0 (carry set)
         mov     r0, 1
         mov     r1, 0
         cmp     r0, r0
@@ -272,9 +271,46 @@ t65:
         cmp     r0, 1
         bne     t65f
 
-        b       shifts_passed
+        b       t66
 
 t65f:
         failed  65
+
+t66:
+        ; THUMB 4: Shifts by 32
+        mov     r0, 32
+        mov     r1, 1
+        lsl     r1, 31
+
+        mov     r2, 1
+        lsl     r2, r0
+        bne     t66f
+        bcc     t66f
+
+        mov     r2, r1
+        lsr     r2, r0
+        bne     t66f
+        bcc     t66f
+
+        mov     r2, r1
+        asr     r2, r0
+        bcc     t66f
+
+        mov     r3, 0
+        mvn     r3, r3
+        cmp     r3, r2
+        bne     t66f
+
+        mov     r2, r1
+        ror     r2, r0
+        bcc     t66f
+
+        cmp     r2, r1
+        bne     t66f
+
+        b       shifts_passed
+
+t66f:
+        failed  66
 
 shifts_passed:

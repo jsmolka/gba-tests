@@ -19,13 +19,15 @@ align 2
 main_thumb:
         ; Setup red color
         mov     r0, 0x1F
-        imm32   r1, 0x5000000
+        mov     r1, 5
+        lsl     r1, 24
         strh    r0, [r1]
 
         ; Setup DISPCNT
         mov     r0, 1
         lsl     r0, 8
-        imm32   r1, 0x4000000
+        mov     r1, 4
+        lsl     r1, 24
         strh    r0, [r1]
 
         ; Setup BG0CNT
@@ -51,7 +53,8 @@ passed:
         ; Setup green color
         mov     r0, 0x1F
         lsl     r0, 5
-        imm32   r1, 0x5000000
+        mov     r1, 5
+        lsl     r1, 24
         strh    r0, [r1]
 
 loop:
