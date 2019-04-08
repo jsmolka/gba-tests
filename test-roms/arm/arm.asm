@@ -9,6 +9,14 @@ Z = 1 shl 30
 C = 1 shl 29
 V = 1 shl 28
 
+; CPSR modes
+MODE_USR = 0x10
+MODE_FIQ = 0x11
+MODE_IRQ = 0x12
+MODE_SVC = 0x13
+MODE_ABT = 0x17
+MODE_SYS = 0x1F
+
 ; Instruction for failed tests
 macro failed test {
         imm16   r12, test
@@ -31,7 +39,7 @@ main:
 
         ; Setup BG0CNT
         mov     r0, 0
-        imm32   r1, BG0CNT
+        add     r1, 8
         strh    r0, [r1]
 
         ; Reset test register

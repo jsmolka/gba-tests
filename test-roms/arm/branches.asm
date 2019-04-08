@@ -43,5 +43,5 @@ t56:
         mov     r12, 56
         bl      t57
 
-branches_end:
+branches_passed:
         mov     r12, 0

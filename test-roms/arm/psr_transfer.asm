@@ -1,6 +1,5 @@
 psr_transfer:
         ; Tests for the PSR transfer instruction
-        ; Todo: fix SPSR behavior
 
 t250:
         ; ARM 4: msr cpsr_flg, <op>
@@ -30,6 +29,26 @@ t251f:
         failed  251
 
 t252:
+        ; ARM 4: msr cpsr_ctl, <op>
+        mov     r8, 0xA
+        mov     r9, 0xB
+
+        msr     cpsr_c, MODE_FIQ
+        mov     r8, 0xC
+        mov     r9, 0xD
+
+        msr     cpsr_c, MODE_SYS
+        cmp     r8, 0xA
+        bne     t252f
+        cmp     r9, 0xB
+        bne     t252f
+
+        b       t253
+
+t252f:
+        failed  252
+
+t253:
         ; ARM 4: mrs rd, cpsr / spsr
         ; ARM 4: msr cpsr / spsr, rs
         msr     cpsr_f, 0xF0000000
@@ -38,38 +57,10 @@ t252:
         bic     r0, 0xF0000000
         msr     cpsr, r0
 
-        beq     t252f
-        bmi     t252f
-        bcs     t252f
-        bvs     t252f
-
-        b       t253
-
-t252f:
-        failed  252
-
-t253:
-        ; Switch mode
-        msr     cpsr_f, 0xF0000000
-
-        mrs     r0, cpsr
-        mov     r1, r0
-
-        bic     r0, 0xF0000000
-        bic     r0, 0x1F
-        orr     r0, 0x17
-
-        msr     cpsr, r0
         beq     t253f
         bmi     t253f
         bcs     t253f
         bvs     t253f
-
-        msr     cpsr, r1
-        bne     t253f
-        bpl     t253f
-        bcc     t253f
-        bvc     t253f
 
         b       psr_transfer_passed
 

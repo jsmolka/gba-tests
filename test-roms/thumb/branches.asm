@@ -21,7 +21,7 @@ t153:
 
 t155:
         mov     r7, 155
-        b       t156
+        mov     pc, lr
 
 t154:
         mov     r7, 154
