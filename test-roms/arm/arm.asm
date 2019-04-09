@@ -3,6 +3,11 @@ format binary as 'gba'
 include '../lib/arm.inc'
 include '../lib/memory.inc'
 
+macro failed test {
+        imm16   r12, test
+        b       loop
+}
+
 ; CPSR flag masks
 N = 1 shl 31
 Z = 1 shl 30
@@ -16,12 +21,6 @@ MODE_IRQ = 0x12
 MODE_SVC = 0x13
 MODE_ABT = 0x17
 MODE_SYS = 0x1F
-
-; Instruction for failed tests
-macro failed test {
-        imm16   r12, test
-        b       loop
-}
 
 header:
         include '../lib/header.asm'
@@ -56,13 +55,13 @@ main:
         ; Tests start at 200
         include 'data_processing.asm'
         ; Tests start at 250
-        include 'psr_transfer.asm'
+        ;include 'psr_transfer.asm'
         ; Tests start at 300
-        include 'multiply.asm'
+        ;include 'multiply.asm'
         ; Tests start at 350
-        include 'single_transfer.asm'
+        ;include 'single_transfer.asm'
         ; Tests start at 400
-        include 'block_transfer.asm'
+        ;include 'block_transfer.asm'
 
 passed:
         ; Setup green color

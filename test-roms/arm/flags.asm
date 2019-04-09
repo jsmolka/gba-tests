@@ -78,7 +78,7 @@ t104f:
         failed  104
 
 t105:
-        ; Overflow flag subtraction
+        ; Overflow subtraction
         mov     r0, 1 shl 31
 
         subs    r0, 1

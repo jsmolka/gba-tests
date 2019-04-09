@@ -4,10 +4,7 @@ shifts:
 t150:
         ; Logical shift left
         mov     r0, 1
-        mov     r1, 3
-
-        lsl     r0, 3
-        lsl     r0, r1
+        lsl     r0, 6
         cmp     r0, 64
         bne     t150f
 
@@ -18,12 +15,12 @@ t150f:
 
 t151:
         ; Logical shift left carry
-        mov     r0, 1 shl 30
-
+        mov     r0, 0
         lsls    r0, 1
         bcs     t151f
 
-        lsls    r0, 1
+        mov     r0, 2
+        lsls    r0, 31
         bcc     t151f
 
         b       t152
@@ -32,16 +29,13 @@ t151f:
         failed  151
 
 t152:
-        ; Logical shift left special
-        mov     r0, 0
+        ; Logical shift left by 32
+        mov     r0, 1
+        mov     r1, 32
 
-        msr     CPSR_flg, 0
-        lsls    r0, r0
-        bcs     t152f
-
-        msr     CPSR_flg, C
-        lsls    r0, r0
+        lsls    r0, r1
         bcc     t152f
+        bne     t152f
 
         b       t153
 
@@ -49,14 +43,13 @@ t152f:
         failed  152
 
 t153:
-        ; Logical shift right
-        mov     r0, 64
-        mov     r1, 3
+        ; Logical shift left by greater 32
+        mov     r0, 1
+        mov     r1, 33
 
-        lsr     r0, 3
-        lsr     r0, r1
-        cmp     r0, 1
+        lsls    r0, r1
         bne     t153f
+        bcs     t153f
 
         b       t154
 
@@ -64,14 +57,11 @@ t153f:
         failed  153
 
 t154:
-        ; Logical shift right carry
-        mov     r0, 2
-
-        lsrs    r0, 1
-        bcs     t154f
-
-        lsrs    r0, 1
-        bcc     t154f
+        ; Logical shift right
+        mov     r0, 64
+        lsr     r0, 6
+        cmp     r0, 1
+        bne     t154f
 
         b       t155
 
@@ -79,15 +69,13 @@ t154f:
         failed  154
 
 t155:
-        ; Logical shift right special
-        mov     r0, 1
-        lsrs    r0, 32
-        bne     t155f
+        ; Logical shift right carry
+        mov     r0, 2
+        lsrs    r0, 1
         bcs     t155f
 
-        mov     r0, 1 shl 31
-        lsrs    r0, 32
-        bne     t155f
+        mov     r0, 1
+        lsrs    r0, 1
         bcc     t155f
 
         b       t156
@@ -96,21 +84,16 @@ t155f:
         failed  155
 
 t156:
-        ; Arithmetic shift right
-        mov     r0, 64
-        mov     r1, 3
-
-        asr     r0, 3
-        asr     r0, r1
-        cmp     r0, 1
+        ; Logical shift right special
+        mov     r0, 1
+        lsrs    r0, 32
         bne     t156f
+        bcs     t156f
 
         mov     r0, 1 shl 31
-        mvn     r1, 0
-
-        asr     r0, 31
-        cmp     r0, r1
+        lsrs    r0, 32
         bne     t156f
+        bcc     t156f
 
         b       t157
 
@@ -118,14 +101,13 @@ t156f:
         failed  156
 
 t157:
-        ; Arithmetic shift right carry
-        mov     r0, 2
+        ; Logical shift right by greater 32
+        mov     r0, 1 shl 31
+        mov     r1, 33
 
-        asrs    r0, 1
+        lsrs    r0, r1
+        bne     t157f
         bcs     t157f
-
-        asrs    r0, 1
-        bcc     t157f
 
         b       t158
 
@@ -133,18 +115,16 @@ t157f:
         failed  157
 
 t158:
-        ; Arithmetic shift right special
-        mov     r0, 1
-        asrs    r0, 32
+        ; Arithmetic shift right
+        mov     r0, 64
+        asr     r0, 6
+        cmp     r0, 1
         bne     t158f
-        bcs     t158f
 
         mov     r0, 1 shl 31
-        asrs    r0, 32
-        bcc     t158f
-
+        asr     r0, 31
         mvn     r1, 0
-        cmp     r0, r1
+        cmp     r1, r0
         bne     t158f
 
         b       t159
@@ -153,14 +133,14 @@ t158f:
         failed  158
 
 t159:
-        ; Rotate right (shifted register)
+        ; Arithmetic shift right carry
         mov     r0, 2
-        mov     r1, 1
+        asrs    r0, 1
+        bcs     t159f
 
-        ror     r0, 1
-        ror     r0, r1
-        cmp     r0, 1 shl 31
-        bne     t159f
+        mov     r0, 1
+        asrs    r0, 1
+        bcc     t159f
 
         b       t160
 
@@ -168,15 +148,18 @@ t159f:
         failed  159
 
 t160:
-        ; Rotate right (rotated immediate)
+        ; Arithmetic shift right special
         mov     r0, 1
-
-        lsl     r0, 31
-        cmp     r0, 1 shl 31
+        asrs    r0, 32
         bne     t160f
+        bcs     t160f
 
-        lsr     r0, 1
-        cmp     r0, 1 shl 30
+        mov     r0, 1 shl 31
+        asrs    r0, 32
+        bcc     t160f
+
+        mvn     r1, 0
+        cmp     r1, r0
         bne     t160f
 
         b       t161
@@ -185,14 +168,13 @@ t160f:
         failed  160
 
 t161:
-        ; Rotate right carry
+        ; Rotate right
         mov     r0, 2
-
-        rors    r0, 1
-        bcs     t161f
-
-        rors    r0, 1
-        bcc     t161f
+        mov     r1, 1
+        ror     r0, 1
+        ror     r0, r1
+        cmp     r0, 1 shl 31
+        bne     t161f
 
         b       t162
 
@@ -200,18 +182,14 @@ t161f:
         failed  161
 
 t162:
-        ; Rotate right special
-        msr     CPSR_flg, C
-        mov     r0, 0
-        rrxs    r0
+        ; Rotate right carry
+        mov     r0, 2
+        rors    r0, 1
         bcs     t162f
-        bpl     t162f
 
-        msr     CPSR_flg, 0
         mov     r0, 1
-        rrxs    r0
+        rors    r0, 1
         bcc     t162f
-        bne     t162f
 
         b       t163
 
@@ -219,29 +197,18 @@ t162f:
         failed  162
 
 t163:
-        ; Shifts by zero (carry clear)
-        mov     r0, 1 shl 31
-        mov     r1, 0
-        msr     CPSR_flg, 0
-
-        lsls    r0, r1
+        ; Rotate right special
+        msr     cpsr_f, C
+        mov     r0, 1
+        rrxs    r0
+        bcc     t163f
         bpl     t163f
-        bcs     t163f
 
-        lsrs    r0, r1
-        bpl     t163f
-        bcs     t163f
-
-        asrs    r0, r1
-        bpl     t163f
-        bcs     t163f
-
-        rors    r0, r1
-        bpl     t163f
-        bcs     t163f
-
-        movs    r0, 1
-        bcs     t163f
+        msr     cpsr_f, 0
+        mov     r0, 1
+        rrxs    r0
+        bcc     t163f
+        bne     t163f
 
         b       t164
 
@@ -249,29 +216,15 @@ t163f:
         failed  163
 
 t164:
-        ; Shifts by zero (carry set)
+        ; Rotate right by 32
         mov     r0, 1 shl 31
-        mov     r1, 0
-        msr     CPSR_flg, C
-
-        lsls    r0, r1
-        bpl     t164f
-        bcc     t164f
-
-        lsrs    r0, r1
-        bpl     t164f
-        bcc     t164f
-
-        asrs    r0, r1
-        bpl     t164f
-        bcc     t164f
+        mov     r1, 32
 
         rors    r0, r1
-        bpl     t164f
         bcc     t164f
 
-        movs    r0, 1
-        bcc     t164f
+        cmp     r0, 1 shl 31
+        bne     t164f
 
         b       t165
 
@@ -279,12 +232,12 @@ t164f:
         failed  164
 
 t165:
-        ; Shift saved in lowest byte
-        mov     r0, 1
-        imm16   r1, 0xFF03
+        ; Rotate right by greater 32
+        mov     r0, 2
+        mov     r1, 33
 
-        lsl     r0, r1
-        cmp     r0, 8
+        ror     r0, r1
+        cmp     r0, 1
         bne     t165f
 
         b       t166
@@ -293,18 +246,50 @@ t165f:
         failed  165
 
 t166:
-        ; Update carry in data processing
-        msr     CPSR_flg, 0
+        ; Shifts by 0
+        msr     cpsr_f, C
+        mov     r0, 1
+        mov     r1, 0
 
-        movs    r0, 0xF000000F
+        lsls    r0, r1
+        lsrs    r0, r1
+        asrs    r0, r1
+        rors    r0, r1
         bcc     t166f
 
-        movs    r0, 0x0FF00000
-        bcs     t166f
+        cmp     r0, 1
+        bne     t166f
 
-        b       shifts_passed
+        b       t167
 
 t166f:
         failed  166
+
+t167:
+        ; Shift saved in lowest byte
+        mov     r0, 1
+        imm16   r1, 0xFF03
+
+        lsl     r0, r1
+        cmp     r0, 8
+        bne     t167f
+
+        b       t168
+
+t167f:
+        failed  167
+
+t168:
+        ; Update carry in data processing
+        movs    r0, 0xF000000F
+        bcc     t168f
+
+        movs    r0, 0x0FF00000
+        bcs     t168f
+
+        b       shifts_passed
+
+t168f:
+        failed  168
 
 shifts_passed:
