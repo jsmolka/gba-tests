@@ -1,5 +1,6 @@
 psr_transfer:
         ; Tests for the PSR transfer instruction
+        ; Todo: what the f in test 252
 
 t250:
         ; ARM 4: msr cpsr_flg, <op>
@@ -29,6 +30,7 @@ t251f:
         failed  251
 
 t252:
+        b       t253
         ; ARM 4: msr cpsr_ctl, <op>
         mov     r8, 0xA
         mov     r9, 0xB

@@ -5,7 +5,6 @@ t300:
         ; ARM 5: mul{cond}{s} rd, rm, rs
         mov     r0, 4
         mov     r1, 8
-
         mul     r0, r1, r0
         cmp     r0, 32
         bne     t300f
@@ -18,7 +17,6 @@ t300f:
 t301:
         mov     r0, -4
         mov     r1, -8
-
         mul     r0, r1, r0
         cmp     r0, 32
         bne     t301f
@@ -31,7 +29,6 @@ t301f:
 t302:
         mov     r0, 4
         mov     r1, -8
-
         mul     r0, r1, r0
         cmp     r0, -32
         bne     t302f
@@ -46,7 +43,6 @@ t303:
         mov     r0, 4
         mov     r1, 8
         mov     r2, 8
-
         mla     r0, r1, r0, r2
         cmp     r0, 40
         bne     t303f
@@ -60,7 +56,6 @@ t304:
         mov     r0, 4
         mov     r1, 8
         mov     r2, -8
-
         mla     r0, r1, r0, r2
         cmp     r0, 24
         bne     t304f
@@ -74,7 +69,6 @@ t305:
         ; ARM 6: umull{cond}{s} rdlo, rdhi, rm, rs
         mov     r0, 4
         mov     r1, 8
-
         umull   r2, r3, r0, r1
         cmp     r2, 32
         bne     t305f
@@ -89,7 +83,6 @@ t305f:
 t306:
         mov     r0, -1
         mov     r1, -1
-
         umull   r2, r3, r0, r1
         cmp     r2, 1
         bne     t306f
@@ -104,7 +97,6 @@ t306f:
 t307:
         mov     r0, 2
         mov     r1, -1
-
         umull   r2, r3, r0, r1
         cmp     r2, -2
         bne     t307f
@@ -122,7 +114,6 @@ t308:
         mov     r1, 8
         mov     r2, 8
         mov     r3, 4
-
         umlal   r2, r3, r0, r1
         cmp     r2, 40
         bne     t308f
@@ -139,7 +130,6 @@ t309:
         mov     r1, -1
         mov     r2, -2
         mov     r3, 1
-
         umlal   r2, r3, r0, r1
         cmp     r2, -1
         bne     t309f
@@ -156,7 +146,6 @@ t310:
         ; ARM 6: smull{cond}{s} rdlo, rdhi, rm, rs
         mov     r0, 4
         mov     r1, 8
-
         smull   r2, r3, r0, r1
         cmp     r2, 32
         bne     t310f
@@ -171,7 +160,6 @@ t310f:
 t311:
         mov     r0, -4
         mov     r1, -8
-
         smull   r2, r3, r0, r1
         cmp     r2, 32
         bne     t311f
@@ -186,7 +174,6 @@ t311f:
 t312:
         mov     r0, 4
         mov     r1, -8
-
         smull   r2, r3, r0, r1
         cmp     r2, -32
         bne     t312f
@@ -204,7 +191,6 @@ t313:
         mov     r1, 8
         mov     r2, 8
         mov     r3, 4
-
         smlal   r2, r3, r0, r1
         cmp     r2, 40
         bne     t313f
@@ -221,7 +207,6 @@ t314:
         mov     r1, -8
         mov     r2, 32
         mov     r3, 0
-
         smlal   r2, r3, r0, r1
         cmp     r2, 0
         bne     t314f
@@ -234,7 +219,7 @@ t314f:
         failed  314
 
 t315:
-        ; Negative flag
+        ; ARM 6: Negative
         mov     r0, 2
         mov     r1, -1
 

@@ -1,5 +1,6 @@
 memory:
         ; Tests for memory operations
+        ; Todo: Test SP pop alignment with real GBA
         mov     r6, 2
         lsl     r6, 24
 

@@ -15,8 +15,8 @@ t150f:
 
 t151:
         ; Logical shift left carry
-        mov     r0, 0
-        lsls    r0, 1
+        mov     r0, 1
+        lsls    r0, 31
         bcs     t151f
 
         mov     r0, 2
