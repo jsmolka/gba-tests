@@ -2,211 +2,211 @@ data_processing:
         ; Tests for the data processing instruction
 
 t200:
-        ; ARM 3: mov{cond}{s} rd, <op2>
+        ; ARM 3: Move
         mov     r0, 32
         cmp     r0, 32
-        bne     t200f
+        bne     f200
 
         b       t201
 
-t200f:
+f200:
         failed  200
 
 t201:
-        ; ARM 3: mvn{cond}{s} rd, <op2>
+        ; ARM 3: Move negative
         mvn     r0, 0
         adds    r0, 1
-        bne     t201f
+        bne     f201
 
         b       t202
 
-t201f:
+f201:
         failed  201
 
 t202:
-        ; ARM 3: and{cond}{s} rd, rn, <op2>
+        ; ARM 3: And
         mov     r0, 0xFF
         and     r0, 0xF
         cmp     r0, 0xF
-        bne     t202f
+        bne     f202
 
         b       t203
 
-t202f:
+f202:
         failed  202
 
 t203:
-        ; ARM 3: eor{cond}{s} rd, rn, <op2>
+        ; ARM 3: Exclusive or
         mov     r0, 0xF0
         eor     r0, 0xFF
         cmp     r0, 0xF
-        bne     t203f
+        bne     f203
 
         b       t204
 
-t203f:
+f203:
         failed  203
 
 t204:
-        ; ARM 3: orr{cond}{s} rd, rn, <op2>
+        ; ARM 3: Or
         mov     r0, 0xF0
         orr     r0, 0xF
         cmp     r0, 0xFF
-        bne     t204f
+        bne     f204
 
         b       t205
 
-t204f:
+f204:
         failed  204
 
 t205:
-        ; ARM 3: bic{cond}{s} rd, rn, <op2>
+        ; ARM 3: Bit clear
         mov     r0, 0xFF
         bic     r0, 0xF
         cmp     r0, 0xF0
-        bne     t205f
+        bne     f205
 
         b       t206
 
-t205f:
+f205:
         failed  205
 
 t206:
-        ; ARM 3: add{cond}{s} rd, rn, <op2>
+        ; ARM 3: Add
         mov     r0, 32
         add     r0, 32
         cmp     r0, 64
-        bne     t206f
+        bne     f206
 
         b       t207
 
-t206f:
+f206:
         failed  206
 
 t207:
-        ; ARM 3: adc{cond}{s} rd, rn, <op2>
+        ; ARM 3: Add with carry
         msr     cpsr_f, 0
         movs    r0, 32
         adc     r0, 32
         cmp     r0, 64
-        bne     t207f
+        bne     f207
 
-        msr     cpsr_f, C
+        msr     cpsr_f, FLAG_C
         mov     r0, 32
         adc     r0, 32
         cmp     r0, 65
-        bne     t207f
+        bne     f207
 
         b       t208
 
-t207f:
+f207:
         failed  207
 
 t208:
-        ; ARM 3: sub{cond}{s} rd, rn, <op2>
+        ; ARM 3: Subtract
         mov     r0, 64
         sub     r0, 32
         cmp     r0, 32
-        bne     t208f
+        bne     f208
 
         b       t209
 
-t208f:
+f208:
         failed  208
 
 t209:
-        ; ARM 3: rsb{cond}{s} rd, rn, <op2>
+        ; ARM 3: Reverse subtract
         mov     r0, 32
         rsb     r0, 64
         cmp     r0, 32
-        bne     t209f
+        bne     f209
 
         b       t210
 
-t209f:
+f209:
         failed  209
 
 t210:
-        ; ARM 3: sbc{cond}{s} rd, rn, <op2>
+        ; ARM 3: Subtract with carry
         msr     cpsr_f, 0
         mov     r0, 64
         sbc     r0, 32
         cmp     r0, 31
-        bne     t210f
+        bne     f210
 
-        msr     cpsr_f, C
+        msr     cpsr_f, FLAG_C
         mov     r0, 64
         sbc     r0, 32
         cmp     r0, 32
-        bne     t210f
+        bne     f210
 
         b       t211
 
-t210f:
+f210:
         failed  210
 
 t211:
-        ; ARM 3: rsc{cond}{s} rd, rn, <op2>
+        ; ARM 3: Reverse subtract with carry
         msr     cpsr_f, 0
         mov     r0, 32
         rsc     r0, 64
         cmp     r0, 31
-        bne     t211f
+        bne     f211
 
-        msr     cpsr_f, C
+        msr     cpsr_f, FLAG_C
         mov     r0, 32
         rsc     r0, 64
         cmp     r0, 32
-        bne     t211f
+        bne     f211
 
         b       t212
 
-t211f:
+f211:
         failed  211
 
 t212:
-        ; ARM 3: cmp{cond} rn, <op2>
+        ; ARM 3: Compare
         mov     r0, 32
         cmp     r0, r0
-        bne     t212f
+        bne     f212
 
         b       t213
 
-t212f:
+f212:
         failed  212
 
 t213:
-        ; ARM 3: cmn{cond} rn, <op2>
+        ; ARM 3: Compare negative
         mov     r0, 1 shl 31
         cmn     r0, r0
-        bne     t213f
+        bne     f213
 
         b       t214
 
-t213f:
+f213:
         failed  213
 
 t214:
-        ; ARM 3: tst{cond} rn, <op2>
+        ; ARM 3: Test
         mov     r0, 0xF0
         mov     r1, 0x0F
         tst     r1, r0
-        bne     t214f
+        bne     f214
 
         b       t215
 
-t214f:
+f214:
         failed  214
 
 t215:
-        ; ARM 3: teq{cond} rd, <op2>
+        ; ARM 3: Test equal
         mov     r0, 0xFF
         teq     r0, r0
-        bne     t215f
+        bne     f215
 
         b       t216
 
-t215f:
+f215:
         failed  215
 
 t216:
@@ -215,22 +215,22 @@ t216:
         mov     r1, 0xFF
         mov     r1, r1, lsl 8
         cmp     r1, r0
-        bne     t216f
+        bne     f216
 
         b       t217
 
-t216f:
+f216:
         failed  216
 
 t217:
         ; ARM 3: PC as operand
         add     r0, pc, 4
         cmp     r0, pc
-        bne     t217f
+        bne     f217
 
         b       t218
 
-t217f:
+f217:
         failed  217
 
 t218:
@@ -244,34 +244,28 @@ t218f:
 t219:
         ; ARM 3: Write to PC aligment and flushing
         add     pc, 6
-        b       t219f
-        b       t219f
-
+        b       f219
+        b       f219
         sub     pc, 2
         b       t220
-        b       t219f
+        b       f219
 
-t219f:
+f219:
         failed  219
 
 t220:
         ; ARM 3: Write to PC with S bit set
-        mov     r8, 0xA
-        mov     r9, 0xB
+        mov     r8, 32
         msr     cpsr, MODE_FIQ
-        mov     r8, 0xC
-        mov     r9, 0xD
-        msr     spsr, MODE_USR
-
+        mov     r8, 64
+        msr     spsr, MODE_SYS
         subs    pc, 4
-        cmp     r8, 0xA
-        bne     t220f
-        cmp     r9, 0xB
-        bne     t220f
+        cmp     r8, 32
+        bne     f220
 
         b       data_processing_passed
 
-t220f:
+f220:
         failed  220
 
 data_processing_passed:

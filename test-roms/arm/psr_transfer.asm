@@ -1,72 +1,55 @@
 psr_transfer:
         ; Tests for the PSR transfer instruction
-        ; Todo: what the f in test 252
 
 t250:
-        ; ARM 4: msr cpsr_flg, <op>
-        mov     r0, 0
-
-        msr     cpsr_f, r0
-        beq     t250f
-        bmi     t250f
-        bcs     t250f
-        bvs     t250f
+        ; ARM 4: Read / write CPSR / SPSR
+        mrs     r0, cpsr
+        bic     r0, 0xF0000000
+        orr     r0, FLAG_V
+        msr     cpsr, r0
+        bvc     f250
 
         b       t251
 
-t250f:
+f250:
         failed  250
 
 t251:
-        msr     cpsr_f, 0xF0000000
-        bne     t251f
-        bpl     t251f
-        bcc     t251f
-        bvc     t251f
+        ; ARM 4: Write flag bits
+        msr     cpsr_f, FLAG_V
+        bvc     f251
 
         b       t252
 
-t251f:
+f251:
         failed  251
 
 t252:
-        b       t253
-        ; ARM 4: msr cpsr_ctl, <op>
-        mov     r8, 0xA
-        mov     r9, 0xB
-
+        ; ARM 4: Write control bits
+        mov     r8, 32
         msr     cpsr_c, MODE_FIQ
-        mov     r8, 0xC
-        mov     r9, 0xD
-
+        mov     r8, 64
         msr     cpsr_c, MODE_SYS
-        cmp     r8, 0xA
-        bne     t252f
-        cmp     r9, 0xB
-        bne     t252f
+        cmp     r8, 32
+        bne     f252
 
         b       t253
 
-t252f:
+f252:
         failed  252
 
 t253:
-        ; ARM 4: mrs rd, cpsr / spsr
-        ; ARM 4: msr cpsr / spsr, rs
-        msr     cpsr_f, 0xF0000000
+        ; ARM 4: Operand types
+        mov     r0, FLAG_V
+        msr     cpsr_f, r0
+        bvc     f253
 
-        mrs     r0, cpsr
-        bic     r0, 0xF0000000
-        msr     cpsr, r0
-
-        beq     t253f
-        bmi     t253f
-        bcs     t253f
-        bvs     t253f
+        msr     cpsr_f, 0
+        bvs     f253
 
         b       psr_transfer_passed
 
-t253f:
+f253:
         failed  253
 
 psr_transfer_passed:

@@ -2,94 +2,93 @@ flags:
         ; Tests for flags
 
 t100:
-        ; Zero
+        ; Zero flag
         movs    r0, 0
-        bne     t100f
+        bne     f100
 
         movs    r0, 1
-        beq     t100f
+        beq     f100
 
         b       t101
 
-t100f:
+f100:
         failed  100
 
 t101:
-        ; Negative
+        ; Negative flag
         movs    r0, 0
-        bmi     t101f
+        bmi     f101
 
         movs    r0, 1 shl 31
-        bpl     t101f
+        bpl     f101
 
         b       t102
 
-t101f:
+f101:
         failed  101
 
 t102:
-        ; Carry addition
+        ; Carry flag addition
         mvn     r0, 0
         adds    r0, 1
-        bcc     t102f
+        bcc     f102
 
         mov     r0, 0
         adds    r0, 1
-        bcs     t102f
+        bcs     f102
 
         b       t103
 
-t102f:
+f102:
         failed  102
 
 t103:
-        ; Carry subtraction
+        ; Carry flag subtraction
         mov     r0, 2
         subs    r0, 3
-        bcs     t103f
+        bcs     f103
 
         mov     r0, 2
         subs    r0, 2
-        bcc     t103f
+        bcc     f103
 
         mov     r0, 2
         subs    r0, 1
-        bcc     t103f
+        bcc     f103
 
         b       t104
 
-t103f:
+f103:
         failed  103
 
 t104:
-        ; Overflow addition
-        mov     r0, 1 shl 31
-        sub     r0, 1
-
+        ; Overflow flag addition
+        immw    r0, 0x7FFFFFFF
         adds    r0, 1
-        bvc     t104f
+        bvc     f104
 
+        mov     r0, 0
         adds    r0, 1
-        bvs     t104f
+        bvs     f104
 
         b       t105
 
-t104f:
+f104:
         failed  104
 
 t105:
-        ; Overflow subtraction
+        ; Overflow flag subtraction
         mov     r0, 1 shl 31
-
         subs    r0, 1
-        bvc     t105f
+        bvc     f105
 
+        mov     r0, 1
         subs    r0, 1
-        bcc     t105f
+        bcc     f105
 
         b       flags_passed
 
-t105f:
+f105:
         failed  105
 
 flags_passed:

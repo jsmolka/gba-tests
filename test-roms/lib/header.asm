@@ -1,8 +1,7 @@
-; GBA header
-
 gba_header:
         ; Branch to 0x080000C0 (4 bytes)
-        db      0x2E,0x00,0x00,0xEA
+        dw      0xEA00002E
+
         ; Nintendo logo (156 bytes)
         db      0x24,0xFF,0xAE,0x51,0x69,0x9A,0xA2,0x21,0x3D,0x84
         db      0x82,0x0A,0x84,0xE4,0x09,0xAD,0x11,0x24,0x8B,0x98
@@ -20,24 +19,14 @@ gba_header:
         db      0x90,0xCB,0x88,0x11,0x3A,0x94,0x65,0xC0,0x7C,0x63
         db      0x87,0xF0,0x3C,0xAF,0xD6,0x25,0xE4,0x8B,0x38,0x0A
         db      0xAC,0x72,0x21,0xD4,0xF8,0x07
-        ; Game title (12 bytes)
-        db      'egg-vance'
-        db      0x00,0x00,0x00
-        ; Game code (4 bytes)
-        db      '1337'
-        ; Maker code (2 bytes)
-        db      'JS'
-        ; Fixed (1 byte)
-        db      0x96
-        ; Unit code (1 byte)
-        db      0x00
-        ; Device type (1 byte)
-        db      0x80
-        ; Unused (7 bytes)
-        db      0x00,0x00,0x00,0x00,0x00,0x00,0x00
-        ; Game version (1 byte)
-        db      0x00
-        ; Complement (1 byte)
-        db      0xF9
-        ; Reserved (2 bytes)
-        db      0x00,0x00
+
+        db      'egg-vance',0,0,0  ; Game title (12 bytes)
+        db      '1337'             ; Game code (4 bytes)
+        db      'JS'               ; Make code (2 bytes)
+        db      0x96               ; Fixed (1 byte)
+        db      0x00               ; Unit code (1 byte)
+        db      0x80               ; Device type (1 byte)
+        db      0,0,0,0,0,0,0      ; Unused (7 bytes)
+        db      0x00               ; Game version (1 byte)
+        db      0xF9               ; Complement (1 byte)
+        db      0,0                ; Reserved (2 bytes)

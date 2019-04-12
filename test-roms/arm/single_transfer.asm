@@ -1,7 +1,7 @@
 single_transfer:
         ; Tests for single data transfer operations
-        ; Todo: Test store PC + 4 with real GBA
-        mov     r11, WRAM
+        ; Todo: Test store PC + 4 on real GBA
+        mov     r11, IWRAM
 
 t350:
         ; ARM 7: Load / store word
@@ -9,12 +9,12 @@ t350:
         str     r0, [r11]
         ldr     r1, [r11]
         cmp     r1, r0
-        bne     t350f
+        bne     f350
 
         add     r11, 32
         b       t351
 
-t350f:
+f350:
         failed  350
 
 t351:
@@ -23,12 +23,12 @@ t351:
         strb    r0, [r11]
         ldr     r1, [r11]
         cmp     r1, 0xFF
-        bne     t351f
+        bne     f351
 
         add     r11, 32
         b       t352
 
-t351f:
+f351:
         failed  351
 
 t352:
@@ -37,12 +37,12 @@ t352:
         str     r0, [r11]
         ldrb    r1, [r11]
         cmp     r1, 0xFF
-        bne     t352f
+        bne     f352
 
         add     r11, 32
         b       t353
 
-t352f:
+f352:
         failed  352
 
 t353:
@@ -53,14 +53,14 @@ t353:
         str     r0, [r2], 4
         ldr     r3, [r2, -r1, lsl 2]!
         cmp     r3, r0
-        bne     t353f
+        bne     f353
         cmp     r2, r11
-        bne     t353f
+        bne     f353
 
         add     r11, 32
         b       t354
 
-t353f:
+f353:
         failed  353
 
 t354:
@@ -69,12 +69,12 @@ t354:
         str     r0, [r11, 3]
         ldr     r1, [r11]
         cmp     r1, r0
-        bne     t354f
+        bne     f354
 
         add     r11, 32
         b       t355
 
-t354f:
+f354:
         failed  354
 
 t355:
@@ -83,12 +83,12 @@ t355:
         str     r0, [r11]
         ldr     r1, [r11, 3]
         cmp     r1, r0, ror 24
-        bne     t355f
+        bne     f355
 
         add     r11, 32
         b       t356
 
-t355f:
+f355:
         failed  355
 
 t356:
@@ -112,12 +112,12 @@ t357:
         lsr     r0, 16
         ldr     r1, [r11]
         cmp     r1, r0
-        bne     t357f
+        bne     f357
 
         add     r11, 32
         b       t358
 
-t357f:
+f357:
         failed  357
 
 t358:
@@ -127,12 +127,12 @@ t358:
         lsr     r0, 16
         ldrh    r1, [r11]
         cmp     r1, r0
-        bne     t358f
+        bne     f358
 
         add     r11, 32
         b       t359
 
-t358f:
+f358:
         failed  358
 
 t359:
@@ -141,12 +141,12 @@ t359:
         strh    r0, [r11]
         ldrsh   r1, [r11]
         cmp     r1, r0
-        bne     t359f
+        bne     f359
 
         add     r11, 32
         b       t360
 
-t359f:
+f359:
         failed  359
 
 t360:
@@ -156,12 +156,12 @@ t360:
         mvn     r0, 0xFF
         ldrsh   r1, [r11]
         cmp     r1, r0
-        bne     t360f
+        bne     f360
 
         add     r11, 32
         b       t361
 
-t360f:
+f360:
         failed  360
 
 t361:
@@ -170,12 +170,12 @@ t361:
         strb    r0, [r11]
         ldrsb   r1, [r11]
         cmp     r1, r0
-        bne     t361f
+        bne     f361
 
         add     r11, 32
         b       t362
 
-t361f:
+f361:
         failed  361
 
 t362:
@@ -185,12 +185,12 @@ t362:
         mvn     r0, 0
         ldrsb   r1, [r11]
         cmp     r1, r0
-        bne     t362f
+        bne     f362
 
         add     r11, 32
         b       t363
 
-t362f:
+f362:
         failed  362
 
 t363:
@@ -201,14 +201,14 @@ t363:
         strh    r0, [r2], 4
         ldrh    r3, [r2, -r1]!
         cmp     r3, r0
-        bne     t363f
+        bne     f363
         cmp     r2, r11
-        bne     t363f
+        bne     f363
 
         add     r11, 32
         b       t364
 
-t363f:
+f363:
         failed  363
 
 t364:
@@ -217,12 +217,12 @@ t364:
         strh    r0, [r11, 1]
         ldrh    r1, [r11]
         cmp     r1, r0
-        bne     t364f
+        bne     f364
 
         add     r11, 32
         b       t365
 
-t364f:
+f364:
         failed  364
 
 t365:
@@ -231,12 +231,12 @@ t365:
         strh    r0, [r11]
         ldrh    r1, [r11, 1]
         cmp     r1, r0, ror 8
-        bne     t365f
+        bne     f365
 
         add     r11, 32
         b       t366
 
-t365f:
+f365:
         failed  365
 
 t366:
@@ -246,12 +246,12 @@ t366:
         mvn     r0, 0
         ldrsh   r1, [r11, 1]
         cmp     r1, r0
-        bne     t366f
+        bne     f366
 
         add     r11, 32
         b       t367
 
-t366f:
+f366:
         failed  366
 
 t367:
@@ -260,15 +260,15 @@ t367:
         str     r0, [r11]
         swp     r1, r0, [r11]
         cmp     r1, r0
-        bne     t367f
+        bne     f367
         ldr     r1, [r11]
         cmp     r1, r0
-        bne     t367f
+        bne     f367
 
         add     r11, 32
         b       t368
 
-t367f:
+f367:
         failed  367
 
 t368:
@@ -277,15 +277,15 @@ t368:
         str     r0, [r11]
         swpb    r1, r0, [r11]
         cmp     r1, 0xFF
-        bne     t368f
+        bne     f368
         ldr     r1, [r11]
         cmp     r1, r0
-        bne     t368f
+        bne     f368
 
         add     r11, 32
         b       t369
 
-t368f:
+f368:
         failed  368
 
 t369:
@@ -296,15 +296,15 @@ t369:
         add     r2, r11, 1
         swp     r3, r0, [r2]
         cmp     r3, r1, ror 8
-        bne     t369f
+        bne     f369
         ldr     r3, [r11]
         cmp     r3, r0
-        bne     t369f
+        bne     f369
 
         add     r11, 32
         b       t370
 
-t369f:
+f369:
         failed  369
 
 t370:
@@ -314,14 +314,14 @@ t370:
         mov     r0, 64
         swp     r0, r0, [r11]
         cmp     r0, 32
-        bne     t370f
+        bne     f370
         ldr     r0, [r11]
         cmp     r0, 64
-        bne     t370f
+        bne     f370
 
         b       single_transfer_passed
 
-t370f:
+f370:
         failed  370
 
 single_transfer_passed:

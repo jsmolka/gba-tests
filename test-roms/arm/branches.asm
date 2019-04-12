@@ -1,47 +1,53 @@
 branches:
         ; Tests for branch operations
 
-t50:
-        ; ARM 1: bx{cond} rn
+t050:
+        ; ARM 1: Branch with exchange
         mov     r12, 50
-        adr     r0, t51 + 1
+        adr     r0, t051 + 1
         bx      r0
 
 code16
 align 2
-t51:
+t051:
+        ; THUMB 5: Branch with exchange
         mov     r0, 51
         mov     r12, r0
-        adr     r0, t52
+        adr     r0, t052
         bx      r0
 
 code32
 align 4
-t52:
+t052:
+        ; ARM 1: Branch without exchange
         mov     r12, 52
-        adr     r0, t53
+        adr     r0, t053
         bx      r0
 
-t53:
-        ; ARM 2: b{l}{cond} imm24 << 2
+t053:
+        ; ARM 2: Branch forward
         mov     r12, 53
-        b       t54
+        b       t054
 
-t55:
+t055:
+        ; ARM 2: Branch forward
         mov     r12, 55
-        b       t56
+        b       t056
 
-t54:
+t054:
+        ; ARM 2: Branch backward
         mov     r12, 54
-        b       t55
+        b       t055
 
-t57:
+t057:
+        ; ARM 2: Test link
         mov     r12, 57
         mov     pc, lr
 
-t56:
+t056:
+        ; ARM 2: Branch with link
         mov     r12, 56
-        bl      t57
+        bl      t057
 
 branches_passed:
         mov     r12, 0

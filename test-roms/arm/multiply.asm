@@ -1,17 +1,17 @@
 multiply:
-        ; Tests for the multiply instructions
+        ; Tests for multiply operations
 
 t300:
-        ; ARM 5: mul{cond}{s} rd, rm, rs
+        ; ARM 5: Multiply
         mov     r0, 4
         mov     r1, 8
         mul     r0, r1, r0
         cmp     r0, 32
-        bne     t300f
+        bne     f300
 
         b       t301
 
-t300f:
+f300:
         failed  300
 
 t301:
@@ -19,11 +19,11 @@ t301:
         mov     r1, -8
         mul     r0, r1, r0
         cmp     r0, 32
-        bne     t301f
+        bne     f301
 
         b       t302
 
-t301f:
+f301:
         failed  301
 
 t302:
@@ -31,15 +31,15 @@ t302:
         mov     r1, -8
         mul     r0, r1, r0
         cmp     r0, -32
-        bne     t302f
+        bne     f302
 
         b       t303
 
-t302f:
+f302:
         failed  302
 
 t303:
-        ; ARM 5: mla{cond}{s} rd, rm, rs, rn
+        ; ARM 5: Multiply accumulate
         mov     r0, 4
         mov     r1, 8
         mov     r2, 8
@@ -58,26 +58,26 @@ t304:
         mov     r2, -8
         mla     r0, r1, r0, r2
         cmp     r0, 24
-        bne     t304f
+        bne     f304
 
         b       t305
 
-t304f:
+f304:
         failed  304
 
 t305:
-        ; ARM 6: umull{cond}{s} rdlo, rdhi, rm, rs
+        ; ARM 6: Unsigned multiply long
         mov     r0, 4
         mov     r1, 8
         umull   r2, r3, r0, r1
         cmp     r2, 32
-        bne     t305f
+        bne     f305
         cmp     r3, 0
-        bne     t305f
+        bne     f305
 
         b       t306
 
-t305f:
+f305:
         failed  305
 
 t306:
@@ -85,13 +85,13 @@ t306:
         mov     r1, -1
         umull   r2, r3, r0, r1
         cmp     r2, 1
-        bne     t306f
+        bne     f306
         cmp     r3, -2
-        bne     t306f
+        bne     f306
 
         b       t307
 
-t306f:
+f306:
         failed  306
 
 t307:
@@ -99,30 +99,30 @@ t307:
         mov     r1, -1
         umull   r2, r3, r0, r1
         cmp     r2, -2
-        bne     t307f
+        bne     f307
         cmp     r3, 1
-        bne     t307f
+        bne     f307
 
         b       t308
 
-t307f:
+f307:
         failed  307
 
 t308:
-        ; ARM 6: umlal{cond}{s} rdlo, rdhi, rm, rs
+        ; ARM 6: Unsigned multiply long accumulate
         mov     r0, 4
         mov     r1, 8
         mov     r2, 8
         mov     r3, 4
         umlal   r2, r3, r0, r1
         cmp     r2, 40
-        bne     t308f
+        bne     f308
         cmp     r3, 4
-        bne     t308f
+        bne     f308
 
         b       t309
 
-t308f:
+f308:
         failed  308
 
 t309:
@@ -132,29 +132,29 @@ t309:
         mov     r3, 1
         umlal   r2, r3, r0, r1
         cmp     r2, -1
-        bne     t309f
+        bne     f309
         cmp     r3, -1
-        bne     t309f
+        bne     f309
 
 
         b       t310
 
-t309f:
+f309:
         failed  309
 
 t310:
-        ; ARM 6: smull{cond}{s} rdlo, rdhi, rm, rs
+        ; ARM 6: Signed multiply long
         mov     r0, 4
         mov     r1, 8
         smull   r2, r3, r0, r1
         cmp     r2, 32
-        bne     t310f
+        bne     f310
         cmp     r3, 0
-        bne     t310f
+        bne     f310
 
         b       t311
 
-t310f:
+f310:
         failed  310
 
 t311:
@@ -162,13 +162,13 @@ t311:
         mov     r1, -8
         smull   r2, r3, r0, r1
         cmp     r2, 32
-        bne     t311f
+        bne     f311
         cmp     r3, 0
-        bne     t311f
+        bne     f311
 
         b       t312
 
-t311f:
+f311:
         failed  311
 
 t312:
@@ -176,30 +176,30 @@ t312:
         mov     r1, -8
         smull   r2, r3, r0, r1
         cmp     r2, -32
-        bne     t312f
+        bne     f312
         cmp     r3, -1
-        bne     t312f
+        bne     f312
 
         b       t313
 
-t312f:
+f312:
         failed  312
 
 t313:
-        ; ARM 6: smlal{cond}{s} rdlo, rdhi, rm, rs
+        ; ARM 6: Signed multiply long accumulate
         mov     r0, 4
         mov     r1, 8
         mov     r2, 8
         mov     r3, 4
         smlal   r2, r3, r0, r1
         cmp     r2, 40
-        bne     t313f
+        bne     f313
         cmp     r3, 4
-        bne     t313f
+        bne     f313
 
         b       t314
 
-t313f:
+f313:
         failed  313
 
 t314:
@@ -209,29 +209,30 @@ t314:
         mov     r3, 0
         smlal   r2, r3, r0, r1
         cmp     r2, 0
-        bne     t314f
+        bne     f314
         cmp     r3, 0
-        bne     t314f
+        bne     f314
 
         b       t315
 
-t314f:
+f314:
         failed  314
 
 t315:
-        ; ARM 6: Negative
+        ; ARM 6: Negative flag
+        mov     r0, 2
+        mov     r1, 1
+        umulls  r2, r3, r0, r1
+        bmi     f315
+
         mov     r0, 2
         mov     r1, -1
-
-        umulls  r2, r3, r0, r1
-        bmi     t315f
-
         smulls  r2, r3, r0, r1
-        bpl     t315f
+        bpl     f315
 
         b       multiply_passed
 
-t315f:
+f315:
         failed  315
 
 multiply_passed:
