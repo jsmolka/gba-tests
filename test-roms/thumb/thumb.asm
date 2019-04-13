@@ -1,7 +1,5 @@
 format binary as 'gba'
 
-include '../lib/thumb.inc'
-
 macro failed test {
         mov     r7, test
         bl      loop
@@ -28,11 +26,6 @@ main_thumb:
         lsl     r0, 8
         mov     r1, 4
         lsl     r1, 24
-        strh    r0, [r1]
-
-        ; Setup BG0CNT
-        mov     r0, 0
-        add     r1, 8
         strh    r0, [r1]
 
         ; Reset test register

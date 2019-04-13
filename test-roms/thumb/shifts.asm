@@ -1,153 +1,150 @@
 shifts:
         ; Tests for shift operations
 
-t50:
+t050:
         ; THUMB 1: lsl rd, rs, imm5
         mov     r0, 1
         lsl     r0, 6
         cmp     r0, 64
-        bne     t50f
+        bne     f050
 
-        b       t51
+        b       t051
 
-t50f:
+f050:
         failed  50
 
-t51:
+t051:
         ; THUMB 4: lsl rd, rs
         mov     r0, 1
         mov     r1, 6
         lsl     r0, r1
         cmp     r0, 64
-        bne     t51f
+        bne     f051
 
-        b       t52
+        b       t052
 
-t51f:
+f051:
         failed  51
 
-t52:
+t052:
         ; Logical shift left carry
-        mov     r0, 0
-        lsl     r0, 1
-        bcs     t52f
+        mov     r0, 1
+        lsl     r0, 31
+        bcs     f052
 
         mov     r0, 2
         lsl     r0, 31
-        bcc     t52f
+        bcc     f052
 
-        b       t53
+        b       t053
 
-t52f:
+f052:
         failed  52
 
-t53:
+t053:
         ; THUMB 4: Logical shift left by 32
         mov     r0, 1
         mov     r1, 32
-
         lsl     r0, r1
-        bcc     t53f
-        bne     t53f
+        bcc     f053
+        bne     f053
 
-        b       t54
+        b       t054
 
-t53f:
+f053:
         failed  53
 
-t54:
+t054:
         ; THUMB 4: Logical shift left by greater 32
         mov     r0, 1
         mov     r1, 33
-
         lsl     r0, r1
-        bne     t54f
-        bcs     t54f
+        bne     f054
+        bcs     f054
 
-        b       t55
+        b       t055
 
-t54f:
+f054:
         failed  54
 
-t55:
+t055:
         ; THUMB 1: lsr rd, rs, imm5
         mov     r0, 64
         lsr     r0, 6
         cmp     r0, 1
-        bne     t55f
+        bne     f055
 
-        b       t56
+        b       t056
 
-t55f:
+f055:
         failed  55
 
-t56:
+t056:
         ; THUMB 4: lsr rd, rs
         mov     r0, 64
         mov     r1, 6
         lsr     r0, r1
         cmp     r0, 1
-        bne     t56f
+        bne     f056
 
-        b       t57
+        b       t057
 
-t56f:
+f056:
         failed  56
 
-t57:
+t057:
         ; Logical shift right carry
         mov     r0, 2
         lsr     r0, 1
-        bcs     t57f
+        bcs     f057
 
         mov     r0, 1
         lsr     r0, 1
-        bcc     t57f
+        bcc     f057
 
-        b       t58
+        b       t058
 
-t57f:
+f057:
         failed  57
 
-t58:
+t058:
         ; THUMB 1: Logical shift right special
         mov     r0, 1
         lsr     r0, 32
-        bne     t58f
-        bcs     t58f
+        bne     f058
+        bcs     f058
 
         mov     r0, 1
         lsl     r0, 31
         lsr     r0, 32
-        bne     t58f
-        bcc     t58f
+        bne     f058
+        bcc     f058
 
-        b       t59
+        b       t059
 
-t58f:
+f058:
         failed  58
 
-t59:
+t059:
         ; THUMB 4: Logical shift right by greater 32
         mov     r0, 1
         lsl     r0, 31
         mov     r1, 33
-
         lsr     r0, r1
-        bne     t59f
-        bcs     t59f
+        bne     f059
+        bcs     f059
 
-        b       t60
+        b       t060
 
-t59f:
+f059:
         failed  59
 
-t60:
+t060:
         ; THUMB 1: asr rd, rs, imm5
         mov     r0, 64
         asr     r0, 6
         cmp     r0, 1
-        bne     t60f
+        bne     f060
 
         mov     r0, 1
         lsl     r0, 31
@@ -155,20 +152,20 @@ t60:
         mov     r1, 0
         mvn     r1, r1
         cmp     r1, r0
-        bne     t60f
+        bne     f060
 
-        b       t61
+        b       t061
 
-t60f:
+f060:
         failed  60
 
-t61:
+t061:
         ; THUMB 4: asr rd, rs
         mov     r0, 64
         mov     r1, 6
         asr     r0, r1
         cmp     r0, 1
-        bne     t61f
+        bne     f061
 
         mov     r0, 1
         lsl     r0, 31
@@ -177,131 +174,125 @@ t61:
         mov     r1, 0
         mvn     r1, r1
         cmp     r1, r0
-        bne     t61f
+        bne     f061
 
-        b       t62
+        b       t062
 
-t61f:
+f061:
         failed  61
 
-t62:
+t062:
         ; Arithmetic shift right carry
         mov     r0, 2
         asr     r0, 1
-        bcs     t62f
+        bcs     f062
 
         mov     r0, 1
         asr     r0, 1
-        bcc     t62f
+        bcc     f062
 
-        b       t63
+        b       t063
 
-t62f:
+f062:
         failed  62
 
-t63:
+t063:
         ; THUMB 1: Arithmetic shift right special
         mov     r0, 1
         asr     r0, 32
-        bne     t63f
-        bcs     t63f
+        bne     f063
+        bcs     f063
 
         mov     r0, 1
         lsl     r0, 31
         asr     r0, 32
-        bcc     t63f
-
+        bcc     f063
         mov     r1, 0
         mvn     r1, r1
         cmp     r1, r0
-        bne     t63f
+        bne     f063
 
-        b       t64
+        b       t064
 
-t63f:
+f063:
         failed  63
 
-t64:
+t064:
         ; THUMB 4: ror rd, rs
         mov     r0, 1
         mov     r1, 1
         ror     r0, r1
         lsl     r1, 31
         cmp     r1, r0
-        bne     t64f
+        bne     f064
 
-        b       t66
+        b       t065
 
-t64f:
+f064:
         failed  64
 
-t65:
+t065:
         ; Rotate right carry
         mov     r0, 2
         mov     r1, 1
         ror     r0, r1
-        bcs     t65f
+        bcs     f065
 
         mov     r0, 1
         mov     r1, 1
         ror     r0, r1
-        bcc     t65f
+        bcc     f065
 
-        b       t66
+        b       t066
 
-t65f:
+f065:
         failed  65
 
-t66:
+t066:
         ; THUMB 4: Rotate right by 32
         mov     r0, 1
         lsl     r0, 31
         mov     r1, r0
         mov     r2, 32
-
         ror     r0, r2
-        bcc     t66f
-
+        bcc     f066
         cmp     r0, r1
-        bne     t66f
+        bne     f066
 
-        b       t67
+        b       t067
 
-t66f:
+f066:
         failed  66
 
-t67:
+t067:
         ; THUMB 4: Rotate right by greater 32
         mov     r0, 2
         mov     r1, 33
-
         ror     r0, r1
         cmp     r0, 1
-        bne     t67f
+        bne     f067
 
-        b       t68
+        b       t068
 
-t67f:
+f067:
         failed  67
 
-t68:
+t068:
         ; THUMB 4: Shifts by 0
         mov     r0, 1
         mov     r1, 0
         cmp     r0, r0
-
         lsl     r0, r1
         lsr     r0, r1
         asr     r0, r1
         ror     r0, r1
-        bcc     t68f
-
+        bcc     f068
         cmp     r0, 1
-        bne     t68f
+        bne     f068
 
         b       shifts_passed
 
-t68f:
+f068:
         failed  68
 
 shifts_passed:

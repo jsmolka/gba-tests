@@ -97,12 +97,12 @@ t356:
         ; str     pc, [r11]
         ; ldr     r1, [r11]
         ; cmp     r1, r0
-        ; bne     t356f
+        ; bne     f356
         ;
         ; add     r11, 32
         b       t357
 
-t356f:
+f356:
         failed  356
 
 t357:

@@ -44,14 +44,14 @@ t159:
         mov     r0, 0
         beq     t160
 
-t159f:
+f159:
         failed  159
 
 t160:
         mov     r0, 1
         bne     t161
 
-t160f:
+f160:
         failed  160
 
 t161:
@@ -59,7 +59,7 @@ t161:
         cmp     r0, r0
         bcs     t162
 
-t161f:
+f161:
         failed  161
 
 t162:
@@ -67,7 +67,7 @@ t162:
         cmn     r0, r0
         bcc     t163
 
-t162f:
+f162:
         failed  162
 
 t163:
@@ -75,14 +75,14 @@ t163:
         mvn     r0, r0
         bmi     t164
 
-t163f:
+f163:
         failed  163
 
 t164:
         mov     r0, 0
         bpl     t165
 
-t164f:
+f164:
         failed  164
 
 t165:
@@ -91,7 +91,7 @@ t165:
         sub     r0, 1
         bvs     t166
 
-t165f:
+f165:
         failed  165
 
 t166:
@@ -101,7 +101,7 @@ t166:
         cmp     r0, r0
         bvc     t167
 
-t166f:
+f166:
         failed  166
 
 t167:

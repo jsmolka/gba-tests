@@ -1,204 +1,162 @@
 logical:
         ; Tests for logical operations
 
-t1:
-        ; Zero
+t001:
+        ; Zero flag
         mov     r0, 0
-        bne     t1f
+        bne     f001
 
         mov     r0, 1
-        beq     t1f
+        beq     f001
 
-        b       t2
+        b       t002
 
-t1f:
+f001:
         failed  1
 
-t2:
-        ; Negative
+t002:
+        ; Negative flag
         mov     r0, 0
-        bmi     t2f
+        bmi     f002
 
         mov     r0, 1
         lsl     r0, 31
         mov     r0, r0
-        bpl     t2f
+        bpl     f002
 
-        b       t3
+        b       t003
 
-t2f:
+f002:
         failed  2
 
-t3:
+t003:
         ; THUMB 3: mov rd, imm8
         mov     r0, 32
         cmp     r0, 32
-        bne     t3f
+        bne     f003
 
-        mov     r0, 255
-        cmp     r0, 255
-        bne     t3f
+        b       t004
 
-        b       t4
-
-t3f:
+f003:
         failed  3
 
-t4:
+t004:
         ; THUMB 2: mov rd, rs
         mov     r0, 32
         mov     r1, r0
         cmp     r1, r0
-        bne     t4f
+        bne     f004
 
-        mov     r0, 255
-        mov     r1, r0
-        cmp     r1, r0
-        bne     t4f
+        b       t005
 
-        b       t5
-
-t4f:
+f004:
         failed  4
 
-t5:
+t005:
         ; THUMB 5: mov rd, rs (high registers)
-        mov     r0, 1
+        mov     r0, 32
         mov     r8, r0
         mov     r9, r8
         mov     r0, r9
-        cmp     r0, 1
-        bne     t5f
+        cmp     r0, 32
+        bne     f005
 
-        b       t6
+        b       t006
 
-t5f:
+f005:
         failed  5
 
-t6:
+t006:
         ; THUMB 4: mvn rd, rs
         mov     r0, 0
-        sub     r1, r0, 1
+        mvn     r0, r0
+        add     r0, 1
+        bne     f006
 
-        mvn     r2, r0
-        cmp     r2, r1
-        bne     t6f
+        b       t007
 
-        mvn     r2, r1
-        cmp     r2, r0
-        bne     t6f
-
-        b       t7
-
-t6f:
+f006:
         failed  6
 
-t7:
+t007:
         ; THUMB 4: and rd, rs
         mov     r0, 0xFF
         mov     r1, 0xF
         and     r0, r1
         cmp     r0, r1
-        bne     t7f
+        bne     f007
 
-        mov     r0, 0xFF
-        mov     r1, 0
-        and     r0, r1
-        cmp     r0, r1
-        bne     t7f
+        b       t008
 
-        b       t8
-
-t7f:
+f007:
         failed  7
 
-t8:
+t008:
         ; THUMB 4: tst rd, rs
-        mov     r0, 0
-        tst     r0, r0
-        bne     t8f
-        bmi     t8f
+        mov     r0, 0xF0
+        mov     r1, 0xF
+        tst     r0, r1
+        bne     f008
 
-        mov     r0, 0
-        mvn     r0, r0
-        tst     r0, r0
-        beq     t8f
-        bpl     t8f
+        b       t009
 
-        b       t9
-
-t8f:
+f008:
         failed  8
 
-t9:
+t009:
         ; THUMB 4: bic rd, rs
         mov     r0, 0xFF
         mov     r1, 0xF0
         bic     r0, r1
         cmp     r0, 0xF
-        bne     t9f
+        bne     f009
 
-        bic     r0, r0
-        bne     t9f
+        b       t010
 
-        b       t10
-
-t9f:
+f009:
         failed  9
 
-t10:
+t010:
         ; THUMB 4: orr rd, rs
         mov     r0, 0xF0
         mov     r1, 0x0F
         orr     r0, r1
         cmp     r0, 0xFF
-        bne     t10f
+        bne     f010
 
-        mov     r0, 0xFF
-        mov     r1, 0xF0
-        orr     r0, r1
-        cmp     r0, 0xFF
-        bne     t10f
+        b       t011
 
-        b       t11
-
-t10f:
+f010:
         failed  10
 
-t11:
+t011:
         ; THUMB 4: eor rd, rs
-        mov     r0, 0xF0
+        mov     r0, 0xFF
         mov     r1, 0x0F
         eor     r0, r1
-        cmp     r0, 0xFF
-        bne     t11f
+        cmp     r0, 0xF0
+        bne     f011
 
-        mov     r0, 0xFF
-        mov     r1, 0xF0
-        eor     r0, r1
-        cmp     r0, 0xF
-        bne     t11f
+        b       t012
 
-        b       t12
-
-t11f:
+f011:
         failed  11
 
-t12:
+t012:
         ; THUMB 5: Write to PC
-        adr     r0, t13
+        adr     r0, t013
         mov     pc, r0
 
-t12f:
+f012:
         failed  12
 
-t13:
+t013:
         ; THUMB 5: PC alignment
         adr     r0, logical_passed
         add     r0, 1
         mov     pc, r0
 
-t13f:
+f013:
         failed  13
 
 logical_passed:

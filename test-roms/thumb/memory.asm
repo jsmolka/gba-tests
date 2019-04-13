@@ -10,14 +10,14 @@ t200:
         mvn     r0, r0
         ldr     r1, [pc, 8]
         cmp     r1, r0
-        bne     t200f
+        bne     f200
 
         b       t201
 
 align 4
-        db      255, 255, 255, 255
+        dw      0xFFFFFFFF
 
-t200f:
+f200:
         failed  200
 
 t201:
@@ -25,16 +25,15 @@ t201:
         mov     r0, 0
         mvn     r0, r0
         mov     r1, 4
-
         str     r0, [r6, r1]
         ldr     r2, [r6, r1]
         cmp     r2, r0
-        bne     t201f
+        bne     f201
 
-        add     r6, 16
+        add     r6, 32
         b       t202
 
-t201f:
+f201:
         failed  201
 
 t202:
@@ -42,16 +41,15 @@ t202:
         mov     r0, 0
         mvn     r0, r0
         mov     r1, 4
-
         strb    r0, [r6, r1]
         ldr     r2, [r6, r1]
         cmp     r2, 0xFF
-        bne     t202f
+        bne     f202
 
-        add     r6, 16
+        add     r6, 32
         b       t203
 
-t202f:
+f202:
         failed  202
 
 t203:
@@ -59,16 +57,15 @@ t203:
         mov     r0, 0
         mvn     r0, r0
         mov     r1, 4
-
         str     r0, [r6, r1]
         ldrb    r2, [r6, r1]
         cmp     r2, 0xFF
-        bne     t203f
+        bne     f203
 
-        add     r6, 16
+        add     r6, 32
         b       t204
 
-t203f:
+f203:
         failed  203
 
 t204:
@@ -77,16 +74,15 @@ t204:
         mvn     r0, r0
         lsr     r1, r0, 16
         mov     r2, 4
-
         strh    r0, [r6, r2]
         ldr     r3, [r6, r2]
         cmp     r3, r1
-        bne     t204f
+        bne     f204
 
-        add     r6, 16
+        add     r6, 32
         b       t205
 
-t204f:
+f204:
         failed  204
 
 t205:
@@ -95,32 +91,30 @@ t205:
         mvn     r0, r0
         lsr     r1, r0, 16
         mov     r2, 4
-
         str     r0, [r6, r2]
         ldrh    r3, [r6, r2]
         cmp     r3, r1
-        bne     t205f
+        bne     f205
 
-        add     r6, 16
+        add     r6, 32
         b       t206
 
-t205f:
+f205:
         failed  205
 
 t206:
         ; THUMB 8: ldrsb rd, [rb, ro]
-        mov     r0, 0x0F
+        mov     r0, 0x7F
         mov     r1, 4
-
         str     r0, [r6, r1]
         ldrsb   r2, [r6, r1]
         cmp     r2, r0
-        bne     t206f
+        bne     f206
 
-        add     r6, 16
+        add     r6, 32
         b       t207
 
-t206f:
+f206:
         failed  206
 
 t207:
@@ -128,16 +122,15 @@ t207:
         mov     r1, 0
         mvn     r1, r1
         mov     r2, 4
-
         str     r0, [r6, r2]
         ldrsb   r3, [r6, r2]
         cmp     r3, r1
-        bne     t207f
+        bne     f207
 
-        add     r6, 16
+        add     r6, 32
         b       t208
 
-t207f:
+f207:
         failed  207
 
 t208:
@@ -145,83 +138,78 @@ t208:
         mov     r0, 0xFF
         lsl     r0, 4
         mov     r1, 4
-
         str     r0, [r6, r1]
         ldrsh   r2, [r6, r1]
         cmp     r2, r0
-        bne     t208f
+        bne     f208
 
-        add     r6, 16
+        add     r6, 32
         b       t209
 
-t208f:
+f208:
         failed  208
 
 t209:
         mov     r0, 0xFF
         lsl     r0, 8
         mov     r1, 4
-
         str     r0, [r6, r1]
         ldrsh   r2, [r6, r1]
         mov     r3, 1
         lsl     r3, 31
         asr     r3, 23
         cmp     r3, r2
-        bne     t209f
+        bne     f209
 
-        add     r6, 16
+        add     r6, 32
         b       t210
 
-t209f:
+f209:
         failed  209
 
 t210:
         ; THUMB 9: <ldr|str> rd, [rb, imm5 << 2]
         mov     r0, 0
         mvn     r0, r0
-
         str     r0, [r6, 4]
         ldr     r1, [r6, 4]
         cmp     r1, r0
-        bne     t210f
+        bne     f210
 
-        add     r6, 16
+        add     r6, 32
         b       t211
 
-t210f:
+f210:
         failed  210
 
 t211:
         ; THUMB 9: strb rd, [rb, imm5]
         mov     r0, 0
         mvn     r0, r0
-
         strb    r0, [r6, 4]
         ldr     r1, [r6, 4]
         cmp     r1, 0xFF
-        bne     t211f
+        bne     f211
 
-        add     r6, 16
+        add     r6, 32
         b       t212
 
-t211f:
+f211:
         failed  211
 
 t212:
         ; THUMB 9: ldrb rd, [rb, imm5]
         mov     r0, 0
         mvn     r0, r0
-
         str     r0, [r6, 4]
         ldrb    r1, [r6, 4]
         cmp     r1, 0xFF
-        bne     t212f
+        bne     f212
 
-        add     r6, 16
+        add     r6, 32
         b       t213
 
-t212f:
+f212:
         failed  212
 
 t213:
@@ -229,16 +217,15 @@ t213:
         mov     r0, 0
         mvn     r0, r0
         lsr     r1, r0, 16
-
         strh    r0, [r6, 4]
         ldr     r2, [r6, 4]
         cmp     r2, r1
-        bne     t213f
+        bne     f213
 
-        add     r6, 16
+        add     r6, 32
         b       t214
 
-t213f:
+f213:
         failed  213
 
 t214:
@@ -246,16 +233,15 @@ t214:
         mov     r0, 0
         mvn     r0, r0
         lsr     r1, r0, 16
-
         str     r0, [r6, 4]
         ldrh    r2, [r6, 4]
         cmp     r2, r1
-        bne     t214f
+        bne     f214
 
-        add     r6, 16
+        add     r6, 32
         b       t215
 
-t214f:
+f214:
         failed  214
 
 t215:
@@ -265,29 +251,28 @@ t215:
         str     r0, [sp, 4]
         ldr     r1, [sp, 4]
         cmp     r1, r0
-        bne     t215f
+        bne     f215
 
-        add     r6, 16
+        add     r6, 32
         b       t216
 
-t215f:
+f215:
         failed  215
 
 t216:
         ; THUMB 14: <push|pop> {rlist}
-        mov     r0, 1
-        mov     r1, 2
-
+        mov     r0, 32
+        mov     r1, 64
         push    {r0, r1}
         pop     {r2, r3}
         cmp     r0, r2
-        bne     t216f
+        bne     f216
         cmp     r1, r3
-        bne     t216f
+        bne     f216
 
         b       t217
 
-t216f:
+f216:
         failed  216
 
 t217:
@@ -295,7 +280,6 @@ t217:
         adr     r0, t218
         mov     r0, r0
         mov     lr, r0
-
         push    {r1, lr}
         pop     {r1, pc}
 
@@ -307,7 +291,6 @@ t218:
         adr     r0, t219
         add     r0, 1
         mov     lr, r0
-
         push    {r1, lr}
         pop     {r1, pc}
 
@@ -319,189 +302,178 @@ t219:
         mov     r0, 1
         mov     r1, 2
         mov     r3, r6
-
         stmia   r3!, {r0, r1}
         sub     r3, 8
         cmp     r3, r6
-        bne     t219f
-
+        bne     f219
         ldmia   r3!, {r2, r4}
         sub     r3, 8
         cmp     r3, r6
-        bne     t219f
-
+        bne     f219
         cmp     r0, r2
-        bne     t219f
+        bne     f219
         cmp     r1, r4
-        bne     t219f
+        bne     f219
 
-        add     r6, 16
+        add     r6, 32
         b       t220
 
-t219f:
+f219:
         failed  219
 
 t220:
         ; Store alignment
-        mov     r0, 0xAA
+        mov     r0, 32
         mov     r1, 1
         str     r0, [r6, r1]
         ldr     r1, [r6]
         cmp     r1, r0
-        bne     t220f
-
-        mov     r0, 0xBB
+        bne     f220
+        mov     r0, 64
         mov     r1, 3
         str     r0, [r6, r1]
         ldr     r1, [r6]
         cmp     r1, r0
-        bne     t220f
+        bne     f220
 
-        add     r6, 16
+        add     r6, 32
         b       t221
 
-t220f:
+f220:
         failed  220
 
 t221:
         ; Store half alignment
-        mov     r0, 0xCC
+        mov     r0, 32
         mov     r1, 1
         strh    r0, [r6, r1]
         ldrh    r1, [r6]
         cmp     r1, r0
-        bne     t221f
-
-        mov     r0, 0xDD
+        bne     f221
+        mov     r0, 64
         mov     r1, 3
         strh    r0, [r6, r1]
         ldrh    r1, [r6, 2]
         cmp     r1, r0
-        bne     t221f
+        bne     f221
 
-        add     r6, 16
+        add     r6, 32
         b       t222
 
-t221f:
+f221:
         failed  221
 
 t222:
         ; Misaligned load
-        mov     r0, 0xEE
+        mov     r0, 32
         lsl     r0, 8
         mov     r1, 1
         str     r0, [r6]
         ldr     r1, [r6, r1]
-        cmp     r1, 0xEE
-        bne     t222f
+        cmp     r1, 32
+        bne     f222
 
-        add     r6, 16
+        add     r6, 32
         b       t223
 
-t222f:
+f222:
         failed  222
 
 t223:
         ; Misaligned load half
-        mov     r0, 0xFF
+        mov     r0, 32
         lsl     r0, 8
         mov     r1, 1
         str     r0, [r6]
         ldrh    r1, [r6, r1]
-        cmp     r1, 0xFF
-        bne     t223f
+        cmp     r1, 32
+        bne     f223
 
-        add     r6, 16
+        add     r6, 32
         b       t224
 
-t223f:
+f223:
         failed  223
 
 t224:
         ; Misaligned load half sign extended
-        imm16   r0, 0xFFEE
+        mov     r0, 0xFF
+        lsl     r0, 8
+        add     r0, 0xEE
         mov     r1, 0
         mvn     r1, r1
         mov     r2, 1
         str     r0, [r6]
         ldrsh   r2, [r6, r2]
         cmp     r2, r1
-        bne     t224f
+        bne     f224
 
-        add     r6, 16
+        add     r6, 32
         b       t225
 
-t224f:
+f224:
         failed  224
 
 t225:
         ; THUMB 14: Aligned pop
-        mov     r0, 0xA
-        mov     r1, 0xB
+        mov     r0, 32
+        mov     r1, 64
         push    {r0, r1}
-
         mov     r2, sp
         add     r2, 1
         mov     sp, r2
-
         pop     {r3, r4}
         cmp     r0, r3
-        bne     t225f
+        bne     f225
         cmp     r1, r4
-        bne     t225f
+        bne     f225
 
         sub     r2, 1
         mov     sp, r2
-
         b       t226
 
-t225f:
+f225:
         failed  225
 
 t226:
         ; THUMB 14: Aligned push
-        mov     r0, 0xC
-        mov     r1, 0xD
+        mov     r0, 32
+        mov     r1, 64
         mov     r2, sp
         add     r2, 1
         mov     sp, r2
         push    {r0, r1}
-
         sub     r2, 9
         mov     sp, r2
-
         pop     {r3, r4}
         cmp     r0, r3
-        bne     t226f
+        bne     f226
         cmp     r1, r4
-        bne     t226f
+        bne     f226
 
         b       t227
 
-t226f:
+f226:
         failed  226
 
 t227:
         ; THUMB 15: Aligned load / store multiple
-        mov     r0, 0xE
+        mov     r0, 32
         add     r1, r6, 4
-
         add     r2, r6, 1
         stmia   r2!, {r0}
         cmp     r2, r1
-        bne     t227f
-
+        bne     f227
         add     r2, r6, 1
         ldmia   r2!, {r3}
         cmp     r2, r1
-        bne     t227f
-
+        bne     f227
         cmp     r3, r0
-        bne     t227f
+        bne     f227
 
         b       memory_passed
 
-t227f:
+f227:
         failed  227
 
 memory_passed:
