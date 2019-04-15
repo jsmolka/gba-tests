@@ -295,9 +295,21 @@ t120:
         cmp     r0, 64
         bne     f120
 
-        b       arithmetic_passed
+        b       t121
 
 f120:
         failed  120
+
+t121:
+        ; THUMB 5: Add to PC alignment and flush
+        mov     r0, 3
+        add     pc, r0
+        b       f121
+        b       f121
+
+        b       arithmetic_passed
+
+f121:
+        failed  121
 
 arithmetic_passed:
