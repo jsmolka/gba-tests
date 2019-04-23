@@ -1,6 +1,5 @@
 single_transfer:
         ; Tests for single data transfer operations
-        ; Todo: Test store PC + 4 on real GBA
         mov     r11, IWRAM
 
 t350:
@@ -93,13 +92,13 @@ f355:
 
 t356:
         ; ARM 7: Store PC + 4
-        ; add     r0, pc, 4
-        ; str     pc, [r11]
-        ; ldr     r1, [r11]
-        ; cmp     r1, r0
-        ; bne     f356
-        ;
-        ; add     r11, 32
+        str     pc, [r11]
+        mov     r0, pc
+        ldr     r1, [r11]
+        cmp     r1, r0
+        bne     f356
+
+        add     r11, 32
         b       t357
 
 f356:
