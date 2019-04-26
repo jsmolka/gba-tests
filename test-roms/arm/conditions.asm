@@ -84,7 +84,7 @@ t014:
         failed  14
 
 t015:
-        ; GT - Z clear and (N equals Z)
+        ; GT - Z clear and (N equals V)
         msr     cpsr_f, 0
         bgt     t016
         failed  15

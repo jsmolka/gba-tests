@@ -26,8 +26,8 @@ f201:
 t202:
         ; ARM 3: And
         mov     r0, 0xFF
-        and     r0, 0xF
-        cmp     r0, 0xF
+        and     r0, 0x0F
+        cmp     r0, 0x0F
         bne     f202
 
         b       t203
@@ -37,9 +37,9 @@ f202:
 
 t203:
         ; ARM 3: Exclusive or
-        mov     r0, 0xF0
-        eor     r0, 0xFF
-        cmp     r0, 0xF
+        mov     r0, 0xFF
+        eor     r0, 0xF0
+        cmp     r0, 0x0F
         bne     f203
 
         b       t204
@@ -50,7 +50,7 @@ f203:
 t204:
         ; ARM 3: Or
         mov     r0, 0xF0
-        orr     r0, 0xF
+        orr     r0, 0x0F
         cmp     r0, 0xFF
         bne     f204
 
@@ -62,7 +62,7 @@ f204:
 t205:
         ; ARM 3: Bit clear
         mov     r0, 0xFF
-        bic     r0, 0xF
+        bic     r0, 0x0F
         cmp     r0, 0xF0
         bne     f205
 
@@ -189,8 +189,7 @@ f213:
 t214:
         ; ARM 3: Test
         mov     r0, 0xF0
-        mov     r1, 0x0F
-        tst     r1, r0
+        tst     r0, 0x0F
         bne     f214
 
         b       t215
@@ -201,7 +200,7 @@ f214:
 t215:
         ; ARM 3: Test equal
         mov     r0, 0xFF
-        teq     r0, r0
+        teq     r0, 0xFF
         bne     f215
 
         b       t216
@@ -212,7 +211,7 @@ f215:
 t216:
         ; ARM 3: Operand types
         mov     r0, 0xFF00
-        mov     r1, 0xFF
+        mov     r1, 0x00FF
         mov     r1, r1, lsl 8
         cmp     r1, r0
         bne     f216
@@ -223,10 +222,12 @@ f216:
         failed  216
 
 t217:
-        ; ARM 3: PC as operand
-        add     r0, pc, 4
-        cmp     r0, pc
-        bne     f217
+        ; ARM 3: Update carry for rotated immediate
+        movs    r0, 0xF000000F
+        bcc     f217
+
+        movs    r0, 0x0FF00000
+        bcs     f217
 
         b       t218
 
@@ -234,38 +235,61 @@ f217:
         failed  217
 
 t218:
-        ; ARM 3: Write to PC
-        adr     r0, t219
-        mov     pc, r0
+        ; ARM 3: PC as operand
+        add     r0, pc, 4
+        cmp     r0, pc
+        bne     f218
 
-t218f:
+        b       t219
+
+f218:
         failed  218
 
 t219:
-        ; ARM 3: Write to PC aligment and flushing
-        add     pc, 6
-        b       f219
-        b       f219
-        sub     pc, 2
-        b       t220
-        b       f219
+        ; ARM 3: PC as destination
+        adr     r0, t220
+        mov     pc, r0
 
 f219:
         failed  219
 
 t220:
-        ; ARM 3: Write to PC with S bit set
+        ; ARM 3: PC as destination with S bit
         mov     r8, 32
         msr     cpsr, MODE_FIQ
         mov     r8, 64
-        msr     spsr, MODE_SYS
+        msr     spsr, MODE_USR
         subs    pc, 4
         cmp     r8, 32
         bne     f220
 
-        b       data_processing_passed
+        b       t221
 
 f220:
         failed  220
+
+t221:
+        ; ARM 3: PC as shifted register
+        mov     r0, 0
+        dw      0xE1A0001F  ; mov r0, pc, lsl r0
+        cmp     r0, pc
+        bne     f221
+
+        b       t222
+
+f221:
+        failed  221
+
+t222:
+        ; ARM 3: PC as operand 1 with shifted register
+        mov     r0, 0
+        dw      0xE08F0010  ; add r0, pc, r0, lsl r0
+        cmp     r0, pc
+        bne     f222
+
+        b       data_processing_passed
+
+f222:
+        failed  222
 
 data_processing_passed:

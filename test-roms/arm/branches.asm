@@ -25,29 +25,36 @@ t052:
         bx      r0
 
 t053:
-        ; ARM 2: Branch forward
+        ; ARM 1: Branch alignment
         mov     r12, 53
-        b       t054
-
-t055:
-        ; ARM 2: Branch forward
-        mov     r12, 55
-        b       t056
+        adr     r0, t054
+        add     r0, 2
+        bx      r0
 
 t054:
-        ; ARM 2: Branch backward
+        ; ARM 2: Branch forward
         mov     r12, 54
         b       t055
 
-t057:
+t056:
+        ; ARM 2: Branch forward
+        mov     r12, 56
+        b       t057
+
+t055:
+        ; ARM 2: Branch backward
+        mov     r12, 55
+        b       t056
+
+t058:
         ; ARM 2: Test link
-        mov     r12, 57
+        mov     r12, 58
         mov     pc, lr
 
-t056:
+t057:
         ; ARM 2: Branch with link
-        mov     r12, 56
-        bl      t057
+        mov     r12, 57
+        bl      t058
 
 branches_passed:
         mov     r12, 0

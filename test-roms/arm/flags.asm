@@ -16,11 +16,11 @@ f100:
 
 t101:
         ; Negative flag
-        movs    r0, 0
-        bmi     f101
-
         movs    r0, 1 shl 31
         bpl     f101
+
+        movs    r0, 0
+        bmi     f101
 
         b       t102
 
@@ -44,17 +44,17 @@ f102:
 
 t103:
         ; Carry flag subtraction
-        mov     r0, 2
-        subs    r0, 3
-        bcs     f103
-
-        mov     r0, 2
-        subs    r0, 2
+        mov     r0, 1
+        subs    r0, 0
         bcc     f103
 
-        mov     r0, 2
+        mov     r0, 1
         subs    r0, 1
         bcc     f103
+
+        mov     r0, 1
+        subs    r0, 2
+        bcs     f103
 
         b       t104
 

@@ -33,8 +33,8 @@ t152:
         mov     r0, 1
         mov     r1, 32
         lsls    r0, r1
-        bcc     f152
         bne     f152
+        bcc     f152
 
         b       t153
 
@@ -237,7 +237,7 @@ f165:
         failed  165
 
 t166:
-        ; Shifts by 0
+        ; Shift by register 0
         msr     cpsr_f, FLAG_C
         mov     r0, 1
         mov     r1, 0
@@ -262,22 +262,9 @@ t167:
         cmp     r0, 1 shl 16
         bne     f167
 
-        b       t168
+        b       shifts_passed
 
 f167:
         failed  167
-
-t168:
-        ; Update carry in data processing
-        movs    r0, 0xF000000F
-        bcc     f168
-
-        movs    r0, 0x0FF00000
-        bcs     f168
-
-        b       shifts_passed
-
-f168:
-        failed  168
 
 shifts_passed:
