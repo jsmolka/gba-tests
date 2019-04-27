@@ -36,15 +36,13 @@ main:
         ; Tests start at 200
         include 'data_processing.asm'
         ; Tests start at 250
-        ;include 'psr_transfer.asm'
+        include 'psr_transfer.asm'
         ; Tests start at 300
-        ;include 'multiply.asm'
+        include 'multiply.asm'
         ; Tests start at 350
-        ;include 'single_transfer.asm'
+        include 'single_transfer.asm'
         ; Tests start at 400
         ;include 'block_transfer.asm'
-        ; Tests start at 450
-        ;include 'special.asm'
 
 passed:
         ; Setup green color

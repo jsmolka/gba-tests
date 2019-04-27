@@ -258,7 +258,7 @@ t220:
         mov     r8, 32
         msr     cpsr, MODE_FIQ
         mov     r8, 64
-        msr     spsr, MODE_USR
+        msr     spsr, MODE_SYS
         subs    pc, 4
         cmp     r8, 32
         bne     f220

@@ -2,12 +2,14 @@ psr_transfer:
         ; Tests for the PSR transfer instruction
 
 t250:
-        ; ARM 4: Read / write CPSR / SPSR
+        ; ARM 4: Read / write PSR
         mrs     r0, cpsr
         bic     r0, 0xF0000000
-        orr     r0, FLAG_V
         msr     cpsr, r0
-        bvc     f250
+        beq     f250
+        bmi     f250
+        bcs     f250
+        bvs     f250
 
         b       t251
 
@@ -16,7 +18,10 @@ f250:
 
 t251:
         ; ARM 4: Write flag bits
-        msr     cpsr_f, FLAG_V
+        msr     cpsr_f, 0xF0000000
+        bne     f251
+        bpl     f251
+        bcc     f251
         bvc     f251
 
         b       t252
@@ -26,12 +31,13 @@ f251:
 
 t252:
         ; ARM 4: Write control bits
-        mov     r8, 32
         msr     cpsr_c, MODE_FIQ
-        mov     r8, 64
-        msr     cpsr_c, MODE_SYS
-        cmp     r8, 32
+        mrs     r0, cpsr
+        and     r0, 0x1F
+        cmp     r0, MODE_FIQ
         bne     f252
+
+        msr     cpsr_c, MODE_SYS
 
         b       t253
 
@@ -39,13 +45,16 @@ f252:
         failed  252
 
 t253:
-        ; ARM 4: Operand types
-        mov     r0, FLAG_V
-        msr     cpsr_f, r0
-        bvc     f253
-
-        msr     cpsr_f, 0
-        bvs     f253
+        ; ARM 4: Register banking
+        mov     r0, 16
+        mov     r8, 32
+        msr     cpsr_c, MODE_FIQ
+        mov     r8, 64
+        msr     cpsr_c, MODE_SYS
+        cmp     r0, 16
+        bne     f253
+        cmp     r8, 32
+        bne     f253
 
         b       psr_transfer_passed
 
