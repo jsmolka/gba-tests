@@ -237,7 +237,7 @@ f165:
         failed  165
 
 t166:
-        ; Shift by register 0
+        ; Shift by 0 register value
         msr     cpsr_f, FLAG_C
         mov     r0, 1
         mov     r1, 0
