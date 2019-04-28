@@ -19,17 +19,17 @@ f100:
 
 t101:
         ; Carry flag subtraction
-        mov     r0, 2
-        sub     r0, 3
-        bcs     f101
-
-        mov     r0, 2
-        sub     r0, 2
+        mov     r0, 1
+        sub     r0, 0
         bcc     f101
 
-        mov     r0, 2
+        mov     r0, 1
         sub     r0, 1
         bcc     f101
+
+        mov     r0, 1
+        sub     r0, 2
+        bcs     f101
 
         b       t102
 

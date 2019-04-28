@@ -16,13 +16,13 @@ f001:
 
 t002:
         ; Negative flag
-        mov     r0, 0
-        bmi     f002
-
         mov     r0, 1
         lsl     r0, 31
         mov     r0, r0
         bpl     f002
+
+        mov     r0, 0
+        bmi     f002
 
         b       t003
 
@@ -81,7 +81,7 @@ f006:
 t007:
         ; THUMB 4: and rd, rs
         mov     r0, 0xFF
-        mov     r1, 0xF
+        mov     r1, 0x0F
         and     r0, r1
         cmp     r0, r1
         bne     f007
@@ -94,7 +94,7 @@ f007:
 t008:
         ; THUMB 4: tst rd, rs
         mov     r0, 0xF0
-        mov     r1, 0xF
+        mov     r1, 0x0F
         tst     r0, r1
         bne     f008
 
@@ -108,7 +108,7 @@ t009:
         mov     r0, 0xFF
         mov     r1, 0xF0
         bic     r0, r1
-        cmp     r0, 0xF
+        cmp     r0, 0x0F
         bne     f009
 
         b       t010

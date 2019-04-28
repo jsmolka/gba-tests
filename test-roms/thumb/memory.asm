@@ -1,6 +1,5 @@
 memory:
         ; Tests for memory operations
-        ; Todo: Test SP pop alignment with real GBA
         mov     r6, 2
         lsl     r6, 24
 
@@ -471,9 +470,51 @@ t227:
         cmp     r3, r0
         bne     f227
 
-        b       memory_passed
+        add     r6, 32
+        b       t228
 
 f227:
         failed  227
+
+t228:
+        ; THUMB 15: Load empty rlist
+        adr     r0, t229
+        mov     r0, r0
+        str     r0, [r6]
+        mov     r0, r6
+        dh      0xC800  ; ldm r0!, {}
+
+f228:
+        failed  228
+
+t229:
+        sub     r0, 0x40
+        cmp     r0, r6
+        bne     f229
+
+        add     r6, 32
+        b       t230
+
+f229:
+        failed  229
+
+t230:
+        ; THUMB 15: Store empty rlist
+        mov     r0, r6
+        dh      0xC000  ; stm r0!, {}
+        mov     r1, pc
+        ldr     r2, [r6]
+        cmp     r2, r1
+        bne     f230
+
+        sub     r0, 0x40
+        cmp     r0, r6
+        bne     f230
+
+        add     r6, 32
+        b       memory_passed
+
+f230:
+        failed  230
 
 memory_passed:

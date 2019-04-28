@@ -226,56 +226,42 @@ f413:
         failed  413
 
 t414:
-        ; ARM 10: Writeback with rb in rlist
-        mov     r1, r11
-        dw      0xE9210003  ; stmfd r1!, {r0, r1}
-        ldmfd   r1, {r2, r3}
-        cmp     r1, r3
-        bne     f414
-
-        add     r11, 32
-        b       t415
+        ; ARM 10: Load empty rlist
+        adr     r0, t415
+        str     r0, [r11]
+        mov     r0, r11
+        dw      0xE8B00000  ; ldmia r0!, {}
 
 f414:
         failed  414
 
 t415:
-        ; ARM 10: Load empty rlist
-        adr     r0, t416
-        str     r0, [r11]
-        mov     r0, r11
-        dw      0xE8B00000  ; ldmia r0!, {}
+        sub     r0, 0x40
+        cmp     r0, r11
+        bne     f415
+
+        add     r11, 32
+        b       t416
 
 f415:
         failed  415
 
 t416:
-        sub     r0, 0x40
-        cmp     r0, r11
-        bne     f416
-
-        add     r11, 32
-        b       t417
-
-f416:
-        failed  416
-
-t417:
         ; ARM 10: Store empty rlist
         mov     r0, r11
         dw      0xE8A00000  ; stmia r0!, {}
         mov     r1, pc
         ldr     r2, [r11]
         cmp     r2, r1
-        bne     f417
+        bne     f416
 
         sub     r0, 0x40
         cmp     r0, r11
-        bne     f417
+        bne     f416
 
         b       block_transfer_passed
 
-f417:
-        failed  417
+f416:
+        failed  416
 
 block_transfer_passed:
