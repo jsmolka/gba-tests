@@ -15,16 +15,16 @@ main:
 code16
 align 2
 main_thumb:
-        ; Setup red color
-        mov     r0, 0x1F
-        mov     r1, 5
-        lsl     r1, 24
-        strh    r0, [r1]
-
         ; Setup DISPCNT
         mov     r0, 1
         lsl     r0, 8
         mov     r1, 4
+        lsl     r1, 24
+        strh    r0, [r1]
+
+        ; Setup red color
+        mov     r0, 0x1F
+        mov     r1, 5
         lsl     r1, 24
         strh    r0, [r1]
 

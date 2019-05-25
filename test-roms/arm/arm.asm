@@ -12,15 +12,15 @@ header:
         include '../lib/header.asm'
 
 main:
-        ; Setup red color
-        mov     r0, 0x1F
-        mov     r1, PALETTE
-        strh    r0, [r1]
-
         ; Setup DISPCNT
         mov     r0, 1 shl 8
         mov     r1, IO
         strh    r0, [r1, DISPCNT]
+
+        ; Setup red color
+        mov     r0, 0x1F
+        mov     r1, PALETTE
+        strh    r0, [r1]
 
         ; Reset test register
         mov     r12, 0
