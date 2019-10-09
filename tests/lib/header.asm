@@ -20,7 +20,7 @@ gba_header:
         db      0x87,0xF0,0x3C,0xAF,0xD6,0x25,0xE4,0x8B,0x38,0x0A
         db      0xAC,0x72,0x21,0xD4,0xF8,0x07
 
-        db      'egg-vance',0,0,0  ; Game title (12 bytes)
+        db      'eggvance',0,0,0,0 ; Game title (12 bytes)
         db      '1337'             ; Game code (4 bytes)
         db      'JS'               ; Make code (2 bytes)
         db      0x96               ; Fixed (1 byte)
@@ -28,5 +28,5 @@ gba_header:
         db      0x80               ; Device type (1 byte)
         db      0,0,0,0,0,0,0      ; Unused (7 bytes)
         db      0x00               ; Game version (1 byte)
-        db      0xF9               ; Complement (1 byte)
+        db      0x26               ; Complement (1 byte)
         db      0,0                ; Reserved (2 bytes)
