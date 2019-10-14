@@ -235,10 +235,16 @@ f217:
         failed  217
 
 t218:
-        ; ARM 3: PC as operand
-        add     r0, pc, 4
-        cmp     r0, pc
-        bne     f218
+        ; ARM 3: Update carry for rotated register
+        mov     r0, 0xFF
+        mov     r1, 4
+        movs    r2, r0, ror r1
+        bcc     f218
+
+        mov     r0, 0xF0
+        mov     r1, 4
+        movs    r2, r0, ror r1
+        bcs     f218
 
         b       t219
 
@@ -246,21 +252,27 @@ f218:
         failed  218
 
 t219:
-        ; ARM 3: PC as destination
-        adr     r0, t220
-        mov     pc, r0
+        ; ARM 3: Update carry for rotated register
+        mov     r0, 0xFF
+        movs    r1, r0, ror 4
+        bcc     f219
+
+        mov     r0, 0xF0
+        movs    r1, r0, ror 4
+        bcs     f219
+
+        b       t220
 
 f219:
         failed  219
 
 t220:
-        ; ARM 3: PC as destination with S bit
-        mov     r8, 32
-        msr     cpsr, MODE_FIQ
-        mov     r8, 64
-        msr     spsr, MODE_SYS
-        subs    pc, 4
-        cmp     r8, 32
+        ; ARM 3: Register shift special
+        mov     r0, 0
+        msr     cpsr_f, FLAG_C
+        movs    r0, r0, rrx
+        bcs     f220
+        cmp     r0, 1 shl 31
         bne     f220
 
         b       t221
@@ -269,9 +281,8 @@ f220:
         failed  220
 
 t221:
-        ; ARM 3: PC as shifted register
-        mov     r0, 0
-        dw      0xE1A0001F  ; mov r0, pc, lsl r0
+        ; ARM 3: PC as operand
+        add     r0, pc, 4
         cmp     r0, pc
         bne     f221
 
@@ -281,15 +292,50 @@ f221:
         failed  221
 
 t222:
+        ; ARM 3: PC as destination
+        adr     r0, t223
+        mov     pc, r0
+
+f222:
+        failed  222
+
+t223:
+        ; ARM 3: PC as destination with S bit
+        mov     r8, 32
+        msr     cpsr, MODE_FIQ
+        mov     r8, 64
+        msr     spsr, MODE_SYS
+        subs    pc, 4
+        cmp     r8, 32
+        bne     f223
+
+        b       t224
+
+f223:
+        failed  223
+
+t224:
+        ; ARM 3: PC as shifted register
+        mov     r0, 0
+        dw      0xE1A0001F  ; mov r0, pc, lsl r0
+        cmp     r0, pc
+        bne     f224
+
+        b       t225
+
+f224:
+        failed  224
+
+t225:
         ; ARM 3: PC as operand 1 with shifted register
         mov     r0, 0
         dw      0xE08F0010  ; add r0, pc, r0, lsl r0
         cmp     r0, pc
-        bne     f222
+        bne     f225
 
         b       data_processing_passed
 
-f222:
-        failed  222
+f225:
+        failed  225
 
 data_processing_passed:

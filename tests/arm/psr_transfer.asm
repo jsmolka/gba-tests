@@ -49,16 +49,30 @@ t253:
         mov     r0, 16
         mov     r8, 32
         msr     cpsr_c, MODE_FIQ
+        mov     r0, 32
         mov     r8, 64
         msr     cpsr_c, MODE_SYS
-        cmp     r0, 16
+        cmp     r0, 32
         bne     f253
         cmp     r8, 32
         bne     f253
 
-        b       psr_transfer_passed
+        b       t254
 
 f253:
         failed  253
+
+t254:
+        ; ARM 4: Accessing SPSR
+        mrs     r0, cpsr
+        msr     spsr, r0
+        mrs     r1, spsr
+        cmp     r1, r0
+        bne     f254
+
+        b       psr_transfer_passed
+
+f254:
+        failed  254
 
 psr_transfer_passed:
