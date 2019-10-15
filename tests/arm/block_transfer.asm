@@ -1,165 +1,166 @@
 block_transfer:
         ; Tests for the block transfer instruction
-        mov     r11, IWRAM
-        add     r11, 0x100000
+        mem     equ r11
+        mov     mem, IWRAM
+        add     mem, 0x4500
 
-t400:
+t500:
         ; ARM 10: Fully ascending
         mov     r0, 32
         mov     r1, 64
         stmfa   r11!, {r0, r1}
         ldmfa   r11!, {r2, r3}
         cmp     r0, r2
-        bne     f400
+        bne     f500
         cmp     r1, r3
-        bne     f400
+        bne     f500
 
-        add     r11, 32
-        b       t401
+        add     mem, 32
+        b       t501
 
-f400:
-        failed  400
+f500:
+        failed  500
 
-t401:
+t501:
         ; ARM 10: Empty ascending
         mov     r0, 32
         mov     r1, 64
         stmea   r11!, {r0, r1}
         ldmea   r11!, {r2, r3}
         cmp     r0, r2
-        bne     f401
+        bne     f501
         cmp     r1, r3
-        bne     f401
+        bne     f501
 
-        add     r11, 32
-        b       t402
+        add     mem, 32
+        b       t502
 
-f401:
-        failed  401
+f501:
+        failed  501
 
-t402:
+t502:
         ; ARM 10: Fully descending
         mov     r0, 32
         mov     r1, 64
         stmfd   r11!, {r0, r1}
         ldmfd   r11!, {r2, r3}
         cmp     r0, r2
-        bne     f402
+        bne     f502
         cmp     r1, r3
-        bne     f402
+        bne     f502
 
-        add     r11, 32
-        b       t403
+        add     mem, 32
+        b       t503
 
-f402:
-        failed  402
+f502:
+        failed  502
 
-t403:
+t503:
         ; ARM 10: Empty descending
         mov     r0, 32
         mov     r1, 64
         stmed   r11!, {r0, r1}
         ldmed   r11!, {r2, r3}
         cmp     r0, r2
-        bne     f403
+        bne     f503
         cmp     r1, r3
-        bne     f403
+        bne     f503
 
-        add     r11, 32
-        b       t404
+        add     mem, 32
+        b       t504
 
-f403:
-        failed  403
+f503:
+        failed  503
 
-t404:
+t504:
         ; ARM 10: Location fully ascending
         mov     r0, 32
-        stmfa   r11, {r0, r1}
-        ldr     r1, [r11, 4]
+        stmfa   mem, {r0, r1}
+        ldr     r1, [mem, 4]
         cmp     r1, r0
-        bne     f404
+        bne     f504
 
-        add     r11, 32
-        b       t405
+        add     mem, 32
+        b       t505
 
-f404:
-        failed  404
+f504:
+        failed  504
 
-t405:
+t505:
         ; ARM 10: Location empty ascending
         mov     r0, 32
-        stmea   r11, {r0, r1}
-        ldr     r1, [r11]
+        stmea   mem, {r0, r1}
+        ldr     r1, [mem]
         cmp     r1, r0
-        bne     f405
+        bne     f505
 
-        add     r11, 32
-        b       t406
+        add     mem, 32
+        b       t506
 
-f405:
-        failed  405
+f505:
+        failed  505
 
-t406:
+t506:
         ; ARM 10: Location fully descending
         mov     r0, 32
-        stmfd   r11, {r0, r1}
-        ldr     r1, [r11, -8]
+        stmfd   mem, {r0, r1}
+        ldr     r1, [mem, -8]
         cmp     r1, r0
-        bne     f406
+        bne     f506
 
-        add     r11, 32
-        b       t407
+        add     mem, 32
+        b       t507
 
-f406:
-        failed  406
+f506:
+        failed  506
 
-t407:
+t507:
         ; ARM 10: Location empty descending
         mov     r0, 32
-        stmed   r11, {r0, r1}
-        ldr     r1, [r11, -4]
+        stmed   mem, {r0, r1}
+        ldr     r1, [mem, -4]
         cmp     r1, r0
-        bne     f407
+        bne     f507
 
-        add     r11, 32
-        b       t408
+        add     mem, 32
+        b       t508
 
-f407:
-        failed  407
+f507:
+        failed  507
 
-t408:
+t508:
         ; ARM 10: Memory alignment
         mov     r0, 32
         mov     r1, 64
-        add     r2, r11, 3
-        sub     r3, r11, 5
+        add     r2, mem, 3
+        sub     r3, mem, 5
         stmfd   r2!, {r0, r1}
         ldmfd   r3, {r4, r5}
         cmp     r0, r4
-        bne     f408
+        bne     f508
         cmp     r1, r5
-        bne     f408
+        bne     f508
         cmp     r2, r3
-        bne     f408
+        bne     f508
 
-        add     r11, 32
-        b       t409
+        add     mem, 32
+        b       t509
 
-f408:
-        failed  408
+f508:
+        failed  508
 
-t409:
+t509:
         ; ARM 10: Load PC
-        adr     r1, t410
+        adr     r1, t510
         stmfd   r11!, {r0, r1}
         ldmfd   r11!, {r0, pc}
 
-f409:
-        failed  409
+f509:
+        failed  509
 
-t410:
+t510:
         ; ARM 10: Store user registers
-        mov     r0, r11
+        mov     r0, mem
         mov     r8, 32
         msr     cpsr, MODE_FIQ
         mov     r8, 64
@@ -168,100 +169,144 @@ t410:
         msr     cpsr, MODE_SYS
         ldmfd   r0, {r1, r2}
         cmp     r1, 32
-        bne     f410
+        bne     f510
 
-        add     r11, 32
-        b       t411
+        add     mem, 32
+        b       t511
 
-f410:
-        failed  410
+f510:
+        failed  510
 
-t411:
+t511:
         ; ARM 10: Load user registers
-        mov     r0, r11
+        mov     r0, mem
         mov     r1, 0xA
         stmfd   r0!, {r1, r2}
         msr     cpsr, MODE_FIQ
         mov     r8, 0xB
-        ldmfd   r0, {r8-r9}^
+        ldmfd   r0, {r8, r9}^
         cmp     r8, 0xB
-        bne     f411
+        bne     f511
         msr     cpsr, MODE_SYS
         cmp     r8, 0xA
-        bne     f411
+        bne     f511
 
-        add     r11, 32
-        b       t412
+        add     mem, 32
+        b       t512
 
-f411:
-        failed  411
+f511:
+        failed  511
 
-t412:
+t512:
         ; ARM 10: Writeback with rb in rlist
         mov     r0, 32
         stmfd   r11!, {r0, r1}
-        mov     r0, r11
+        mov     r0, mem
         dw      0xE8B00003  ; ldmfd r0!, {r0, r1}
         cmp     r0, 32
-        bne     f412
+        bne     f512
 
-        add     r11, 32
-        b       t413
+        add     mem, 32
+        b       t513
 
-f412:
-        failed  412
+f512:
+        failed  512
 
-t413:
+t513:
         ; ARM 10: Writeback with rb first in rlist
-        mov     r0, r11
-        stmfd   r0!, {r0-r1}
-        ldmfd   r0!, {r1-r2}
-        cmp     r1, r11
-        bne     f413
+        mov     r0, mem
+        stmfd   r0!, {r0, r1}
+        ldmfd   r0!, {r1, r2}
+        cmp     r1, mem
+        bne     f513
 
-        add     r11, 32
-        b       t414
+        add     mem, 32
+        b       t514
 
-f413:
-        failed  413
+f513:
+        failed  513
 
-t414:
+t514:
         ; ARM 10: Load empty rlist
-        adr     r0, t415
-        str     r0, [r11]
-        mov     r0, r11
+        adr     r0, t515
+        str     r0, [mem]
+        mov     r0, mem
         dw      0xE8B00000  ; ldmia r0!, {}
 
-f414:
-        failed  414
+f514:
+        failed  514
 
-t415:
+t515:
         sub     r0, 0x40
-        cmp     r0, r11
-        bne     f415
+        cmp     r0, mem
+        bne     f515
 
-        add     r11, 32
-        b       t416
+        add     mem, 32
+        b       t516
 
-f415:
-        failed  415
+f515:
+        failed  515
 
-t416:
+t516:
         ; ARM 10: Store empty rlist
-        mov     r0, r11
+        mov     r0, mem
         dw      0xE8A00000  ; stmia r0!, {}
         mov     r1, pc
-        ldr     r2, [r11]
+        ldr     r2, [mem]
         cmp     r2, r1
-        bne     f416
+        bne     f516
 
         sub     r0, 0x40
-        cmp     r0, r11
-        bne     f416
+        cmp     r0, mem
+        bne     f516
 
+        add     mem, 32
+        b       t517
+
+f516:
+        failed  516
+
+t517:
+        ; ARM 10: Store PC + 4
+        stmfd   r11!, {r0, pc}
+        mov     r0, pc
+        ldmfd   r11!, {r1, r2}
+        cmp     r0, r2
+        bne     f517
+
+        add     mem, 32
+        b       t518
+
+f517:
+        failed  517
+
+t518:
+        ; ARM 10: Store unmodified address if first
+        mov     r0, mem
+        stmfd   r0!, {r0, r1}
+        ldmfd   r0!, {r2, r3}
+        cmp     r2, mem
+        bne     f518
+
+        add     mem, 32
+        b       t519
+
+f518:
+        failed  518
+
+t519:
+        ; ARM 10: Store modified address if later
+        mov     r1, mem
+        dw      0xE9210003  ; stmfd r1!, {r0, r1}
+        ldm     r1, {r0, r2}
+        cmp     r1, r2
+        bne     f519
+
+        add     mem, 32
         b       block_transfer_passed
 
-f416:
-        failed  416
+f519:
+        failed  519
 
 block_transfer_passed:
+        restore mem
