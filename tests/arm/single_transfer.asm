@@ -122,8 +122,8 @@ t358:
         cmp     r1, r0
         bne     f358
 
-        ldr     r2, [r0]
-        cmp     r2, r1
+        ldr     r1, [r0]
+        cmp     r1, mem
         bne     f358
 
         add     mem, 32
@@ -140,8 +140,8 @@ t359:
         cmp     r0, mem
         bne     f359
 
-        ldr     r2, [r0]
-        cmp     r2, mem
+        ldr     r1, [r0]
+        cmp     r1, mem
         bne     f359
 
         add     mem, 32
@@ -191,10 +191,22 @@ t362:
         bcc     f362
 
         add     mem, 32
-        b       single_transfer_passed
+        b       t363
 
 f362:
         failed  362
+
+t363:
+        ; ARM 7: Load current instruction
+        ldr     r0, [pc, -8]
+        immw    r1, 0xE51F0008
+        bne     f363
+
+        add     mem, 32
+        b       single_transfer_passed
+
+f363:
+        failed  363
 
 single_transfer_passed:
         restore mem

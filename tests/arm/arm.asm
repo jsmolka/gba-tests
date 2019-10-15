@@ -42,7 +42,9 @@ main:
         ; Tests start at 350
         include 'single_transfer.asm'
         ; Tests start at 400
-        ;include 'block_transfer.asm'
+        include 'halfword_transfer.asm'
+        ; Tests start at 450
+        include 'data_swap.asm'
 
 passed:
         ; Setup green color
