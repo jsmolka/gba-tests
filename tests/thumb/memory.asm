@@ -12,6 +12,7 @@ t200:
         cmp     r1, r0
         bne     f200
 
+        add     mem, 32
         b       t201
 
 align 4
@@ -381,6 +382,7 @@ t222:
         cmp     r1, r3
         bne     f222
 
+        add     mem, 32
         b       t223
 
 f222:
@@ -410,21 +412,17 @@ f224:
         failed  224
 
 t225:
-        ; THUMB 15: <ldmia|stmia> rd!, {rlist}
-        mov     r0, 1
-        mov     r1, 2
-        mov     r3, mem
-        stmia   r3!, {r0, r1}
-        sub     r3, 8
-        cmp     r3, mem
-        bne     f225
-        ldmia   r3!, {r2, r4}
-        sub     r3, 8
-        cmp     r3, mem
-        bne     f225
-        cmp     r0, r2
-        bne     f225
-        cmp     r1, r4
+        ; THUMB 14: Push / pop do not align base
+        mov     r0, sp
+        mov     r1, sp
+        add     r1, 1
+        mov     sp, r1
+        push    {r2, r3}
+        pop     {r2, r3}
+        mov     r2, sp
+        mov     sp, r0
+        sub     r2, 1
+        cmp     r2, r0
         bne     f225
 
         add     mem, 32
@@ -434,36 +432,41 @@ f225:
         failed  225
 
 t226:
-        ; THUMB 15: Load empty rlist
-        adr     r0, t227
-        mov     r0, r0
-        str     r0, [mem]
-        mov     r0, mem
-        dh      0xC800  ; ldm r0!, {}
+        ; THUMB 15: <ldmia|stmia> rd!, {rlist}
+        mov     r0, 1
+        mov     r1, 2
+        mov     r3, mem
+        stmia   r3!, {r0, r1}
+        sub     r3, 8
+        cmp     r3, mem
+        bne     f226
+        ldmia   r3!, {r2, r4}
+        sub     r3, 8
+        cmp     r3, mem
+        bne     f226
+        cmp     r0, r2
+        bne     f226
+        cmp     r1, r4
+        bne     f226
+
+        add     mem, 32
+        b       t227
 
 f226:
         failed  226
 
 t227:
-        sub     r0, 0x40
-        cmp     r0, mem
-        bne     f227
-
-        add     mem, 32
-        b       t228
+        ; THUMB 15: Load empty rlist
+        adr     r0, t228
+        mov     r0, r0
+        str     r0, [mem]
+        mov     r0, mem
+        dh      0xC800  ; ldm r0!, {}
 
 f227:
         failed  227
 
 t228:
-        ; THUMB 15: Store empty rlist
-        mov     r0, mem
-        dh      0xC000  ; stm r0!, {}
-        mov     r1, pc
-        ldr     r2, [mem]
-        cmp     r2, r1
-        bne     f228
-
         sub     r0, 0x40
         cmp     r0, mem
         bne     f228
@@ -475,12 +478,16 @@ f228:
         failed  228
 
 t229:
-        ; THUMB 15: Store address
-        mov     r1, mem
-        dh      0xC10F  ; stm r1!, {r0-r3}
-        sub     r1, 0x10
-        ldm     r1!, {r2-r5}
-        cmp     r1, r3
+        ; THUMB 15: Store empty rlist
+        mov     r0, mem
+        dh      0xC000  ; stm r0!, {}
+        mov     r1, pc
+        ldr     r2, [mem]
+        cmp     r2, r1
+        bne     f229
+
+        sub     r0, 0x40
+        cmp     r0, mem
         bne     f229
 
         add     mem, 32
@@ -490,19 +497,51 @@ f229:
         failed  229
 
 t230:
-        ; THUMB 15: Store address
+        ; THUMB 15: Base in rlist
+        mov     r1, mem
+        dh      0xC10F  ; stm r1!, {r0-r3}
+        sub     r1, 0x10
+        ldm     r1!, {r2-r5}
+        cmp     r1, r3
+        bne     f230
+
+        add     mem, 32
+        b       t231
+
+f230:
+        failed  230
+
+t231:
+        ; THUMB 15: Base in rlist
         mov     r2, mem
         dh      0xC20F  ; stm r2!, {r0-r3}
         sub     r1, 0x10
         ldm     r1!, {r3-r6}
         cmp     r1, r4
-        bne     f230
+        bne     f231
+
+        add     mem, 32
+        b       t232
+
+f231:
+        failed  231
+
+t232:
+        ; THUMB 15: Load / store do not align base
+        mov     r0, mem
+        add     r0, 1
+        stm     r0!, {r1, r2}
+        sub     r0, 8
+        ldm     r0!, {r1, r2}
+        sub     r0, 9
+        cmp     r0, mem
+        bne     f232
 
         add     mem, 32
         b       memory_passed
 
-f230:
-        failed  230
+f232:
+        failed  232
 
 memory_passed:
         restore mem
