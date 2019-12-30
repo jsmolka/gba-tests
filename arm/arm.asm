@@ -13,7 +13,8 @@ header:
 
 main:
         ; Setup DISPCNT
-        mov     r0, 1 shl 8
+        mov     r0, 4
+        orr     r0, 1 shl 10
         mov     r1, IO
         strh    r0, [r1, DISPCNT]
 

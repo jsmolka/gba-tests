@@ -17,10 +17,12 @@ align 2
 main_thumb:
         ; Setup DISPCNT
         mov     r0, 1
-        lsl     r0, 8
+        lsl     r0, 10
         mov     r1, 4
-        lsl     r1, 24
-        strh    r0, [r1]
+        orr     r0, r1
+        mov     r2, 4
+        lsl     r2, 24
+        strh    r0, [r2]
 
         ; Setup red color
         mov     r0, 0x1F
