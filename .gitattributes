@@ -1,0 +1,6 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Help linguist
+*.inc text diff=asm linguist-language=asm
+*.asm text diff=asm linguist-language=asm
