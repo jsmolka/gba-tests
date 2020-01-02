@@ -527,6 +527,21 @@ f231:
         failed  231
 
 t232:
+        ; THUMB 15: Base first in rlist
+        mov     r1, mem
+        dh      0xC11E  ; stm r1!, {r1-r4}
+        sub     r1, 0x10
+        ldm     r1!, {r2-r5}
+        cmp     r2, mem
+        bne     f232
+
+        add     mem, 32
+        b       t233
+
+f232:
+        failed  232
+
+t233:
         ; THUMB 15: Load / store do not align base
         mov     r0, mem
         add     r0, 1
@@ -535,13 +550,13 @@ t232:
         ldm     r0!, {r1, r2}
         sub     r0, 9
         cmp     r0, mem
-        bne     f232
+        bne     f233
 
         add     mem, 32
         b       memory_passed
 
-f232:
-        failed  232
+f233:
+        failed  233
 
 memory_passed:
         restore mem
