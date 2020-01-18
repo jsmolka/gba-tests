@@ -333,9 +333,27 @@ t225:
         cmp     r0, pc
         bne     f225
 
-        b       data_processing_passed
+        b       t226
 
 f225:
         failed  225
+
+t226:
+        ; ARM 3: PC as operand 1 with shifted register with immediate shift amount
+        mov     r0, 0
+        mov     r2, r14
+        bl       __get_pc
+__get_pc:
+        mov     r1, r14
+        mov     r14, r2
+
+        add     r0, pc, r0
+        add     r1, 16
+        cmp     r1, r0
+        bne     f226
+
+        b       data_processing_passed
+f226:
+        failed 226
 
 data_processing_passed:
