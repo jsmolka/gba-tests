@@ -341,11 +341,11 @@ f225:
 t226:
         ; ARM 3: PC as operand 1 with shifted register with immediate shift amount
         mov     r0, 0
-        mov     r2, r14
-        bl       __get_pc
-__get_pc:
-        mov     r1, r14
-        mov     r14, r2
+        mov     r2, lr
+        bl      _get_pc_226
+_get_pc_226:
+        mov     r1, lr
+        mov     lr, r2
 
         add     r0, pc, r0
         add     r1, 16
@@ -354,6 +354,6 @@ __get_pc:
 
         b       data_processing_passed
 f226:
-        failed 226
+        failed  226
 
 data_processing_passed:
