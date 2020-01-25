@@ -233,7 +233,7 @@ f514:
         failed  514
 
 t515:
-        ; ARM 10: Store empty rlist
+        ; ARM 10: STMIA empty rlist
         mov     r0, mem
         dw      0xE8A00000  ; stmia r0!, {}
         mov     r1, pc
@@ -452,10 +452,74 @@ t529:
         bne     f529
 
         add     mem, 32
-        b       block_transfer_passed
+        b       t530
 
 f529:
         failed  529
+
+t530:
+        ; ARM 10: STMDA empty rlist
+        mov     r0, mem
+        mov     r1, 0
+        str     r1, [mem, -0x3C]
+        dw      0xE8200000  ; stmda r0!, {}
+        mov     r1, pc
+        ldr     r2, [mem, -0x3C]
+        cmp     r2, r1
+        bne     f530
+
+        add     r0, 0x40
+        cmp     r0, mem
+        bne     f530
+
+        add     mem, 32
+        b       t531
+
+f530:
+        failed  530
+
+t531:
+        ; ARM 10: STMDB empty rlist
+        mov     r0, mem
+        mov     r1, 0
+        str     r1, [mem, -0x40]
+        dw      0xE9200000  ; stmdb r0!, {}
+        mov     r1, pc
+        ldr     r2, [mem, -0x40]
+        cmp     r2, r1
+        bne     f531
+
+        add     r0, 0x40
+        cmp     r0, mem
+        bne     f531
+
+        add     mem, 32
+        b       t532
+
+f531:
+        failed  531
+
+t532:
+        ; ARM 10: STMIB empty rlist
+        mov     r0, mem
+        mov     r1, 0
+        str     r1, [mem, 4]
+        dw      0xE9A00000  ; stmib r0!, {}
+        mov     r1, pc
+        ldr     r2, [mem, 4]
+        cmp     r2, r1
+        bne     f532
+
+        sub     r0, 0x40
+        cmp     r0, mem
+        bne     f532
+
+        add     mem, 32
+        b       block_transfer_passed
+
+f532:
+        failed  532
+
 
 block_transfer_passed:
         restore mem
