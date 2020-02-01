@@ -125,6 +125,7 @@ f107:
 
 t108:
         ; THUMB 12: add rd, pc, imm8 << 2
+        mov     r0, r0
         add     r0, pc, 32
         mov     r1, pc
         add     r1, 28

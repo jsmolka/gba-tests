@@ -262,9 +262,21 @@ t167:
         cmp     r0, 1 shl 16
         bne     f167
 
-        b       shifts_passed
+        b       t168
 
 f167:
         failed  167
+
+t168:
+        ; Logical shift right by 32
+        mov     r0, 1 shl 31
+        mov     r1, 32
+        lsr     r0, r1
+        bcc     f168
+
+        b       shifts_passed
+
+f168:
+        failed  168
 
 shifts_passed:

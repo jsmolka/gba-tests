@@ -290,9 +290,22 @@ t068:
         cmp     r0, 1
         bne     f068
 
-        b       shifts_passed
+        b       t069
 
 f068:
         failed  68
+
+t069:
+        ; Logical shift right by 32
+        mov     r0, 1
+        lsl     r0, 31
+        mov     r1, 32
+        lsr     r0, r1
+        bcc     f069
+
+        b       shifts_passed
+
+f069:
+        failed  69
 
 shifts_passed:
