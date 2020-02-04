@@ -230,9 +230,63 @@ t315:
         smulls  r2, r3, r0, r1
         bpl     f315
 
-        b       multiply_passed
+        b       t316
 
 f315:
         failed  315
+
+t316:
+        ; ARM 5: Not affecting carry and overflow
+        msr     cpsr_f, 0
+        mov     r0, 1
+        mov     r1, 1
+        mul     r0, r1, r0
+        bcs     f316
+        bvs     f316
+
+        b       t317
+
+f316:
+        failed  316
+
+t317:
+        msr     cpsr_f, FLAG_C or FLAG_V
+        mov     r0, 1
+        mov     r1, 1
+        mul     r0, r1, r0
+        bcc     f317
+        bvc     f317
+
+        b       t318
+
+f317:
+        failed  317
+
+t318:
+        ; ARM 6: Not affecting carry and overflow
+        msr     cpsr_f, 0
+        mov     r0, 1
+        mov     r1, 1
+        umull   r2, r3, r0, r1
+        bcs     f318
+        bvs     f318
+
+        b       t319
+
+f318:
+        failed  318
+
+t319:
+        msr     cpsr_f, FLAG_C or FLAG_V
+        mov     r0, 1
+        mov     r1, 1
+        umull   r2, r3, r0, r1
+        bcc     f319
+        bvc     f319
+
+        b       multiply_passed
+
+f319:
+        failed  319
 
 multiply_passed:
