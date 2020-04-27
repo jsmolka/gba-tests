@@ -352,8 +352,126 @@ _get_pc_226:
         cmp     r1, r0
         bne     f226
 
-        b       data_processing_passed
+        b       t227
 f226:
         failed  226
+
+t227:
+        ; ARM 3: Rotated immediate logical operation
+        msr     cpsr_f, 0
+        movs    r0, 0x80000000
+        bcc     f227
+        bpl     f227
+
+        b       t228
+
+f227:
+        failed  227
+
+t228:
+        ; ARM 3: Rotated immediate arithmetic operation
+        msr     cpsr_f, FLAG_C
+        mov     r0, 0
+        adcs    r0, 0x80000000
+        cmp     r0, 0x80000001
+        bne     f228
+
+        msr     cpsr_f, FLAG_C
+        mov     r0, 0
+        adcs    r0, 0x70000000
+        cmp     r0, 0x70000001
+        bne     f228
+
+        b       t229
+
+f228:
+        failed  228
+
+t229:
+        ; ARM 3: Immediate shift logical operation
+        msr     cpsr_f, 0
+        mov     r0, 0x80
+        movs    r0, r0, ror 8
+        bcc     f229
+        bpl     f229
+
+
+        b       t230
+
+f229:
+        failed  229
+
+t230:
+        ; ARM 3: Immediate shift arithmetic operation
+        msr     cpsr_f, FLAG_C
+        mov     r0, 0
+        mov     r1, 0x80
+        adcs    r0, r1, ror 8
+        cmp     r0, 0x80000001
+        bne     f230
+
+        msr     cpsr_f, FLAG_C
+        mov     r0, 0
+        mov     r1, 0x70
+        adcs    r0, r1, ror 8
+        cmp     r0, 0x70000001
+        bne     f230
+
+        b       t231
+
+f230:
+        failed  230
+
+t231:
+        ; ARM 3: Register shift logical operation
+        msr     cpsr_f, 0
+        mov     r0, 0x80
+        mov     r1, 8
+        movs    r0, r0, ror r1
+        bcc     f231
+        bpl     f231
+
+        b       t232
+
+f231:
+        failed  231
+
+t232:
+        ; ARM 3: Register shift arithmetic operation
+        msr     cpsr_f, FLAG_C
+        mov     r0, 0
+        mov     r1, 0x80
+        mov     r2, 8
+        adcs    r0, r1, ror r2
+        cmp     r0, 0x80000001
+        bne     f232
+
+        msr     cpsr_f, FLAG_C
+        mov     r0, 0
+        mov     r1, 0x70
+        mov     r2, 8
+        adcs    r0, r1, ror r2
+        cmp     r0, 0x70000001
+        bne     f232
+
+        b       t233
+
+f232:
+        failed  232
+
+t233:
+        ; ARM 3: TST / TEQ setting flags during shifts
+        msr     cpsr_f, 0
+        tst     r0, 0x80000000
+        bcc     f233
+
+        msr     cpsr_f, 0
+        teq     r0, 0x80000000
+        bcc     f233
+
+        b       data_processing_passed
+
+f233:
+        failed  233
 
 data_processing_passed:
