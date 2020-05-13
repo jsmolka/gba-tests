@@ -1,0 +1,22 @@
+include 'arm.inc'
+
+macro m_text_init {
+        bl      text_init
+}
+
+macro m_text_color color, index {
+        immh    r0, color
+        mov     r1, index
+        bl      text_color
+}
+
+macro m_text_pos x, y {
+        mov     r0, x
+        mov     r1, y
+}
+
+macro m_text_char char {
+        mov     r2, char
+        bl      text_char
+}
+
