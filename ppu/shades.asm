@@ -1,6 +1,6 @@
 format binary as 'gba'
 
-include '../lib/memory.inc'
+include '../lib/constants.inc'
 
 header:
         include '../lib/header.asm'

@@ -1,3 +1,13 @@
+; Regions
+IWRAM   = 0x03000000
+IO      = 0x04000000
+PALETTE = 0x05000000
+VRAM    = 0x06000000
+
+; Registers
+DISPCNT = 0x00000000
+BG0CNT  = 0x00000008
+
 ; CPSR flag modifiers
 FLAG_N = 1 shl 31
 FLAG_Z = 1 shl 30
