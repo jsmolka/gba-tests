@@ -1,4 +1,4 @@
-include 'memory.inc'
+include 'constants.inc'
 
 text_init:
         stmfd   sp!, {r0-r1, lr}

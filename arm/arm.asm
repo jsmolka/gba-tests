@@ -1,10 +1,10 @@
 format binary as 'gba'
 
-include '../lib/arm.inc'
 include '../lib/constants.inc'
+include '../lib/macros.inc'
 
 macro failed test {
-        immh    r12, test
+        m_half  r12, test
         b       loop
 }
 

@@ -103,7 +103,7 @@ f105:
 
 t106:
         ; Overflow flag addition
-        immw    r0, 0x7FFFFFFF
+        m_word  r0, 0x7FFFFFFF
         adds    r0, 1
         bvc     f106
 
@@ -118,7 +118,7 @@ f106:
 
 t107:
         ; Overflow flag addition with carry
-        immw    r0, 0x7FFFFFFE
+        m_word  r0, 0x7FFFFFFE
         msr     cpsr_f, FLAG_C
         adcs    r0, 1
         bvc     f107
@@ -150,7 +150,7 @@ f108:
 
 t109:
         ; Overflow flag subtraction with carry
-        immw    r0, 0x80000001
+        m_word  r0, 0x80000001
         msr     cpsr_f, 0
         sbcs    r0, 1
         bvc     f109

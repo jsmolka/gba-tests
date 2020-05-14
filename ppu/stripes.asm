@@ -1,7 +1,7 @@
 format binary as 'gba'
 
-include '../lib/arm.inc'
 include '../lib/constants.inc'
+include '../lib/macros.inc'
 
 header:
         include '../lib/header.asm'
@@ -18,17 +18,17 @@ main:
         str     r0, [r1, BG0CNT]
 
         ; Setup color 1
-        immh    r0, 0x560B
+        m_half  r0, 0x560B
         mov     r1, PALETTE
         strh    r0, [r1]
 
         ; Setup green color
-        immh    r0, 0x6290
+        m_half  r0, 0x6290
         mov     r1, PALETTE
         strh    r0, [r1, 2]
 
         ; Generate tiles
-        immw    r0, 0x11111111
+        m_word  r0, 0x11111111
         mov     r1, VRAM
         add     r1, 0x4000
         mov     r2, 32

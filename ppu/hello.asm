@@ -1,6 +1,6 @@
 format binary as 'gba'
 
-include '../lib/text.inc'
+include '../lib/macros.inc'
 
 header:
         include '../lib/header.asm'

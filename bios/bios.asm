@@ -1,10 +1,10 @@
 format binary as 'gba'
 
-include '../lib/arm.inc'
 include '../lib/constants.inc'
+include '../lib/macros.inc'
 
 macro failed test {
-        immh    r12, test
+        m_half  r12, test
         b       loop
 }
 
@@ -29,7 +29,7 @@ main:
 t001:
         ; BIOS read returns 0x0DC+8 after startup
         mov     r0, 0
-        immw    r1, 0xE129F000
+        m_word  r1, 0xE129F000
         ldr     r2, [r0]
         cmp     r2, r1
         bne     f001
@@ -41,7 +41,7 @@ f001:
 t002:
         ; BIOS read returns 0x188+8 after swi
         mov     r0, 0
-        immw    r1, 0xE3A02004
+        m_word  r1, 0xE3A02004
         swi     0x80000  ; sqrt(r0)
         ldr     r2, [r0]
         cmp     r2, r1

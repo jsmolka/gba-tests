@@ -199,7 +199,7 @@ f362:
 t363:
         ; ARM 7: Load current instruction
         ldr     r0, [pc, -8]
-        immw    r1, 0xE51F0008
+        m_word  r1, 0xE51F0008
         bne     f363
 
         add     mem, 32
