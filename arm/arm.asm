@@ -1,6 +1,7 @@
 format binary as 'gba'
 
 include '../lib/arm.inc'
+include '../lib/constants.inc'
 include '../lib/memory.inc'
 
 macro failed test {
