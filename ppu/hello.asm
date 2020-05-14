@@ -23,8 +23,8 @@ main:
         m_text_char 'd'
         m_text_char '!'
 
-loop:
-        b       loop
+idle:
+        b       idle
 
 functions:
         include '../lib/text.asm'
