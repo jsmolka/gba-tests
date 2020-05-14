@@ -150,6 +150,7 @@ t012:
 f012:
         failed  12
 
+align 4
 t013:
         ; THUMB 5: PC alignment
         adr     r0, logical_passed

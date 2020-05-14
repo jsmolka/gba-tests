@@ -1,35 +1,22 @@
 format binary as 'gba'
 
+include '../lib/macros.inc'
+
 macro failed test {
         mov     r7, test
-        bl      loop
+        bl      main_thumb_end
 }
 
 header:
         include '../lib/header.asm'
 
 main:
+        m_test_init
         adr     r0, main_thumb + 1
         bx      r0
 
 code16
-align 2
 main_thumb:
-        ; Setup DISPCNT
-        mov     r0, 1
-        lsl     r0, 10
-        mov     r1, 4
-        orr     r0, r1
-        mov     r2, 4
-        lsl     r2, 24
-        strh    r0, [r2]
-
-        ; Setup red color
-        mov     r0, 0x1F
-        mov     r1, 5
-        lsl     r1, 24
-        strh    r0, [r1]
-
         ; Reset test register
         mov     r7, 0
 
@@ -44,13 +31,15 @@ main_thumb:
         ; Tests start at 200
         include 'memory.asm'
 
-passed:
-        ; Setup green color
-        mov     r0, 0x1F
-        lsl     r0, 5
-        mov     r1, 5
-        lsl     r1, 24
-        strh    r0, [r1]
+main_thumb_end:
+        adr     r0, finished
+        bx      r0
 
-loop:
-        b       loop
+code32
+finished:
+        m_test_eval r7
+
+idle:
+        b       idle
+
+include '../lib/text.asm'

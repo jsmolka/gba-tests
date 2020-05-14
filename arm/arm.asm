@@ -5,23 +5,14 @@ include '../lib/macros.inc'
 
 macro failed test {
         m_half  r12, test
-        b       loop
+        b       finished
 }
 
 header:
         include '../lib/header.asm'
 
 main:
-        ; Setup DISPCNT
-        mov     r0, 4
-        orr     r0, 1 shl 10
-        mov     r1, IO
-        strh    r0, [r1, DISPCNT]
-
-        ; Setup red color
-        mov     r0, 0x1F
-        mov     r1, PALETTE
-        strh    r0, [r1]
+        m_test_init
 
         ; Reset test register
         mov     r12, 0
@@ -49,11 +40,10 @@ main:
         ; Tests start at 500
         include 'block_transfer.asm'
 
-passed:
-        ; Setup green color
-        mov     r0, 0x1F shl 5
-        mov     r1, PALETTE
-        strh    r0, [r1]
+finished:
+        m_test_eval r12
 
-loop:
-        b       loop
+idle:
+        b       idle
+
+include '../lib/text.asm'
