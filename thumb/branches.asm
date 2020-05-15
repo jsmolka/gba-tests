@@ -121,25 +121,9 @@ code16
 align 2
 t169:
         mov     r7, 169
-        adr     r0, t170
+        adr     r0, branches_passed
         add     r0, 1
         bx      r0
 
-t170:
-        ; THUMB 5: Branch exchange alignment
-        mov     r7, 170
-        adr     r0, t171
-        add     r0, 2
-        bx      r0
-
-code32
-align 4
-t171:
-        mov     r7, 171
-        adr     r0, branches_passed + 1
-        bx      r0
-
-code16
-align 2
 branches_passed:
         mov     r7, 0
