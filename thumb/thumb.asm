@@ -2,9 +2,9 @@ format binary as 'gba'
 
 include '../lib/macros.inc'
 
-macro failed test {
+macro m_exit test {
         mov     r7, test
-        bl      main_thumb_end
+        bl      tmain_end
 }
 
 header:
@@ -12,11 +12,12 @@ header:
 
 main:
         m_test_init
-        adr     r0, main_thumb + 1
+
+        adr     r0, tmain + 1
         bx      r0
 
 code16
-main_thumb:
+tmain:
         ; Reset test register
         mov     r7, 0
 
@@ -31,12 +32,13 @@ main_thumb:
         ; Tests start at 200
         include 'memory.asm'
 
-main_thumb_end:
-        adr     r0, finished
+tmain_end:
+        adr     r0, eval
         bx      r0
 
 code32
-finished:
+eval:
+        m_vsync
         m_test_eval r7
 
 idle:

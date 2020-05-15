@@ -19,7 +19,7 @@ t500:
         b       t501
 
 f500:
-        failed  500
+        m_exit  500
 
 t501:
         ; ARM 10: Empty ascending
@@ -36,7 +36,7 @@ t501:
         b       t502
 
 f501:
-        failed  501
+        m_exit  501
 
 t502:
         ; ARM 10: Fully descending
@@ -53,7 +53,7 @@ t502:
         b       t503
 
 f502:
-        failed  502
+        m_exit  502
 
 t503:
         ; ARM 10: Empty descending
@@ -70,7 +70,7 @@ t503:
         b       t504
 
 f503:
-        failed  503
+        m_exit  503
 
 t504:
         ; ARM 10: Location fully ascending
@@ -84,7 +84,7 @@ t504:
         b       t505
 
 f504:
-        failed  504
+        m_exit  504
 
 t505:
         ; ARM 10: Location empty ascending
@@ -98,7 +98,7 @@ t505:
         b       t506
 
 f505:
-        failed  505
+        m_exit  505
 
 t506:
         ; ARM 10: Location fully descending
@@ -112,7 +112,7 @@ t506:
         b       t507
 
 f506:
-        failed  506
+        m_exit  506
 
 t507:
         ; ARM 10: Location empty descending
@@ -126,7 +126,7 @@ t507:
         b       t508
 
 f507:
-        failed  507
+        m_exit  507
 
 t508:
         ; ARM 10: Memory alignment
@@ -147,7 +147,7 @@ t508:
         b       t509
 
 f508:
-        failed  508
+        m_exit  508
 
 t509:
         ; ARM 10: Load PC
@@ -156,7 +156,7 @@ t509:
         ldmfd   r11!, {r0, pc}
 
 f509:
-        failed  509
+        m_exit  509
 
 t510:
         ; ARM 10: Store PC + 4
@@ -170,7 +170,7 @@ t510:
         b       t511
 
 f510:
-        failed  510
+        m_exit  510
 
 t511:
         ; ARM 10: Store user registers
@@ -189,7 +189,7 @@ t511:
         b       t512
 
 f511:
-        failed  511
+        m_exit  511
 
 t512:
         ; ARM 10: Load user registers
@@ -209,7 +209,7 @@ t512:
         b       t513
 
 f512:
-        failed  512
+        m_exit  512
 
 t513:
         ; ARM 10: Load empty rlist
@@ -219,7 +219,7 @@ t513:
         dw      0xE8B00000  ; ldmia r0!, {}
 
 f513:
-        failed  513
+        m_exit  513
 
 t514:
         sub     r0, 0x40
@@ -230,7 +230,7 @@ t514:
         b       t515
 
 f514:
-        failed  514
+        m_exit  514
 
 t515:
         ; ARM 10: STMIA empty rlist
@@ -249,7 +249,7 @@ t515:
         b       t516
 
 f515:
-        failed  515
+        m_exit  515
 
 t516:
         ; ARM 10: Load writeback base first in rlist
@@ -264,7 +264,7 @@ t516:
         b       t517
 
 f516:
-        failed  516
+        m_exit  516
 
 t517:
         ; ARM 10: Load writeback base last in rlist
@@ -279,7 +279,7 @@ t517:
         b       t518
 
 f517:
-        failed  517
+        m_exit  517
 
 t518:
         ; ARM 10: STMFD base first in rlist
@@ -293,7 +293,7 @@ t518:
         b       t519
 
 f518:
-        failed  518
+        m_exit  518
 
 t519:
         ; ARM 10: STMED base first in rlist
@@ -307,7 +307,7 @@ t519:
         b       t520
 
 f519:
-        failed  519
+        m_exit  519
 
 t520:
         ; ARM 10: STMFA base first in rlist
@@ -321,7 +321,7 @@ t520:
         b       t521
 
 f520:
-        failed  520
+        m_exit  520
 
 t521:
         ; ARM 10: STMEA base first in rlist
@@ -335,7 +335,7 @@ t521:
         b       t522
 
 f521:
-        failed  521
+        m_exit  521
 
 t522:
         ; ARM 10: STMFD base in rlist
@@ -350,7 +350,7 @@ t522:
         b       t523
 
 f522:
-        failed  522
+        m_exit  522
 
 t523:
         ; ARM 10: STMFD base in rlist
@@ -365,7 +365,7 @@ t523:
         b       t524
 
 f523:
-        failed  523
+        m_exit  523
 
 t524:
         ; ARM 10: STMED base in rlist
@@ -380,7 +380,7 @@ t524:
         b       t525
 
 f524:
-        failed  524
+        m_exit  524
 
 t525:
         ; ARM 10: STMED base in rlist
@@ -395,7 +395,7 @@ t525:
         b       t526
 
 f525:
-        failed  525
+        m_exit  525
 
 t526:
         ; ARM 10: STMFA base in rlist
@@ -410,7 +410,7 @@ t526:
         b       t527
 
 f526:
-        failed  526
+        m_exit  526
 
 t527:
         ; ARM 10: STMFA base in rlist
@@ -425,7 +425,7 @@ t527:
         b       t528
 
 f527:
-        failed  527
+        m_exit  527
 
 t528:
         ; ARM 10: STMEA base in rlist
@@ -440,7 +440,7 @@ t528:
         b       t529
 
 f528:
-        failed  528
+        m_exit  528
 
 t529:
         ; ARM 10: STMEA base in rlist
@@ -455,7 +455,7 @@ t529:
         b       t530
 
 f529:
-        failed  529
+        m_exit  529
 
 t530:
         ; ARM 10: STMDA empty rlist
@@ -476,7 +476,7 @@ t530:
         b       t531
 
 f530:
-        failed  530
+        m_exit  530
 
 t531:
         ; ARM 10: STMDB empty rlist
@@ -497,7 +497,7 @@ t531:
         b       t532
 
 f531:
-        failed  531
+        m_exit  531
 
 t532:
         ; ARM 10: STMIB empty rlist
@@ -518,7 +518,7 @@ t532:
         b       block_transfer_passed
 
 f532:
-        failed  532
+        m_exit  532
 
 
 block_transfer_passed:

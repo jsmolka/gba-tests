@@ -12,7 +12,7 @@ t001:
         b       t002
 
 f001:
-        failed  1
+        m_exit  1
 
 t002:
         ; Negative flag
@@ -27,7 +27,7 @@ t002:
         b       t003
 
 f002:
-        failed  2
+        m_exit  2
 
 t003:
         ; THUMB 3: mov rd, imm8
@@ -38,7 +38,7 @@ t003:
         b       t004
 
 f003:
-        failed  3
+        m_exit  3
 
 t004:
         ; THUMB 2: mov rd, rs
@@ -50,7 +50,7 @@ t004:
         b       t005
 
 f004:
-        failed  4
+        m_exit  4
 
 t005:
         ; THUMB 5: mov rd, rs (high registers)
@@ -64,7 +64,7 @@ t005:
         b       t006
 
 f005:
-        failed  5
+        m_exit  5
 
 t006:
         ; THUMB 4: mvn rd, rs
@@ -76,7 +76,7 @@ t006:
         b       t007
 
 f006:
-        failed  6
+        m_exit  6
 
 t007:
         ; THUMB 4: and rd, rs
@@ -89,7 +89,7 @@ t007:
         b       t008
 
 f007:
-        failed  7
+        m_exit  7
 
 t008:
         ; THUMB 4: tst rd, rs
@@ -101,7 +101,7 @@ t008:
         b       t009
 
 f008:
-        failed  8
+        m_exit  8
 
 t009:
         ; THUMB 4: bic rd, rs
@@ -114,7 +114,7 @@ t009:
         b       t010
 
 f009:
-        failed  9
+        m_exit  9
 
 t010:
         ; THUMB 4: orr rd, rs
@@ -127,7 +127,7 @@ t010:
         b       t011
 
 f010:
-        failed  10
+        m_exit  10
 
 t011:
         ; THUMB 4: eor rd, rs
@@ -140,7 +140,7 @@ t011:
         b       t012
 
 f011:
-        failed  11
+        m_exit  11
 
 t012:
         ; THUMB 5: Write to PC
@@ -148,7 +148,7 @@ t012:
         mov     pc, r0
 
 f012:
-        failed  12
+        m_exit  12
 
 align 4
 t013:
@@ -158,6 +158,6 @@ t013:
         mov     pc, r0
 
 f013:
-        failed  13
+        m_exit  13
 
 logical_passed:

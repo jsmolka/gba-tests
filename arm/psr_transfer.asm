@@ -14,7 +14,7 @@ t250:
         b       t251
 
 f250:
-        failed  250
+        m_exit  250
 
 t251:
         ; ARM 4: Write flag bits
@@ -27,7 +27,7 @@ t251:
         b       t252
 
 f251:
-        failed  251
+        m_exit  251
 
 t252:
         ; ARM 4: Write control bits
@@ -42,7 +42,7 @@ t252:
         b       t253
 
 f252:
-        failed  252
+        m_exit  252
 
 t253:
         ; ARM 4: Register banking
@@ -60,7 +60,7 @@ t253:
         b       t254
 
 f253:
-        failed  253
+        m_exit  253
 
 t254:
         ; ARM 4: Accessing SPSR
@@ -73,6 +73,6 @@ t254:
         b       psr_transfer_passed
 
 f254:
-        failed  254
+        m_exit  254
 
 psr_transfer_passed:

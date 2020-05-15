@@ -11,7 +11,7 @@ t150:
         b       t151
 
 f150:
-        failed  150
+        m_exit  150
 
 t151:
         ; Logical shift left carry
@@ -26,7 +26,7 @@ t151:
         b       t152
 
 f151:
-        failed  151
+        m_exit  151
 
 t152:
         ; Logical shift left by 32
@@ -39,7 +39,7 @@ t152:
         b       t153
 
 f152:
-        failed  152
+        m_exit  152
 
 t153:
         ; Logical shift left by greater 32
@@ -52,7 +52,7 @@ t153:
         b       t154
 
 f153:
-        failed  153
+        m_exit  153
 
 t154:
         ; Logical shift right
@@ -64,7 +64,7 @@ t154:
         b       t155
 
 f154:
-        failed  154
+        m_exit  154
 
 t155:
         ; Logical shift right carry
@@ -79,7 +79,7 @@ t155:
         b       t156
 
 f155:
-        failed  155
+        m_exit  155
 
 t156:
         ; Logical shift right special
@@ -96,7 +96,7 @@ t156:
         b       t157
 
 f156:
-        failed  156
+        m_exit  156
 
 t157:
         ; Logical shift right by greater 32
@@ -109,7 +109,7 @@ t157:
         b       t158
 
 f157:
-        failed  157
+        m_exit  157
 
 t158:
         ; Arithmetic shift right
@@ -127,7 +127,7 @@ t158:
         b       t159
 
 f158:
-        failed  158
+        m_exit  158
 
 t159:
         ; Arithmetic shift right carry
@@ -142,7 +142,7 @@ t159:
         b       t160
 
 f159:
-        failed  159
+        m_exit  159
 
 t160:
         ; Arithmetic shift right special
@@ -161,7 +161,7 @@ t160:
         b       t161
 
 f160:
-        failed  160
+        m_exit  160
 
 t161:
         ; Rotate right
@@ -173,7 +173,7 @@ t161:
         b       t162
 
 f161:
-        failed  161
+        m_exit  161
 
 t162:
         ; Rotate right carry
@@ -188,7 +188,7 @@ t162:
         b       t163
 
 f162:
-        failed  162
+        m_exit  162
 
 t163:
         ; Rotate right special
@@ -207,7 +207,7 @@ t163:
         b       t164
 
 f163:
-        failed  163
+        m_exit  163
 
 t164:
         ; Rotate right by 32
@@ -221,7 +221,7 @@ t164:
         b       t165
 
 f164:
-        failed  164
+        m_exit  164
 
 t165:
         ; Rotate right by greater 32
@@ -234,7 +234,7 @@ t165:
         b       t166
 
 f165:
-        failed  165
+        m_exit  165
 
 t166:
         ; Shift by 0 register value
@@ -252,7 +252,7 @@ t166:
         b       t167
 
 f166:
-        failed  166
+        m_exit  166
 
 t167:
         ; Shift saved in lowest byte
@@ -265,7 +265,7 @@ t167:
         b       t168
 
 f167:
-        failed  167
+        m_exit  167
 
 t168:
         ; Logical shift right by 32
@@ -277,6 +277,6 @@ t168:
         b       shifts_passed
 
 f168:
-        failed  168
+        m_exit  168
 
 shifts_passed:

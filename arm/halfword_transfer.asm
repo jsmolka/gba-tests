@@ -17,7 +17,7 @@ t400:
         b       t401
 
 f400:
-        failed  400
+        m_exit  400
 
 t401:
         ; ARM 8: Load halfword
@@ -32,7 +32,7 @@ t401:
         b       t402
 
 f401:
-        failed  401
+        m_exit  401
 
 t402:
         ; ARM 8: Load unsigned halfword
@@ -46,7 +46,7 @@ t402:
         b       t403
 
 f402:
-        failed  402
+        m_exit  402
 
 t403:
         ; ARM 8: Load signed halfword
@@ -61,7 +61,7 @@ t403:
         b       t404
 
 f403:
-        failed  403
+        m_exit  403
 
 t404:
         ; ARM 8: Load unsigned byte
@@ -75,7 +75,7 @@ t404:
         b       t405
 
 f404:
-        failed  404
+        m_exit  404
 
 t405:
         ; ARM 8: Load signed byte
@@ -90,7 +90,7 @@ t405:
         b       t406
 
 f405:
-        failed  405
+        m_exit  405
 
 t406:
         ; ARM 8: Indexing, writeback and offset types
@@ -108,7 +108,7 @@ t406:
         b       t407
 
 f406:
-        failed  406
+        m_exit  406
 
 t407:
         ; ARM 8: Aligned store halfword
@@ -122,7 +122,7 @@ t407:
         b       t408
 
 f407:
-        failed  407
+        m_exit  407
 
 t408:
         ; ARM 8: Misaligned load halfword (rotated)
@@ -136,7 +136,7 @@ t408:
         b       t409
 
 f408:
-        failed  408
+        m_exit  408
 
 t409:
         ; ARM 8: Misaligned load signed halfword
@@ -151,7 +151,7 @@ t409:
         b       t410
 
 f409:
-        failed  409
+        m_exit  409
 
 t410:
         ; ARM 8: Store writeback same register
@@ -172,7 +172,7 @@ t410:
         b       t411
 
 f410:
-        failed  410
+        m_exit  410
 
 t411:
         ; ARM 8: Store writeback same register
@@ -193,7 +193,7 @@ t411:
         b       t412
 
 f411:
-        failed  411
+        m_exit  411
 
 t412:
         ; ARM 8: Load writeback same register
@@ -208,7 +208,7 @@ t412:
         b       t413
 
 f412:
-        failed  412
+        m_exit  412
 
 t413:
         ; ARM 8: Load writeback same register
@@ -223,7 +223,7 @@ t413:
         b       halfword_transfer_passed
 
 f413:
-        failed  413
+        m_exit  413
 
 halfword_transfer_passed:
         restore mem

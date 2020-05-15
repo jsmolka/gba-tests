@@ -12,7 +12,7 @@ t300:
         b       t301
 
 f300:
-        failed  300
+        m_exit  300
 
 t301:
         mov     r0, -4
@@ -24,7 +24,7 @@ t301:
         b       t302
 
 f301:
-        failed  301
+        m_exit  301
 
 t302:
         mov     r0, 4
@@ -36,7 +36,7 @@ t302:
         b       t303
 
 f302:
-        failed  302
+        m_exit  302
 
 t303:
         ; ARM 5: Multiply accumulate
@@ -50,7 +50,7 @@ t303:
         b       t304
 
 t303f:
-        failed  303
+        m_exit  303
 
 t304:
         mov     r0, 4
@@ -63,7 +63,7 @@ t304:
         b       t305
 
 f304:
-        failed  304
+        m_exit  304
 
 t305:
         ; ARM 6: Unsigned multiply long
@@ -78,7 +78,7 @@ t305:
         b       t306
 
 f305:
-        failed  305
+        m_exit  305
 
 t306:
         mov     r0, -1
@@ -92,7 +92,7 @@ t306:
         b       t307
 
 f306:
-        failed  306
+        m_exit  306
 
 t307:
         mov     r0, 2
@@ -106,7 +106,7 @@ t307:
         b       t308
 
 f307:
-        failed  307
+        m_exit  307
 
 t308:
         ; ARM 6: Unsigned multiply long accumulate
@@ -123,7 +123,7 @@ t308:
         b       t309
 
 f308:
-        failed  308
+        m_exit  308
 
 t309:
         mov     r0, -1
@@ -140,7 +140,7 @@ t309:
         b       t310
 
 f309:
-        failed  309
+        m_exit  309
 
 t310:
         ; ARM 6: Signed multiply long
@@ -155,7 +155,7 @@ t310:
         b       t311
 
 f310:
-        failed  310
+        m_exit  310
 
 t311:
         mov     r0, -4
@@ -169,7 +169,7 @@ t311:
         b       t312
 
 f311:
-        failed  311
+        m_exit  311
 
 t312:
         mov     r0, 4
@@ -183,7 +183,7 @@ t312:
         b       t313
 
 f312:
-        failed  312
+        m_exit  312
 
 t313:
         ; ARM 6: Signed multiply long accumulate
@@ -200,7 +200,7 @@ t313:
         b       t314
 
 f313:
-        failed  313
+        m_exit  313
 
 t314:
         mov     r0, 4
@@ -216,7 +216,7 @@ t314:
         b       t315
 
 f314:
-        failed  314
+        m_exit  314
 
 t315:
         ; ARM 6: Negative flag
@@ -233,7 +233,7 @@ t315:
         b       t316
 
 f315:
-        failed  315
+        m_exit  315
 
 t316:
         ; ARM 5: Not affecting carry and overflow
@@ -247,7 +247,7 @@ t316:
         b       t317
 
 f316:
-        failed  316
+        m_exit  316
 
 t317:
         msr     cpsr_f, FLAG_C or FLAG_V
@@ -260,7 +260,7 @@ t317:
         b       t318
 
 f317:
-        failed  317
+        m_exit  317
 
 t318:
         ; ARM 6: Not affecting carry and overflow
@@ -274,7 +274,7 @@ t318:
         b       t319
 
 f318:
-        failed  318
+        m_exit  318
 
 t319:
         msr     cpsr_f, FLAG_C or FLAG_V
@@ -287,6 +287,6 @@ t319:
         b       multiply_passed
 
 f319:
-        failed  319
+        m_exit  319
 
 multiply_passed:

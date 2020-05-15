@@ -45,14 +45,14 @@ t159:
         beq     t160
 
 f159:
-        failed  159
+        m_exit  159
 
 t160:
         mov     r0, 1
         bne     t161
 
 f160:
-        failed  160
+        m_exit  160
 
 t161:
         mov     r0, 0
@@ -60,7 +60,7 @@ t161:
         bcs     t162
 
 f161:
-        failed  161
+        m_exit  161
 
 t162:
         mov     r0, 0
@@ -68,7 +68,7 @@ t162:
         bcc     t163
 
 f162:
-        failed  162
+        m_exit  162
 
 t163:
         mov     r0, 0
@@ -76,14 +76,14 @@ t163:
         bmi     t164
 
 f163:
-        failed  163
+        m_exit  163
 
 t164:
         mov     r0, 0
         bpl     t165
 
 f164:
-        failed  164
+        m_exit  164
 
 t165:
         mov     r0, 1
@@ -92,7 +92,7 @@ t165:
         bvs     t166
 
 f165:
-        failed  165
+        m_exit  165
 
 t166:
         mov     r0, 1
@@ -102,7 +102,7 @@ t166:
         bvc     t167
 
 f166:
-        failed  166
+        m_exit  166
 
 t167:
         ; THUMB 5: bx label

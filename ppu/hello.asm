@@ -8,6 +8,7 @@ header:
 main:
         m_text_init
         m_text_color 0xFFFF, 1
+        m_vsync
 
         m_text_pos 72, 76
         m_text_char 'H'
@@ -26,5 +27,4 @@ main:
 idle:
         b       idle
 
-functions:
-        include '../lib/text.asm'
+include '../lib/text.asm'

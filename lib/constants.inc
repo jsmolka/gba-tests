@@ -5,16 +5,21 @@ PALETTE = 0x05000000
 VRAM    = 0x06000000
 
 ; Registers
-DISPCNT = 0x00000000
-BG0CNT  = 0x00000008
+DISPCNT  = 0x00000000
+DISPSTAT = 0x00000004
+BG0CNT   = 0x00000008
 
-; CPSR flag modifiers
+; DISPSTAT masks
+DISPSTAT_VBLANK = 1 shl 0
+DISPSTAT_HBLANK = 1 shl 1
+
+; CPSR flag masks
 FLAG_N = 1 shl 31
 FLAG_Z = 1 shl 30
 FLAG_C = 1 shl 29
 FLAG_V = 1 shl 28
 
-; CPSR mode modifiers
+; CPSR mode masks
 MODE_USR = 0x10
 MODE_FIQ = 0x11
 MODE_IRQ = 0x12

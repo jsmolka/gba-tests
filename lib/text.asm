@@ -1,5 +1,6 @@
 include 'constants.inc'
 
+code32
 text_init:
         stmfd   sp!, {r0-r1, lr}
         mov     r0, 4                   ; Background mode 4

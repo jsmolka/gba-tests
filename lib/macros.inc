@@ -12,6 +12,22 @@ macro m_word reg, value {
         orr     reg, value and 0xFF000000
 }
 
+macro m_vsync {
+        stmfd   sp!, \{r0-r1\}
+        mov     r0, IO
+
+.vblank_end:
+        ldr     r1, [r0, DISPSTAT]
+        tst     r1, DISPSTAT_VBLANK
+        bne     .vblank_end             ; Loop until not in vblank
+
+.vblank_beg:
+        ldr     r1, [r0, DISPSTAT]
+        tst     r1, DISPSTAT_VBLANK
+        beq     .vblank_beg             ; Loop until in vblank
+        ldmfd   sp!, \{r0-r1\}
+}
+
 macro m_text_init {
         bl      text_init
 }
@@ -67,11 +83,11 @@ macro m_test_eval reg {
         mov     r11, IWRAM
         mov     r0, r12
         mov     r1, 100
-        swi     0x60000         ; Failed test div 100
-        str     r0, [r11]
-        mov     r0, r1
+        swi     0x60000         ; Test div 100
+        str     r0, [r11]       ; Div result
+        mov     r0, r1          ; Mod result
         mov     r1, 10
-        swi     0x60000         ; Mod of failed test div 10
+        swi     0x60000         ; Previous mod div 10
         str     r0, [r11, 4]    ; Div result
         str     r1, [r11, 8]    ; Mod result
         m_text_pos 60, 76
@@ -87,16 +103,15 @@ macro m_test_eval reg {
         m_text_char 's'
         m_text_char 't'
         m_text_char ' '
-        ldr     r2, [r11]       ; 100 decimal number
+        ldr     r2, [r11]       ; Hundreds digit
         add     r2, 48
         bl      text_char
-        ldr     r2, [r11, 4]    ; 10 decimal number
+        ldr     r2, [r11, 4]    ; Tens digit
         add     r2, 48
         bl      text_char
-        ldr     r2, [r11, 8]    ; 1 decimal number
+        ldr     r2, [r11, 8]    ; Ones digit
         add     r2, 48
         bl      text_char
-        b       .exit
 
 .exit:
         ldmfd   sp!, \{r0-r12\}

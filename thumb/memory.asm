@@ -19,7 +19,7 @@ align 4
         dw      0xFFFFFFFF
 
 f200:
-        failed  200
+        m_exit  200
 
 t201:
         ; THUMB 7: <ldr|str> rd, [rb, ro]
@@ -35,7 +35,7 @@ t201:
         b       t202
 
 f201:
-        failed  201
+        m_exit  201
 
 t202:
         ; THUMB 7: strb rd, [rb, ro]
@@ -51,7 +51,7 @@ t202:
         b       t203
 
 f202:
-        failed  202
+        m_exit  202
 
 t203:
         ; THUMB 7: ldrb rd, [rb, ro]
@@ -67,7 +67,7 @@ t203:
         b       t204
 
 f203:
-        failed  203
+        m_exit  203
 
 t204:
         ; THUMB 7: Misaligned load (rotated)
@@ -85,7 +85,7 @@ t204:
         b       t205
 
 f204:
-        failed  204
+        m_exit  204
 
 t205:
         ; THUMB 8: strh rd, [rb, ro]
@@ -102,7 +102,7 @@ t205:
         b       t206
 
 f205:
-        failed  205
+        m_exit  205
 
 t206:
         ; THUMB 8: ldrh rd, [rb, ro]
@@ -119,7 +119,7 @@ t206:
         b       t207
 
 f206:
-        failed  206
+        m_exit  206
 
 t207:
         ; THUMB 8: ldrsb rd, [rb, ro]
@@ -134,7 +134,7 @@ t207:
         b       t208
 
 f207:
-        failed  207
+        m_exit  207
 
 t208:
         mov     r0, 0xFF
@@ -150,7 +150,7 @@ t208:
         b       t209
 
 f208:
-        failed  208
+        m_exit  208
 
 t209:
         ; THUMB 8: ldrsh rd, [rb, ro]
@@ -166,7 +166,7 @@ t209:
         b       t210
 
 f209:
-        failed  209
+        m_exit  209
 
 t210:
         mov     r0, 0xFF
@@ -184,7 +184,7 @@ t210:
         b       t211
 
 f210:
-        failed  210
+        m_exit  210
 
 t211:
         ; THUMB 8: Misaligned load half (rotated)
@@ -202,7 +202,7 @@ t211:
         b       t212
 
 f211:
-        failed  211
+        m_exit  211
 
 t212:
         ; THUMB 8: Misaligned load half signed (signed byte)
@@ -220,7 +220,7 @@ t212:
         b       t213
 
 f212:
-        failed  212
+        m_exit  212
 
 t213:
         ; THUMB 9: <ldr|str> rd, [rb, imm5 << 2]
@@ -235,7 +235,7 @@ t213:
         b       t214
 
 f213:
-        failed  213
+        m_exit  213
 
 t214:
         ; THUMB 9: strb rd, [rb, imm5]
@@ -250,7 +250,7 @@ t214:
         b       t215
 
 f214:
-        failed  214
+        m_exit  214
 
 t215:
         ; THUMB 9: ldrb rd, [rb, imm5]
@@ -265,7 +265,7 @@ t215:
         b       t216
 
 f215:
-        failed  215
+        m_exit  215
 
 t216:
         ; THUMB 9: Misaligned load (rotated)
@@ -283,7 +283,7 @@ t216:
         b       t217
 
 f216:
-        failed  216
+        m_exit  216
 
 t217:
         ; THUMB 10: strh rd, [rb, imm5 << 1]
@@ -299,7 +299,7 @@ t217:
         b       t218
 
 f217:
-        failed  217
+        m_exit  217
 
 t218:
         ; THUMB 10: ldrh rd, [rb, imm5 << 1]
@@ -315,7 +315,7 @@ t218:
         b       t219
 
 f218:
-        failed  218
+        m_exit  218
 
 t219:
         ; THUMB 10: Misaligned load half (rotated)
@@ -333,7 +333,7 @@ t219:
         b       t220
 
 f219:
-        failed  219
+        m_exit  219
 
 t220:
         ; THUMB 11: <ldr|str> rd, [sp, imm8 << 2]
@@ -348,7 +348,7 @@ t220:
         b       t221
 
 f220:
-        failed  220
+        m_exit  220
 
 t221:
         ; THUMB 11: Misaligned load (rotated)
@@ -369,7 +369,7 @@ t221:
         b       t222
 
 f221:
-        failed  221
+        m_exit  221
 
 t222:
         ; THUMB 14: <push|pop> {rlist}
@@ -386,7 +386,7 @@ t222:
         b       t223
 
 f222:
-        failed  222
+        m_exit  222
 
 t223:
         ; THUMB 14: Store LR / load PC
@@ -397,7 +397,7 @@ t223:
         pop     {r1, pc}
 
 f223:
-        failed  223
+        m_exit  223
 
 align 4
 t224:
@@ -409,7 +409,7 @@ t224:
         pop     {r1, pc}
 
 f224:
-        failed  224
+        m_exit  224
 
 t225:
         ; THUMB 14: Push / pop do not align base
@@ -429,7 +429,7 @@ t225:
         b       t226
 
 f225:
-        failed  225
+        m_exit  225
 
 t226:
         ; THUMB 15: <ldmia|stmia> rd!, {rlist}
@@ -453,7 +453,7 @@ t226:
         b       t227
 
 f226:
-        failed  226
+        m_exit  226
 
 t227:
         ; THUMB 15: Load empty rlist
@@ -464,7 +464,7 @@ t227:
         dh      0xC800  ; ldm r0!, {}
 
 f227:
-        failed  227
+        m_exit  227
 
 t228:
         sub     r0, 0x40
@@ -475,7 +475,7 @@ t228:
         b       t229
 
 f228:
-        failed  228
+        m_exit  228
 
 t229:
         ; THUMB 15: Store empty rlist
@@ -494,7 +494,7 @@ t229:
         b       t230
 
 f229:
-        failed  229
+        m_exit  229
 
 t230:
         ; THUMB 15: Base in rlist
@@ -509,7 +509,7 @@ t230:
         b       t231
 
 f230:
-        failed  230
+        m_exit  230
 
 t231:
         ; THUMB 15: Base in rlist
@@ -524,7 +524,7 @@ t231:
         b       t232
 
 f231:
-        failed  231
+        m_exit  231
 
 t232:
         ; THUMB 15: Base first in rlist
@@ -539,7 +539,7 @@ t232:
         b       t233
 
 f232:
-        failed  232
+        m_exit  232
 
 t233:
         ; THUMB 15: Load / store do not align base
@@ -556,7 +556,7 @@ t233:
         b       memory_passed
 
 f233:
-        failed  233
+        m_exit  233
 
 memory_passed:
         restore mem

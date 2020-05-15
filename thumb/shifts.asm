@@ -11,7 +11,7 @@ t050:
         b       t051
 
 f050:
-        failed  50
+        m_exit  50
 
 t051:
         ; THUMB 4: lsl rd, rs
@@ -24,7 +24,7 @@ t051:
         b       t052
 
 f051:
-        failed  51
+        m_exit  51
 
 t052:
         ; Logical shift left carry
@@ -39,7 +39,7 @@ t052:
         b       t053
 
 f052:
-        failed  52
+        m_exit  52
 
 t053:
         ; THUMB 4: Logical shift left by 32
@@ -52,7 +52,7 @@ t053:
         b       t054
 
 f053:
-        failed  53
+        m_exit  53
 
 t054:
         ; THUMB 4: Logical shift left by greater 32
@@ -65,7 +65,7 @@ t054:
         b       t055
 
 f054:
-        failed  54
+        m_exit  54
 
 t055:
         ; THUMB 1: lsr rd, rs, imm5
@@ -77,7 +77,7 @@ t055:
         b       t056
 
 f055:
-        failed  55
+        m_exit  55
 
 t056:
         ; THUMB 4: lsr rd, rs
@@ -90,7 +90,7 @@ t056:
         b       t057
 
 f056:
-        failed  56
+        m_exit  56
 
 t057:
         ; Logical shift right carry
@@ -105,7 +105,7 @@ t057:
         b       t058
 
 f057:
-        failed  57
+        m_exit  57
 
 t058:
         ; THUMB 1: Logical shift right special
@@ -123,7 +123,7 @@ t058:
         b       t059
 
 f058:
-        failed  58
+        m_exit  58
 
 t059:
         ; THUMB 4: Logical shift right by greater 32
@@ -137,7 +137,7 @@ t059:
         b       t060
 
 f059:
-        failed  59
+        m_exit  59
 
 t060:
         ; THUMB 1: asr rd, rs, imm5
@@ -157,7 +157,7 @@ t060:
         b       t061
 
 f060:
-        failed  60
+        m_exit  60
 
 t061:
         ; THUMB 4: asr rd, rs
@@ -179,7 +179,7 @@ t061:
         b       t062
 
 f061:
-        failed  61
+        m_exit  61
 
 t062:
         ; Arithmetic shift right carry
@@ -194,7 +194,7 @@ t062:
         b       t063
 
 f062:
-        failed  62
+        m_exit  62
 
 t063:
         ; THUMB 1: Arithmetic shift right special
@@ -215,7 +215,7 @@ t063:
         b       t064
 
 f063:
-        failed  63
+        m_exit  63
 
 t064:
         ; THUMB 4: ror rd, rs
@@ -229,7 +229,7 @@ t064:
         b       t065
 
 f064:
-        failed  64
+        m_exit  64
 
 t065:
         ; Rotate right carry
@@ -246,7 +246,7 @@ t065:
         b       t066
 
 f065:
-        failed  65
+        m_exit  65
 
 t066:
         ; THUMB 4: Rotate right by 32
@@ -262,7 +262,7 @@ t066:
         b       t067
 
 f066:
-        failed  66
+        m_exit  66
 
 t067:
         ; THUMB 4: Rotate right by greater 32
@@ -275,7 +275,7 @@ t067:
         b       t068
 
 f067:
-        failed  67
+        m_exit  67
 
 t068:
         ; THUMB 4: Shifts by 0
@@ -293,7 +293,7 @@ t068:
         b       t069
 
 f068:
-        failed  68
+        m_exit  68
 
 t069:
         ; Logical shift right by 32
@@ -306,6 +306,6 @@ t069:
         b       shifts_passed
 
 f069:
-        failed  69
+        m_exit  69
 
 shifts_passed:

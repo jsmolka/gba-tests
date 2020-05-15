@@ -3,9 +3,9 @@ format binary as 'gba'
 include '../lib/constants.inc'
 include '../lib/macros.inc'
 
-macro failed test {
+macro m_exit test {
         m_half  r12, test
-        b       finished
+        b       eval
 }
 
 header:
@@ -40,7 +40,8 @@ main:
         ; Tests start at 500
         include 'block_transfer.asm'
 
-finished:
+eval:
+        m_vsync
         m_test_eval r12
 
 idle:

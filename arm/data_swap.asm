@@ -19,7 +19,7 @@ t450:
         b       t451
 
 f450:
-        failed  450
+        m_exit  450
 
 t451:
         ; ARM 10: Swap byte
@@ -36,7 +36,7 @@ t451:
         b       t452
 
 f451:
-        failed  451
+        m_exit  451
 
 t452:
         ; ARM 10: Misaligned swap
@@ -55,7 +55,7 @@ t452:
         b       t453
 
 f452:
-        failed  452
+        m_exit  452
 
 t453:
         ; ARM 10: Same source and destination
@@ -72,7 +72,7 @@ t453:
         b       data_swap_passed
 
 f453:
-        failed  453
+        m_exit  453
 
 data_swap_passed:
         restore mem

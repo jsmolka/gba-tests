@@ -3,9 +3,9 @@ format binary as 'gba'
 include '../lib/constants.inc'
 include '../lib/macros.inc'
 
-macro failed test {
+macro m_exit test {
         m_half  r12, test
-        b       finished
+        b       eval
 }
 
 header:
@@ -27,7 +27,7 @@ t001:
         b       t002
 
 f001:
-        failed  1
+        m_exit  1
 
 t002:
         ; BIOS read returns 0x188+8 after swi
@@ -37,12 +37,13 @@ t002:
         ldr     r2, [r0]
         cmp     r2, r1
         bne     f002
-        b       finished
+        b       eval
 
 f002:
-        failed  2
+        m_exit  2
 
-finished:
+eval:
+        m_vsync
         m_test_eval r12
 
 idle:

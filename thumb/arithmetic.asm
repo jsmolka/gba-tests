@@ -15,7 +15,7 @@ t100:
         b       t101
 
 f100:
-        failed  100
+        m_exit  100
 
 t101:
         ; Carry flag subtraction
@@ -34,7 +34,7 @@ t101:
         b       t102
 
 f101:
-        failed  101
+        m_exit  101
 
 t102:
         ; Overflow flag addition
@@ -51,7 +51,7 @@ t102:
         b       t103
 
 f102:
-        failed  102
+        m_exit  102
 
 t103:
         ; Overflow flag subtraction
@@ -67,7 +67,7 @@ t103:
         b       t104
 
 f103:
-        failed  103
+        m_exit  103
 
 t104:
         ; THUMB 2: add rd, rs, imm3
@@ -79,7 +79,7 @@ t104:
         b       t105
 
 f104:
-        failed  104
+        m_exit  104
 
 t105:
         ; THUMB 3: add rd, imm8
@@ -91,7 +91,7 @@ t105:
         b       t106
 
 f105:
-        failed  105
+        m_exit  105
 
 t106:
         ; THUMB 5: add rd, rs (high registers)
@@ -108,7 +108,7 @@ t106:
         b       t107
 
 f106:
-        failed  106
+        m_exit  106
 
 t107:
         ; THUMB 12: add rd, sp, imm8 << 2
@@ -121,7 +121,7 @@ t107:
         b       t108
 
 f107:
-        failed  107
+        m_exit  107
 
 t108:
         ; THUMB 12: add rd, pc, imm8 << 2
@@ -135,7 +135,7 @@ t108:
         b       t109
 
 f108:
-        failed  108
+        m_exit  108
 
 t109:
         ; THUMB 13: add sp, imm7 << 2
@@ -148,7 +148,7 @@ t109:
         b       t110
 
 f109:
-        failed  109
+        m_exit  109
 
 t110:
         ; THUMB 4: adc rd, rs
@@ -167,7 +167,7 @@ t110:
         b       t111
 
 f110:
-        failed  110
+        m_exit  110
 
 t111:
         ; THUMB 2: sub rd, rs, imm3
@@ -179,7 +179,7 @@ t111:
         b       t112
 
 f111:
-        failed  111
+        m_exit  111
 
 t112:
         ; THUMB 3: sub rd, imm8
@@ -191,7 +191,7 @@ t112:
         b       t113
 
 f112:
-        failed  112
+        m_exit  112
 
 t113:
         ; THUMB 2: sub rd, rs, rn
@@ -204,7 +204,7 @@ t113:
         b       t114
 
 f113:
-        failed  113
+        m_exit  113
 
 t114:
         ; THUMB 4: sbc rd, rs
@@ -225,7 +225,7 @@ t114:
         b       t115
 
 f114:
-        failed  114
+        m_exit  114
 
 t115:
         ; THUMB 4: neg rd, rs
@@ -239,7 +239,7 @@ t115:
         b       t116
 
 f115:
-        failed  115
+        m_exit  115
 
 t116:
         ; THUMB 3: cmp rd, imm8
@@ -250,7 +250,7 @@ t116:
         b       t117
 
 f116:
-        failed  116
+        m_exit  116
 
 t117:
         ; THUMB 4: cmp rd, rs
@@ -261,7 +261,7 @@ t117:
         b       t118
 
 f117:
-        failed  117
+        m_exit  117
 
 t118:
         ; THUMB 5: cmp rd, rs (high registers)
@@ -273,7 +273,7 @@ t118:
         b       t119
 
 f118:
-        failed  118
+        m_exit  118
 
 t119:
         ; THUMB 4: cmn rd, rs
@@ -286,7 +286,7 @@ t119:
         b       t120
 
 f119:
-        failed  119
+        m_exit  119
 
 t120:
         ; THUMB 4: mul rd, rs
@@ -299,7 +299,7 @@ t120:
         b       t121
 
 f120:
-        failed  120
+        m_exit  120
 
 t121:
         ; THUMB 5: Add to PC alignment and flush
@@ -311,6 +311,6 @@ t121:
         b       arithmetic_passed
 
 f121:
-        failed  121
+        m_exit  121
 
 arithmetic_passed:

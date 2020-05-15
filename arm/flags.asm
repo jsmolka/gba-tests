@@ -12,7 +12,7 @@ t100:
         b       t101
 
 f100:
-        failed  100
+        m_exit  100
 
 t101:
         ; Negative flag
@@ -25,7 +25,7 @@ t101:
         b       t102
 
 f101:
-        failed  101
+        m_exit  101
 
 t102:
         ; Carry flag addition
@@ -40,7 +40,7 @@ t102:
         b       t103
 
 f102:
-        failed  102
+        m_exit  102
 
 t103:
         ; Carry flag addition with carry
@@ -58,7 +58,7 @@ t103:
         b       t104
 
 f103:
-        failed  103
+        m_exit  103
 
 t104:
         ; Carry flag subtraction
@@ -77,7 +77,7 @@ t104:
         b       t105
 
 f104:
-        failed  104
+        m_exit  104
 
 t105:
         ; Carry flag subtraction with carry
@@ -99,7 +99,7 @@ t105:
         b       t106
 
 f105:
-        failed  105
+        m_exit  105
 
 t106:
         ; Overflow flag addition
@@ -114,7 +114,7 @@ t106:
         b       t107
 
 f106:
-        failed  106
+        m_exit  106
 
 t107:
         ; Overflow flag addition with carry
@@ -131,7 +131,7 @@ t107:
         b       t108
 
 f107:
-        failed  107
+        m_exit  107
 
 t108:
         ; Overflow flag subtraction
@@ -146,7 +146,7 @@ t108:
         b       t109
 
 f108:
-        failed  108
+        m_exit  108
 
 t109:
         ; Overflow flag subtraction with carry
@@ -163,6 +163,6 @@ t109:
         b       flags_passed
 
 f109:
-        failed  109
+        m_exit  109
 
 flags_passed:

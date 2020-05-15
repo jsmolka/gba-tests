@@ -15,7 +15,7 @@ t350:
         b       t351
 
 f350:
-        failed  350
+        m_exit  350
 
 t351:
         ; ARM 7: Store byte
@@ -29,7 +29,7 @@ t351:
         b       t352
 
 f351:
-        failed  351
+        m_exit  351
 
 t352:
         ; ARM 7: Load byte
@@ -43,7 +43,7 @@ t352:
         b       t353
 
 f352:
-        failed  352
+        m_exit  352
 
 t353:
         ; ARM 7: Indexing, writeback and offset types
@@ -61,7 +61,7 @@ t353:
         b       t354
 
 f353:
-        failed  353
+        m_exit  353
 
 t354:
         ; ARM 7: Misaligned store
@@ -75,7 +75,7 @@ t354:
         b       t355
 
 f354:
-        failed  354
+        m_exit  354
 
 t355:
         ; ARM 7: Misaligned load (rotated)
@@ -89,7 +89,7 @@ t355:
         b       t356
 
 f355:
-        failed  355
+        m_exit  355
 
 t356:
         ; ARM 7: Store PC + 4
@@ -103,7 +103,7 @@ t356:
         b       t357
 
 f356:
-        failed  356
+        m_exit  356
 
 t357:
         ; ARM 7: Load into PC
@@ -112,7 +112,7 @@ t357:
         ldr     pc, [mem], 32
 
 f357:
-        failed  357
+        m_exit  357
 
 t358:
         ; ARM 7: Store writeback same register
@@ -130,7 +130,7 @@ t358:
         b       t359
 
 f358:
-        failed  358
+        m_exit  358
 
 t359:
         ; ARM 7: Store writeback same register
@@ -148,7 +148,7 @@ t359:
         b       t360
 
 f359:
-        failed  359
+        m_exit  359
 
 t360:
         ; ARM 7: Load writeback same register
@@ -163,7 +163,7 @@ t360:
         b       t361
 
 f360:
-        failed  360
+        m_exit  360
 
 t361:
         ; ARM 7: Load writeback same register
@@ -178,7 +178,7 @@ t361:
         b       t362
 
 f361:
-        failed  361
+        m_exit  361
 
 t362:
         ; ARM 7: Special shifts as offset
@@ -194,7 +194,7 @@ t362:
         b       t363
 
 f362:
-        failed  362
+        m_exit  362
 
 t363:
         ; ARM 7: Load current instruction
@@ -206,7 +206,7 @@ t363:
         b       single_transfer_passed
 
 f363:
-        failed  363
+        m_exit  363
 
 single_transfer_passed:
         restore mem

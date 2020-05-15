@@ -10,7 +10,7 @@ t200:
         b       t201
 
 f200:
-        failed  200
+        m_exit  200
 
 t201:
         ; ARM 3: Move negative
@@ -21,7 +21,7 @@ t201:
         b       t202
 
 f201:
-        failed  201
+        m_exit  201
 
 t202:
         ; ARM 3: And
@@ -33,7 +33,7 @@ t202:
         b       t203
 
 f202:
-        failed  202
+        m_exit  202
 
 t203:
         ; ARM 3: Exclusive or
@@ -45,7 +45,7 @@ t203:
         b       t204
 
 f203:
-        failed  203
+        m_exit  203
 
 t204:
         ; ARM 3: Or
@@ -57,7 +57,7 @@ t204:
         b       t205
 
 f204:
-        failed  204
+        m_exit  204
 
 t205:
         ; ARM 3: Bit clear
@@ -69,7 +69,7 @@ t205:
         b       t206
 
 f205:
-        failed  205
+        m_exit  205
 
 t206:
         ; ARM 3: Add
@@ -81,7 +81,7 @@ t206:
         b       t207
 
 f206:
-        failed  206
+        m_exit  206
 
 t207:
         ; ARM 3: Add with carry
@@ -100,7 +100,7 @@ t207:
         b       t208
 
 f207:
-        failed  207
+        m_exit  207
 
 t208:
         ; ARM 3: Subtract
@@ -112,7 +112,7 @@ t208:
         b       t209
 
 f208:
-        failed  208
+        m_exit  208
 
 t209:
         ; ARM 3: Reverse subtract
@@ -124,7 +124,7 @@ t209:
         b       t210
 
 f209:
-        failed  209
+        m_exit  209
 
 t210:
         ; ARM 3: Subtract with carry
@@ -143,7 +143,7 @@ t210:
         b       t211
 
 f210:
-        failed  210
+        m_exit  210
 
 t211:
         ; ARM 3: Reverse subtract with carry
@@ -162,7 +162,7 @@ t211:
         b       t212
 
 f211:
-        failed  211
+        m_exit  211
 
 t212:
         ; ARM 3: Compare
@@ -173,7 +173,7 @@ t212:
         b       t213
 
 f212:
-        failed  212
+        m_exit  212
 
 t213:
         ; ARM 3: Compare negative
@@ -184,7 +184,7 @@ t213:
         b       t214
 
 f213:
-        failed  213
+        m_exit  213
 
 t214:
         ; ARM 3: Test
@@ -195,7 +195,7 @@ t214:
         b       t215
 
 f214:
-        failed  214
+        m_exit  214
 
 t215:
         ; ARM 3: Test equal
@@ -206,7 +206,7 @@ t215:
         b       t216
 
 f215:
-        failed  215
+        m_exit  215
 
 t216:
         ; ARM 3: Operand types
@@ -219,7 +219,7 @@ t216:
         b       t217
 
 f216:
-        failed  216
+        m_exit  216
 
 t217:
         ; ARM 3: Update carry for rotated immediate
@@ -232,7 +232,7 @@ t217:
         b       t218
 
 f217:
-        failed  217
+        m_exit  217
 
 t218:
         ; ARM 3: Update carry for rotated register
@@ -249,7 +249,7 @@ t218:
         b       t219
 
 f218:
-        failed  218
+        m_exit  218
 
 t219:
         ; ARM 3: Update carry for rotated register
@@ -264,7 +264,7 @@ t219:
         b       t220
 
 f219:
-        failed  219
+        m_exit  219
 
 t220:
         ; ARM 3: Register shift special
@@ -278,7 +278,7 @@ t220:
         b       t221
 
 f220:
-        failed  220
+        m_exit  220
 
 t221:
         ; ARM 3: PC as operand
@@ -289,7 +289,7 @@ t221:
         b       t222
 
 f221:
-        failed  221
+        m_exit  221
 
 t222:
         ; ARM 3: PC as destination
@@ -297,7 +297,7 @@ t222:
         mov     pc, r0
 
 f222:
-        failed  222
+        m_exit  222
 
 t223:
         ; ARM 3: PC as destination with S bit
@@ -312,7 +312,7 @@ t223:
         b       t224
 
 f223:
-        failed  223
+        m_exit  223
 
 t224:
         ; ARM 3: PC as shifted register
@@ -324,7 +324,7 @@ t224:
         b       t225
 
 f224:
-        failed  224
+        m_exit  224
 
 t225:
         ; ARM 3: PC as operand 1 with shifted register
@@ -336,14 +336,14 @@ t225:
         b       t226
 
 f225:
-        failed  225
+        m_exit  225
 
 t226:
         ; ARM 3: PC as operand 1 with shifted register with immediate shift amount
         mov     r0, 0
         mov     r2, lr
-        bl      _get_pc_226
-_get_pc_226:
+        bl      .get_pc
+.get_pc:
         mov     r1, lr
         mov     lr, r2
 
@@ -354,7 +354,7 @@ _get_pc_226:
 
         b       t227
 f226:
-        failed  226
+        m_exit  226
 
 t227:
         ; ARM 3: Rotated immediate logical operation
@@ -366,7 +366,7 @@ t227:
         b       t228
 
 f227:
-        failed  227
+        m_exit  227
 
 t228:
         ; ARM 3: Rotated immediate arithmetic operation
@@ -385,7 +385,7 @@ t228:
         b       t229
 
 f228:
-        failed  228
+        m_exit  228
 
 t229:
         ; ARM 3: Immediate shift logical operation
@@ -399,7 +399,7 @@ t229:
         b       t230
 
 f229:
-        failed  229
+        m_exit  229
 
 t230:
         ; ARM 3: Immediate shift arithmetic operation
@@ -420,7 +420,7 @@ t230:
         b       t231
 
 f230:
-        failed  230
+        m_exit  230
 
 t231:
         ; ARM 3: Register shift logical operation
@@ -434,7 +434,7 @@ t231:
         b       t232
 
 f231:
-        failed  231
+        m_exit  231
 
 t232:
         ; ARM 3: Register shift arithmetic operation
@@ -457,7 +457,7 @@ t232:
         b       t233
 
 f232:
-        failed  232
+        m_exit  232
 
 t233:
         ; ARM 3: TST / TEQ setting flags during shifts
@@ -472,6 +472,6 @@ t233:
         b       data_processing_passed
 
 f233:
-        failed  233
+        m_exit  233
 
 data_processing_passed:
