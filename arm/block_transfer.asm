@@ -520,6 +520,5 @@ t532:
 f532:
         m_exit  532
 
-
 block_transfer_passed:
         restore mem
