@@ -160,4 +160,5 @@ t013:
 f013:
         m_exit  13
 
+align 4
 logical_passed:

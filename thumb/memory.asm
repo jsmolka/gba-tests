@@ -411,6 +411,7 @@ t224:
 f224:
         m_exit  224
 
+align 4
 t225:
         ; THUMB 14: Push / pop do not align base
         mov     r0, sp
@@ -466,6 +467,7 @@ t227:
 f227:
         m_exit  227
 
+align 4
 t228:
         sub     r0, 0x40
         cmp     r0, mem

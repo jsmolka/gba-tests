@@ -125,5 +125,6 @@ t169:
         add     r0, 1
         bx      r0
 
+align 4
 branches_passed:
         mov     r7, 0

@@ -8,6 +8,7 @@ t050:
         bx      r0
 
 code16
+align 2
 t051:
         ; THUMB 5: Branch with exchange
         mov     r0, 51
@@ -16,6 +17,7 @@ t051:
         bx      r0
 
 code32
+align 4
 t052:
         ; ARM 1: Branch without exchange
         mov     r12, 52

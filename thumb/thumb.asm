@@ -17,6 +17,7 @@ main:
         bx      r0
 
 code16
+align 2
 tmain:
         ; Reset test register
         mov     r7, 0
@@ -37,6 +38,7 @@ tmain_end:
         bx      r0
 
 code32
+align 4
 eval:
         m_vsync
         m_test_eval r7
