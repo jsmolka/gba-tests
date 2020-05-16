@@ -1,6 +1,7 @@
 include 'constants.inc'
 
 code32
+align 4
 text_init:
         stmfd   sp!, {r0-r1, lr}
         mov     r0, 4                   ; Background mode 4
@@ -13,28 +14,23 @@ text_color:
         ; r0:   color
         ; r1:   index
         stmfd   sp!, {r0-r2, lr}
-        mov     r2, 2
-        mul     r2, r1                  ; Calculate offset
-        add     r2, PALETTE             ; Calculate address
-        strh    r0, [r2]
+        lsl     r1, 1
+        mov     r2, PALETTE
+        strh    r0, [r2, r1]
         ldmfd   sp!, {r0-r2, pc}
 
 text_glyph_data:
         ; r0:   data, modified
         ; r1:   pointer, modified
         stmfd   sp!, {r2-r4, lr}
-        mov     r2, 0                   ; Loop to 32
+        mov     r2, 0                   ; Loop counter
 .loop:
-        and     r3, r0, 1               ; Bit for lower byte
+        and     r3, r0, 1               ; First bit
         lsr     r0, 1                   ; Advance in data
-        mov     r4, r3
-        ror     r4, 8                   ; Rotate lower byte
-        and     r3, r0, 1               ; Bit for higher byte
+        and     r4, r0, 1               ; Second bit
         lsr     r0, 1                   ; Advance in data
-        orr     r4, r3
-        ror     r4, 24                  ; Get correct byte order
-        strh    r4, [r1]
-        add     r1, 2
+        orr     r3, r4, ror 24          ; Move second bit
+        strh    r3, [r1], 2
         add     r2, 2
         tst     r2, 7                   ; Check for glyph line end
         addeq   r1, 232                 ; Move to next line
@@ -45,12 +41,11 @@ text_glyph_data:
 text_glyph:
         ; r0:   x
         ; r1:   y
-        ; r2:   glyph data 1
-        ; r3:   glyph data 2
+        ; r2:   glyph data upper
+        ; r3:   glyph data lower
         stmfd   sp!, {r0-r4, lr}
         mov     r4, 240
-        mul     r4, r1
-        add     r4, r0                  ; Calculate offset
+        mla     r4, r4, r1, r0          ; Calculate offset
         add     r4, VRAM                ; Calculate address
         mov     r0, r2                  ; Setup function call
         mov     r1, r4                  ; Setup function call
@@ -63,18 +58,14 @@ text_char:
         ; r0:   x, modified
         ; r1:   y
         ; r2:   char
-        stmfd   sp!, {r1-r5, lr}
-        sub     r2, 32                  ; Calculate glyph offset
-        mov     r3, 8
-        mul     r2, r3
+        stmfd   sp!, {r1-r3, lr}
+        sub     r2, 32                  ; Calculate glyph position
+        lsl     r2, 3                   ; Calculate glyph offset
         adr     r3, glyphs
-        ldr     r4, [r3, r2]            ; Load glyph data 1
-        add     r2, 4
-        ldr     r5, [r3, r2]            ; Load glyph data 2
-        mov     r2, r4                  ; Setup function call
-        mov     r3, r5                  ; Setup function call
+        add     r3, r2
+        ldmia   r3, {r2, r3}            ; Load data, setup function call
         bl      text_glyph              ; Render glyph
         add     r0, 8
-        ldmfd   sp!, {r1-r5, pc}
+        ldmfd   sp!, {r1-r3, pc}
 
 include 'glyphs.asm'
