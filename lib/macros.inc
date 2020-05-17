@@ -14,16 +14,16 @@ macro m_word reg, value {
 
 macro m_vsync {
         stmfd   sp!, \{r0-r1\}
-        mov     r0, IO
+        mov     r0, MEM_IO
 
 .vblank_end:
-        ldr     r1, [r0, DISPSTAT]
-        tst     r1, DISPSTAT_VBLANK
+        ldr     r1, [r0, REG_DISPSTAT]
+        tst     r1, STAT_VBLANK_FLG
         bne     .vblank_end             ; Loop until not in vblank
 
 .vblank_beg:
-        ldr     r1, [r0, DISPSTAT]
-        tst     r1, DISPSTAT_VBLANK
+        ldr     r1, [r0, REG_DISPSTAT]
+        tst     r1, STAT_VBLANK_FLG
         beq     .vblank_beg             ; Loop until in vblank
         ldmfd   sp!, \{r0-r1\}
 }
@@ -80,7 +80,7 @@ macro m_test_eval reg {
         b       .exit
 
 .failed:
-        mov     r11, IWRAM
+        mov     r11, MEM_IWRAM
         mov     r0, r12
         mov     r1, 100
         swi     0x60000         ; Test div 100

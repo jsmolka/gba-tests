@@ -6,8 +6,8 @@ text_init:
         stmfd   sp!, {r0-r1, lr}
         mov     r0, 4                   ; Background mode 4
         orr     r0, 1 shl 10            ; Background 2
-        mov     r1, IO
-        strh    r0, [r1, DISPCNT]
+        mov     r1, MEM_IO
+        strh    r0, [r1, REG_DISPCNT]
         ldmfd   sp!, {r0-r1, pc}
 
 text_color:
@@ -15,7 +15,7 @@ text_color:
         ; r1:   index
         stmfd   sp!, {r0-r2, lr}
         lsl     r1, 1
-        mov     r2, PALETTE
+        mov     r2, MEM_PALETTE
         strh    r0, [r2, r1]
         ldmfd   sp!, {r0-r2, pc}
 
@@ -46,7 +46,7 @@ text_glyph:
         stmfd   sp!, {r0-r4, lr}
         mov     r4, 240
         mla     r4, r4, r1, r0          ; Calculate offset
-        add     r4, VRAM                ; Calculate address
+        add     r4, MEM_VRAM            ; Calculate address
         mov     r0, r2                  ; Setup function call
         mov     r1, r4                  ; Setup function call
         bl      text_glyph_data

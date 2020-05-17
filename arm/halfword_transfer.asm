@@ -1,7 +1,7 @@
 halfword_transfer:
         ; Tests for the halfword data transfer instruction
         mem     equ r11
-        mov     mem, IWRAM
+        mov     mem, MEM_IWRAM
         add     mem, 0x1500
 
 t400:

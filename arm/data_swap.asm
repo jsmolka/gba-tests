@@ -1,7 +1,7 @@
 data_swap:
         ; Tests for the data swap instruction
         mem     equ r11
-        mov     mem, IWRAM
+        mov     mem, MEM_IWRAM
         add     mem, 0x3000
 
 t450:

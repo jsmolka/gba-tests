@@ -1,7 +1,7 @@
 single_transfer:
         ; Tests for the single data transfer instruction
         mem     equ r11
-        mov     mem, IWRAM
+        mov     mem, MEM_IWRAM
 
 t350:
         ; ARM 7: Load / store word

@@ -8,17 +8,17 @@ header:
 main:
         ; Setup DISPCNT
         mov    r0, 1 shl 8
-        mov    r1, IO
-        str    r0, [r1, DISPCNT]
+        mov    r1, MEM_IO
+        str    r0, [r1, REG_DISPCNT]
 
         ; Setup BG0CNT
         mov    r0, 0x41 shl 2
-        mov    r1, IO
-        str    r0, [r1, BG0CNT]
+        mov    r1, MEM_IO
+        str    r0, [r1, REG_BG0CNT]
 
         ; Setup shades of blue
         mov     r0, 0
-        mov     r1, PALETTE
+        mov     r1, MEM_PALETTE
         mov     r2, 16
 
 .loop_color:
@@ -30,7 +30,7 @@ main:
 
         ; Generate 16 background tiles
         mov     r0, 0
-        mov     r1, VRAM
+        mov     r1, MEM_VRAM
         add     r1, 0x4000
         mov     r2, 16
 
@@ -48,7 +48,7 @@ main:
         bne     .loop_tiles
 
         ; Generate background map
-        mov     r1, VRAM
+        mov     r1, MEM_VRAM
         add     r1, 0x800
         mov     r2, 32
 
