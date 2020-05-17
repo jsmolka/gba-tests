@@ -13,6 +13,9 @@ macro m_word reg, value {
 }
 
 macro m_vsync {
+local .vblank_end
+local .vblank_beg
+
         stmfd   sp!, \{r0-r1\}
         mov     r0, MEM_IO
 
@@ -54,6 +57,10 @@ macro m_test_init {
 }
 
 macro m_test_eval reg {
+local .passed
+local .failed
+local .exit
+
         stmfd   sp!, \{r0-r12\}
         movs    r12, reg
         beq     .passed
