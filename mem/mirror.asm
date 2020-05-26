@@ -1,4 +1,4 @@
-mirrors:
+mirror:
         ; Tests for memory mirrors
 
 t001:
@@ -152,9 +152,9 @@ t010:
         ldrb    r0, [r1, 0x10]
         bne     f010
 
-        b       mirrors_passed
+        b       mirror_passed
 
 f010:
         m_exit  10
 
-mirrors_passed:
+mirror_passed:
