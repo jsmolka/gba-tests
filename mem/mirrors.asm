@@ -5,9 +5,9 @@ t001:
         ; EWRAM mirror
         mov     r0, 1
         mov     r1, MEM_EWRAM
-        str     r0, [r1]
+        str     r0, [r1, 0x10]
         add     r1, 0x40000
-        ldr     r0, [r1]
+        ldr     r0, [r1, 0x10]
         cmp     r0, 1
         bne     f001
 
@@ -20,9 +20,9 @@ t002:
         ; IWRAM mirror
         mov     r0, 1
         mov     r1, MEM_IWRAM
-        str     r0, [r1]
+        str     r0, [r1, 0x10]
         add     r1, 0x8000
-        ldr     r0, [r1]
+        ldr     r0, [r1, 0x10]
         cmp     r0, 1
         bne     f002
 
@@ -48,12 +48,12 @@ f003:
 
 t004:
         ; VRAM mirror 1
-        mov     r0, 1
+        mov     r0, 2
         mov     r1, MEM_VRAM
-        str     r0, [r1]
+        str     r0, [r1, 0x10]
         add     r1, 0x20000
-        ldr     r0, [r1]
-        cmp     r0, 1
+        ldr     r0, [r1, 0x10]
+        cmp     r0, 2
         bne     f004
 
         b       t005
@@ -64,13 +64,13 @@ f004:
 
 t005:
         ; VRAM mirrors 2
-        mov     r0, 1
+        mov     r0, 2
         mov     r1, MEM_VRAM
         add     r1, 0x10000
-        str     r0, [r1]
+        str     r0, [r1, 0x10]
         add     r1, 0x10000
-        ldr     r0, [r1]
-        cmp     r0, 1
+        ldr     r0, [r1, 0x10]
+        cmp     r0, 2
         bne     f005
 
         b       t006
@@ -82,9 +82,9 @@ t006:
         ; OAM mirror
         mov     r0, 1
         mov     r1, MEM_OAM
-        str     r0, [r1]
+        str     r0, [r1, 0x10]
         add     r1, 0x400
-        ldr     r0, [r1]
+        ldr     r0, [r1, 0x10]
         cmp     r0, 1
         bne     f006
 
@@ -129,9 +129,9 @@ t009:
         ; SRAM mirror 1
         mov     r0, 1
         mov     r1, MEM_SRAM
-        strb    r0, [r1]
+        strb    r0, [r1, 0x10]
         add     r1, 0x8000
-        ldrb    r0, [r1]
+        ldrb    r0, [r1, 0x10]
         bne     f009
 
         b       t010
@@ -147,9 +147,9 @@ t010:
         ; SRAM mirror 2
         mov     r0, 1
         mov     r1, MEM_SRAM
-        strb    r0, [r1]
+        strb    r0, [r1, 0x10]
         add     r1, 0x01000000
-        ldrb    r0, [r1]
+        ldrb    r0, [r1, 0x10]
         bne     f010
 
         b       mirrors_passed

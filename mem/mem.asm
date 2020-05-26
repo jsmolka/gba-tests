@@ -19,6 +19,8 @@ main:
 
         ; Tests start at 1
         include 'mirrors.asm'
+        ; Tests start at 50
+        include 'vstrb.asm'
 
 eval:
         m_vsync
