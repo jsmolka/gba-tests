@@ -1,5 +1,5 @@
-video:
-        ; Tests for video memory
+vstrb:
+        ; Tests for video memory byte stores
 
 t050:
         ; Ignored OAM byte stores
@@ -86,11 +86,9 @@ t054:
         cmp     r1, r0
         bne     f054
 
-        b       t055
+        b       vstrb_passed
 
 f054:
         m_exit  54
 
-t055:
-
-video_passed:
+vstrb_passed:

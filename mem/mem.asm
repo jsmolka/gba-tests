@@ -18,7 +18,7 @@ main:
         mov     r12, 0
 
         ; Tests start at 1
-        include 'mirrors.asm'
+        include 'mirror.asm'
         ; Tests start at 50
         include 'vstrb.asm'
 
