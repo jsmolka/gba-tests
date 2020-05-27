@@ -18,9 +18,11 @@ main:
         mov     r12, 0
 
         ; Tests start at 1
-        include 'mirror.asm'
+        include 'mirrors.asm'
         ; Tests start at 50
         include 'vstrb.asm'
+        ; Tests start at 100
+        include 'sram.asm'
 
 eval:
         m_vsync

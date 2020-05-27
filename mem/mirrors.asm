@@ -1,4 +1,4 @@
-mirror:
+mirrors:
         ; Tests for memory mirrors
 
 t001:
@@ -117,7 +117,7 @@ t008:
         cmp     r0, 1
         bne     f008
 
-        b       t009
+        b       mirrors_passed
 
 .data:
         dw      1
@@ -125,36 +125,5 @@ t008:
 f008:
         m_exit  8
 
-t009:
-        ; SRAM mirror 1
-        mov     r0, 1
-        mov     r1, MEM_SRAM
-        strb    r0, [r1, 0x10]
-        add     r1, 0x8000
-        ldrb    r0, [r1, 0x10]
-        bne     f009
 
-        b       t010
-
-.sram:
-        ; Fake SRAM save type
-        dw      'SRAM'
-
-f009:
-        m_exit  9
-
-t010:
-        ; SRAM mirror 2
-        mov     r0, 1
-        mov     r1, MEM_SRAM
-        strb    r0, [r1, 0x10]
-        add     r1, 0x01000000
-        ldrb    r0, [r1, 0x10]
-        bne     f010
-
-        b       mirror_passed
-
-f010:
-        m_exit  10
-
-mirror_passed:
+mirrors_passed:
