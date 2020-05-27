@@ -23,12 +23,12 @@ t051:
 
         orr     r2, r1, 3
         strh    r2, [r0]
-        mov     r3, 1
+        mov     r3, 2
         mov     r4, MEM_VRAM
         add     r4, 0x14000
         strb    r3, [r4, 0x20]
         ldr     r3, [r4, 0x20]
-        cmp     r3, 1
+        cmp     r3, 2
         beq     f051
 
         strh    r1, [r0]
@@ -46,12 +46,12 @@ t052:
 
         bic     r2, r1, 3
         strh    r2, [r0]
-        mov     r3, 1
+        mov     r3, 2
         mov     r4, MEM_VRAM
         add     r4, 0x10000
         strb    r3, [r4, 0x20]
         ldr     r3, [r4, 0x20]
-        cmp     r3, 1
+        cmp     r3, 2
         beq     f052
 
         strh    r1, [r0]
@@ -63,11 +63,11 @@ f052:
 
 t053:
         ; VRAM byte store as halfword
-        mov     r0, 1
+        mov     r0, 2
         mov     r1, MEM_VRAM
         strb    r0, [r1, 0x20]
         ldrh    r0, [r1, 0x20]
-        m_half  r1, 0x0101
+        m_half  r1, 0x0202
         cmp     r1, r0
         bne     f053
 
