@@ -62,7 +62,7 @@ f004:
         m_exit  4
 
 t005:
-        ; VRAM mirrors 2
+        ; VRAM mirror 2
         mov     r0, 2
         mov     r1, MEM_VRAM
         add     r1, 0x10000

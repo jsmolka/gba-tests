@@ -5,8 +5,8 @@ t050:
         ; Ignored OAM byte stores
         mov     r0, 1
         mov     r1, MEM_OAM
-        strb    r0, [r1, 0x20]
-        ldr     r0, [r1, 0x20]
+        strb    r0, [r1, 0x10]
+        ldr     r0, [r1, 0x10]
         cmp     r0, 1
         beq     f050
 
@@ -26,8 +26,8 @@ t051:
         mov     r3, 2
         mov     r4, MEM_VRAM
         add     r4, 0x14000
-        strb    r3, [r4, 0x20]
-        ldr     r3, [r4, 0x20]
+        strb    r3, [r4, 0x10]
+        ldr     r3, [r4, 0x10]
         cmp     r3, 2
         beq     f051
 
@@ -49,8 +49,8 @@ t052:
         mov     r3, 2
         mov     r4, MEM_VRAM
         add     r4, 0x10000
-        strb    r3, [r4, 0x20]
-        ldr     r3, [r4, 0x20]
+        strb    r3, [r4, 0x10]
+        ldr     r3, [r4, 0x10]
         cmp     r3, 2
         beq     f052
 
@@ -65,8 +65,8 @@ t053:
         ; VRAM byte store as halfword
         mov     r0, 2
         mov     r1, MEM_VRAM
-        strb    r0, [r1, 0x20]
-        ldrh    r0, [r1, 0x20]
+        strb    r0, [r1, 0x10]
+        ldrh    r0, [r1, 0x10]
         m_half  r1, 0x0202
         cmp     r1, r0
         bne     f053

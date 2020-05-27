@@ -11,9 +11,9 @@ t100:
         ; SRAM mirror 1
         mov     r0, 1
         mov     r1, MEM_SRAM
-        strb    r0, [r1, 0x10]
+        strb    r0, [r1]
         add     r1, 0x8000
-        ldrb    r0, [r1, 0x10]
+        ldrb    r0, [r1]
         bne     f100
 
         b       t101
@@ -25,9 +25,9 @@ t101:
         ; SRAM mirror 2
         mov     r0, 1
         mov     r1, MEM_SRAM
-        strb    r0, [r1, 0x20]
+        strb    r0, [r1]
         add     r1, 0x01000000
-        ldrb    r0, [r1, 0x20]
+        ldrb    r0, [r1]
         bne     f101
 
         b       t102
@@ -36,11 +36,11 @@ f101:
         m_exit  101
 
 t102:
-        ; SRAM store half
+        ; SRAM load half
         mov     r0, 1
         mov     r1, MEM_SRAM
-        strb    r0, [r1, 0x30]
-        ldrh    r0, [r1, 0x30]
+        strb    r0, [r1]
+        ldrh    r0, [r1]
         m_half  r1, 0x0101
         cmp     r1, r0
         bne     f102
@@ -51,11 +51,11 @@ f102:
         m_exit  102
 
 t103:
-        ; SRAM store word
+        ; SRAM load word
         mov     r0, 1
         mov     r1, MEM_SRAM
-        strb    r0, [r1, 0x40]
-        ldr     r0, [r1, 0x40]
+        strb    r0, [r1]
+        ldr     r0, [r1]
         m_word  r1, 0x01010101
         cmp     r1, r0
         bne     f103
@@ -66,16 +66,16 @@ f103:
         m_exit  103
 
 t104:
-        ; SRAM load half
+        ; SRAM store half
         m_half  r0, 0xAABB
         mov     r1, MEM_SRAM
-        str     r0, [r1, 0x50]
-        ldrb    r2, [r1, 0x50]
+        strh    r0, [r1]
+        ldrb    r2, [r1]
         cmp     r2, 0xBB
         bne     f104
 
-        str     r0, [r1, 0x51]
-        ldrb    r2, [r1, 0x51]
+        strh    r0, [r1, 1]
+        ldrb    r2, [r1, 1]
         cmp     r2, 0xAA
         bne     f104
 
@@ -85,26 +85,26 @@ f104:
         m_exit  104
 
 t105:
-        ; SRAM load word
+        ; SRAM store word
         m_word  r0, 0xAABBCCDD
         mov     r1, MEM_SRAM
-        str     r0, [r1, 0x60]
-        ldrb    r2, [r1, 0x60]
+        str     r0, [r1]
+        ldrb    r2, [r1]
         cmp     r2, 0xDD
         bne     f105
 
-        str     r0, [r1, 0x61]
-        ldrb    r2, [r1, 0x61]
+        str     r0, [r1, 1]
+        ldrb    r2, [r1, 1]
         cmp     r2, 0xCC
         bne     f105
 
-        str     r0, [r1, 0x62]
-        ldrb    r2, [r1, 0x62]
+        str     r0, [r1, 2]
+        ldrb    r2, [r1, 2]
         cmp     r2, 0xBB
         bne     f105
 
-        str     r0, [r1, 0x63]
-        ldrb    r2, [r1, 0x63]
+        str     r0, [r1, 3]
+        ldrb    r2, [r1, 3]
         cmp     r2, 0xAA
         bne     f105
 
