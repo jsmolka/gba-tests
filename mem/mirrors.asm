@@ -56,7 +56,7 @@ t004:
         cmp     r0, 2
         bne     f004
 
-        b       t005
+        b       t006
 
 f004:
         m_exit  4
