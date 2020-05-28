@@ -47,7 +47,7 @@ f003:
         m_exit  3
 
 t004:
-        ; VRAM mirror 1
+        ; VRAM mirror
         mov     r0, 2
         mov     r1, MEM_VRAM
         str     r0, [r1]
@@ -62,14 +62,13 @@ f004:
         m_exit  4
 
 t005:
-        ; VRAM mirror 2
-        mov     r0, 2
-        mov     r1, MEM_VRAM
-        add     r1, 0x10000
+        ; OAM mirror
+        mov     r0, 1
+        mov     r1, MEM_OAM
         str     r0, [r1]
-        add     r1, 0x8000
+        add     r1, 0x400
         ldr     r0, [r1]
-        cmp     r0, 2
+        cmp     r0, 1
         bne     f005
 
         b       t006
@@ -78,50 +77,35 @@ f005:
         m_exit  5
 
 t006:
-        ; OAM mirror
-        mov     r0, 1
-        mov     r1, MEM_OAM
-        str     r0, [r1]
-        add     r1, 0x400
+        ; GamePak mirror 1
+        adr     r1, .data
+        add     r1, 0x02000000
         ldr     r0, [r1]
         cmp     r0, 1
         bne     f006
 
         b       t007
 
+.data:
+        dw      1
+
 f006:
         m_exit  6
 
 t007:
-        ; GamePak mirror 1
-        adr     r1, .data
-        add     r1, 0x02000000
-        ldr     r0, [r1]
-        cmp     r0, 1
-        bne     f007
-
-        b       t008
-
-.data:
-        dw      1
-
-f007:
-        m_exit  7
-
-t008:
         ; GamePak mirror 2
         adr     r1, .data
         add     r1, 0x04000000
         ldr     r0, [r1]
         cmp     r0, 1
-        bne     f008
+        bne     f007
 
         b       mirrors_passed
 
 .data:
         dw      1
 
-f008:
-        m_exit  8
+f007:
+        m_exit  7
 
 mirrors_passed:

@@ -1,8 +1,8 @@
-vstrb:
+video_strb:
         ; Tests for video memory byte stores
 
 t050:
-        ; Ignored OAM byte stores
+        ; Ignore OAM byte stores
         mov     r0, 1
         mov     r1, MEM_OAM
         strb    r0, [r1, 0x10]
@@ -16,7 +16,7 @@ f050:
         m_exit  50
 
 t051:
-        ; Ignored VRAM byte stores in bitmap modes
+        ; Ignore VRAM byte stores in bitmap modes
         mov     r0, MEM_IO
         add     r0, REG_DISPCNT
         ldrh    r1, [r0]
@@ -39,7 +39,7 @@ f051:
         m_exit  51
 
 t052:
-        ; Ignored VRAM byte stores in non-bitmap modes
+        ; Ignore VRAM byte stores in non-bitmap modes
         mov     r0, MEM_IO
         add     r0, REG_DISPCNT
         ldrh    r1, [r0]
@@ -86,9 +86,9 @@ t054:
         cmp     r1, r0
         bne     f054
 
-        b       vstrb_passed
+        b       video_strb_passed
 
 f054:
         m_exit  54
 
-vstrb_passed:
+video_strb_passed:
