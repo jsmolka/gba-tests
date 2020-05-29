@@ -31,6 +31,22 @@ main_begin:
         ; Reset test register
         mov     r12, 0
 
+t001:
+        ; Test two stage pipeline
+        adr     r0, .pipe1
+        adr     r1, .pipe2
+        mov     r2, 0
+        str     r2, [r0]
+        str     r2, [r1]
+
+.pipe1:
+        cmp     r2, 0
+.pipe2:
+        beq     eval
+
+f001:
+        m_exit  1
+
 eval:
         m_vsync
         m_test_eval r12
