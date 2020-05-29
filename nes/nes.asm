@@ -42,10 +42,45 @@ t001:
 .pipe1:
         cmp     r2, 0
 .pipe2:
-        beq     eval
+        beq     t002
 
 f001:
         m_exit  1
+
+t002:
+        ; STM decrement order
+        adr     r0, .dma_data
+        adr     r1, .dma_fail
+        mov     r2, 1
+        mov     r3, MEM_IO
+        str     r0, [r3, REG_DMA0SAD]
+        str     r1, [r3, REG_DMA0DAD]
+        str     r2, [r3, REG_DMA0CNT]
+
+        adr     r0, .dma_data
+        adr     r1, .dma_pass
+        mov     r2, 0x80000001
+        m_word  r3, (MEM_IO * REG_DMA0CNT)
+        stmda   r3, {r0-r2}
+
+        adr     r0, .dma_fail
+        ldr     r1, [r0]
+        cmp     r1, 0xFF
+        beq     f002
+
+        b       eval
+
+.dma_data:
+        dw      0x000000FF
+
+.dma_pass:
+        dw      0x00000000
+
+.dma_fail:
+        dw      0x00000000
+
+f002:
+        m_exit  2
 
 eval:
         m_vsync
