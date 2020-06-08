@@ -8,6 +8,7 @@ sram:
         ; Fake SRAM save type
         ; Should work on most emulators
         dw      'SRAM'
+        dw      '_V  '
 
 t100:
         ; SRAM mirror 1

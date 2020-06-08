@@ -22,11 +22,11 @@ gba_header:
 
         db      'GBA Suite',0,0,0  ; Game title (12 bytes)
         db      '1337'             ; Game code (4 bytes)
-        db      'JS'               ; Make code (2 bytes)
+        db      'JS'               ; Maker code (2 bytes)
         db      0x96               ; Fixed (1 byte)
         db      0x00               ; Unit code (1 byte)
         db      0x80               ; Device type (1 byte)
         db      0,0,0,0,0,0,0      ; Unused (7 bytes)
         db      0x00               ; Game version (1 byte)
         db      0x72               ; Complement (1 byte)
-        db      0,0                ; Reserved (2 bytes)
+        db      0,0                ; Checksum (2 bytes)
