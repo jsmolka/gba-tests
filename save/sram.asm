@@ -27,13 +27,9 @@ sram:
         dw      '_V  '
 
 t001:
-        ; SRAM mirror 1
-        mov     r0, 1
-        mov     r1, MEM_SRAM
-        strb    r0, [r1]
-        add     r1, 0x10000
-        ldrb    r0, [r1]
-        cmp     r0, 1
+        ; Uninitialized SRAM
+        ldrb    r0, [r11]
+        cmp     r0, 0xFF
         bne     f001
 
         add     r11, 32
@@ -43,12 +39,11 @@ f001:
         m_exit  1
 
 t002:
-        ; SRAM mirror 2
+        ; SRAM mirror 1
         mov     r0, 1
-        mov     r1, r11
-        strb    r0, [r1]
-        add     r1, 0x01000000
-        ldrb    r0, [r1]
+        strb    r0, [r11]
+        add     r1, 0x10000
+        ldrb    r0, [r11]
         cmp     r0, 1
         bne     f002
 
@@ -59,13 +54,13 @@ f002:
         m_exit  2
 
 t003:
-        ; SRAM load half
+        ; SRAM mirror 2
         mov     r0, 1
         mov     r1, r11
         strb    r0, [r1]
-        ldrh    r0, [r1]
-        m_half  r1, 0x0101
-        cmp     r1, r0
+        add     r1, 0x01000000
+        ldrb    r0, [r1]
+        cmp     r0, 1
         bne     f003
 
         add     r11, 32
@@ -75,12 +70,12 @@ f003:
         m_exit  3
 
 t004:
-        ; SRAM load word
+        ; SRAM load half
         mov     r0, 1
         mov     r1, r11
         strb    r0, [r1]
-        ldr     r0, [r1]
-        m_word  r1, 0x01010101
+        ldrh    r0, [r1]
+        m_half  r1, 0x0101
         cmp     r1, r0
         bne     f004
 
@@ -91,18 +86,13 @@ f004:
         m_exit  4
 
 t005:
-        ; SRAM store half position
-        m_half  r0, 0xAABB
+        ; SRAM load word
+        mov     r0, 1
         mov     r1, r11
-
-        strh    r0, [r1]
-        ldrb    r2, [r1]
-        cmp     r2, 0xBB
-        bne     f005
-
-        strh    r0, [r1, 1]
-        ldrb    r2, [r1, 1]
-        cmp     r2, 0xAA
+        strb    r0, [r1]
+        ldr     r0, [r1]
+        m_word  r1, 0x01010101
+        cmp     r1, r0
         bne     f005
 
         add     r11, 32
@@ -112,17 +102,18 @@ f005:
         m_exit  5
 
 t006:
-        ; SRAM store half just byte
+        ; SRAM store half position
         m_half  r0, 0xAABB
         mov     r1, r11
-        strh    r0, [r1]
 
+        strh    r0, [r1]
         ldrb    r2, [r1]
         cmp     r2, 0xBB
         bne     f006
 
+        strh    r0, [r1, 1]
         ldrb    r2, [r1, 1]
-        cmp     r2, 0xFF
+        cmp     r2, 0xAA
         bne     f006
 
         add     r11, 32
@@ -132,28 +123,17 @@ f006:
         m_exit  6
 
 t007:
-        ; SRAM store word position
-        m_word  r0, 0xAABBCCDD
+        ; SRAM store half just byte
+        m_half  r0, 0xAABB
         mov     r1, r11
+        strh    r0, [r1]
 
-        str     r0, [r1]
         ldrb    r2, [r1]
-        cmp     r2, 0xDD
-        bne     f007
-
-        str     r0, [r1, 1]
-        ldrb    r2, [r1, 1]
-        cmp     r2, 0xCC
-        bne     f007
-
-        str     r0, [r1, 2]
-        ldrb    r2, [r1, 2]
         cmp     r2, 0xBB
         bne     f007
 
-        str     r0, [r1, 3]
-        ldrb    r2, [r1, 3]
-        cmp     r2, 0xAA
+        ldrb    r2, [r1, 1]
+        cmp     r2, 0xFF
         bne     f007
 
         add     r11, 32
@@ -163,6 +143,37 @@ f007:
         m_exit  7
 
 t008:
+        ; SRAM store word position
+        m_word  r0, 0xAABBCCDD
+        mov     r1, r11
+
+        str     r0, [r1]
+        ldrb    r2, [r1]
+        cmp     r2, 0xDD
+        bne     f008
+
+        str     r0, [r1, 1]
+        ldrb    r2, [r1, 1]
+        cmp     r2, 0xCC
+        bne     f008
+
+        str     r0, [r1, 2]
+        ldrb    r2, [r1, 2]
+        cmp     r2, 0xBB
+        bne     f008
+
+        str     r0, [r1, 3]
+        ldrb    r2, [r1, 3]
+        cmp     r2, 0xAA
+        bne     f008
+
+        add     r11, 32
+        b       t009
+
+f008:
+        m_exit  8
+
+t009:
         ; SRAM store word just byte
         m_word  r0, 0xAABBCCDD
         mov     r1, r11
@@ -170,24 +181,24 @@ t008:
 
         ldrb    r2, [r1]
         cmp     r2, 0xDD
-        bne     f008
+        bne     f009
 
         ldrb    r2, [r1, 1]
         cmp     r2, 0xFF
-        bne     f008
+        bne     f009
 
         ldrb    r2, [r1, 2]
         cmp     r2, 0xFF
-        bne     f008
+        bne     f009
 
         ldrb    r2, [r1, 3]
         cmp     r2, 0xFF
-        bne     f008
+        bne     f009
 
         b       eval
 
-f008:
-        m_exit  8
+f009:
+        m_exit  9
 
 eval:
         m_vsync
