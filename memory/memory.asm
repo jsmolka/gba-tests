@@ -22,8 +22,6 @@ main:
         ; Tests start at 50
         include 'video_strb.asm'
         ; Tests start at 100
-        include 'sram.asm'
-        ; Tests start at 150
         include 'mirrors32.asm'
 
 eval:

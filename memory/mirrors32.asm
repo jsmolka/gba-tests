@@ -1,7 +1,7 @@
 mirrors32:
         ; Tests for 32k memory mirrors
 
-t150:
+t100:
         ; VRAM 32k mirror
         mov     r0, 2
         mov     r1, MEM_VRAM
@@ -10,14 +10,19 @@ t150:
         add     r1, 0x8000
         ldr     r0, [r1]
         cmp     r0, 2
-        bne     f150
+        bne     f100
 
-        b       t151
+        b       t101
 
-f150:
-        m_exit  150
+f100:
+        m_exit  100
 
-t151:
+sram:
+        ; Fake SRAM save type
+        dw      'SRAM'
+        dw      '_V  '
+
+t101:
         ; SRAM 32k mirror
         mov     r0, 1
         mov     r1, MEM_SRAM
@@ -25,11 +30,11 @@ t151:
         add     r1, 0x8000
         ldrb    r0, [r1]
         cmp     r0, 1
-        bne     f151
+        bne     f101
 
         b       mirrors32_passed
 
-f151:
-        m_exit  151
+f101:
+        m_exit  101
 
 mirrors32_passed:

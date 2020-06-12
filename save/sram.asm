@@ -1,16 +1,32 @@
-sram:
-        ; Tests for SRAM
-        mem     equ r11
-        mov     mem, MEM_SRAM
-        b       t100
 
-.fake:
+format binary as 'gba'
+
+include '../lib/constants.inc'
+include '../lib/macros.inc'
+
+macro m_exit test {
+        mov     r12, test
+        b       eval
+}
+
+header:
+        include '../lib/header.asm'
+
+main:
+        m_test_init
+
+        ; Reset test register
+        mov     r12, 0
+
+        mov     r11, MEM_SRAM
+        b       t001
+
+sram:
         ; Fake SRAM save type
-        ; Should work on most emulators
         dw      'SRAM'
         dw      '_V  '
 
-t100:
+t001:
         ; SRAM mirror 1
         mov     r0, 1
         mov     r1, MEM_SRAM
@@ -18,47 +34,47 @@ t100:
         add     r1, 0x10000
         ldrb    r0, [r1]
         cmp     r0, 1
-        bne     f100
+        bne     f001
 
-        add     mem, 32
-        b       t101
+        add     r11, 32
+        b       t002
 
-f100:
-        m_exit  100
+f001:
+        m_exit  1
 
-t101:
+t002:
         ; SRAM mirror 2
         mov     r0, 1
-        mov     r1, mem
+        mov     r1, r11
         strb    r0, [r1]
         add     r1, 0x01000000
         ldrb    r0, [r1]
         cmp     r0, 1
-        bne     f101
+        bne     f002
 
-        add     mem, 32
-        b       t102
+        add     r11, 32
+        b       t003
 
-f101:
-        m_exit  101
+f002:
+        m_exit  2
 
-t102:
+t003:
         ; SRAM load half
         mov     r0, 1
-        mov     r1, mem
+        mov     r1, r11
         strb    r0, [r1]
         ldrh    r0, [r1]
         m_half  r1, 0x0101
         cmp     r1, r0
-        bne     f102
+        bne     f003
 
-        add     mem, 32
-        b       t103
+        add     r11, 32
+        b       t004
 
-f102:
-        m_exit  102
+f003:
+        m_exit  3
 
-t103:
+t004:
         ; SRAM load word
         mov     r0, 1
         mov     r1, r11
@@ -66,112 +82,118 @@ t103:
         ldr     r0, [r1]
         m_word  r1, 0x01010101
         cmp     r1, r0
-        bne     f103
+        bne     f004
 
-        add     mem, 32
-        b       t104
+        add     r11, 32
+        b       t005
 
-f103:
-        m_exit  103
+f004:
+        m_exit  4
 
-t104:
+t005:
         ; SRAM store half position
         m_half  r0, 0xAABB
-        mov     r1, mem
+        mov     r1, r11
 
         strh    r0, [r1]
         ldrb    r2, [r1]
         cmp     r2, 0xBB
-        bne     f104
+        bne     f005
 
         strh    r0, [r1, 1]
         ldrb    r2, [r1, 1]
         cmp     r2, 0xAA
-        bne     f104
+        bne     f005
 
-        add     mem, 32
-        b       t105
+        add     r11, 32
+        b       t006
 
-f104:
-        m_exit  104
+f005:
+        m_exit  5
 
-t105:
+t006:
         ; SRAM store half just byte
         m_half  r0, 0xAABB
-        mov     r1, mem
+        mov     r1, r11
         strh    r0, [r1]
 
         ldrb    r2, [r1]
         cmp     r2, 0xBB
-        bne     f105
+        bne     f006
 
         ldrb    r2, [r1, 1]
         cmp     r2, 0xFF
-        bne     f105
+        bne     f006
 
-        add     mem, 32
-        b       t106
+        add     r11, 32
+        b       t007
 
-f105:
-        m_exit  105
+f006:
+        m_exit  6
 
-t106:
+t007:
         ; SRAM store word position
         m_word  r0, 0xAABBCCDD
-        mov     r1, mem
+        mov     r1, r11
 
         str     r0, [r1]
         ldrb    r2, [r1]
         cmp     r2, 0xDD
-        bne     f106
+        bne     f007
 
         str     r0, [r1, 1]
         ldrb    r2, [r1, 1]
         cmp     r2, 0xCC
-        bne     f106
+        bne     f007
 
         str     r0, [r1, 2]
         ldrb    r2, [r1, 2]
         cmp     r2, 0xBB
-        bne     f106
+        bne     f007
 
         str     r0, [r1, 3]
         ldrb    r2, [r1, 3]
         cmp     r2, 0xAA
-        bne     f106
+        bne     f007
 
-        add     mem, 32
-        b       t107
+        add     r11, 32
+        b       t008
 
-f106:
-        m_exit  106
+f007:
+        m_exit  7
 
-t107:
+t008:
         ; SRAM store word just byte
         m_word  r0, 0xAABBCCDD
-        mov     r1, mem
+        mov     r1, r11
         str     r0, [r1]
 
         ldrb    r2, [r1]
         cmp     r2, 0xDD
-        bne     f107
+        bne     f008
 
         ldrb    r2, [r1, 1]
         cmp     r2, 0xFF
-        bne     f107
+        bne     f008
 
         ldrb    r2, [r1, 2]
         cmp     r2, 0xFF
-        bne     f107
+        bne     f008
 
         ldrb    r2, [r1, 3]
         cmp     r2, 0xFF
-        bne     f107
+        bne     f008
 
-        b       sram_passed
+        b       eval
 
-f107:
-        m_exit  107
+f008:
+        m_exit  8
 
-sram_passed:
-        restore mem
+eval:
+        m_vsync
+        m_test_eval r12
+
+idle:
+        b       idle
+
+include '../lib/text.asm'
