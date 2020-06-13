@@ -16,9 +16,9 @@ t002:
         ; Mirror 1
         mov     r0, 1
         mov     r1, r11
+        m_flash 0xA0
         strb    r0, [r1]
         add     r1, 0x10000
-        m_flash 0xA0
         ldrb    r0, [r1]
         cmp     r0, 1
         bne     f002
