@@ -41,9 +41,10 @@ f001:
 t002:
         ; SRAM mirror 1
         mov     r0, 1
-        strb    r0, [r11]
+        mov     r1, r11
+        strb    r0, [r1]
         add     r1, 0x10000
-        ldrb    r0, [r11]
+        ldrb    r0, [r1]
         cmp     r0, 1
         bne     f002
 
@@ -72,9 +73,8 @@ f003:
 t004:
         ; SRAM load half
         mov     r0, 1
-        mov     r1, r11
-        strb    r0, [r1]
-        ldrh    r0, [r1]
+        strb    r0, [r11]
+        ldrh    r0, [r11]
         m_half  r1, 0x0101
         cmp     r1, r0
         bne     f004
@@ -88,9 +88,8 @@ f004:
 t005:
         ; SRAM load word
         mov     r0, 1
-        mov     r1, r11
-        strb    r0, [r1]
-        ldr     r0, [r1]
+        strb    r0, [r11]
+        ldr     r0, [r11]
         m_word  r1, 0x01010101
         cmp     r1, r0
         bne     f005
@@ -104,16 +103,15 @@ f005:
 t006:
         ; SRAM store half position
         m_half  r0, 0xAABB
-        mov     r1, r11
 
-        strh    r0, [r1]
-        ldrb    r2, [r1]
-        cmp     r2, 0xBB
+        strh    r0, [r11]
+        ldrb    r1, [r11]
+        cmp     r1, 0xBB
         bne     f006
 
-        strh    r0, [r1, 1]
-        ldrb    r2, [r1, 1]
-        cmp     r2, 0xAA
+        strh    r0, [r11, 1]
+        ldrb    r1, [r11, 1]
+        cmp     r1, 0xAA
         bne     f006
 
         add     r11, 32
@@ -125,15 +123,14 @@ f006:
 t007:
         ; SRAM store half just byte
         m_half  r0, 0xAABB
-        mov     r1, r11
-        strh    r0, [r1]
+        strh    r0, [r11]
 
-        ldrb    r2, [r1]
-        cmp     r2, 0xBB
+        ldrb    r1, [r11]
+        cmp     r1, 0xBB
         bne     f007
 
-        ldrb    r2, [r1, 1]
-        cmp     r2, 0xFF
+        ldrb    r1, [r11, 1]
+        cmp     r1, 0xFF
         bne     f007
 
         add     r11, 32
@@ -145,26 +142,25 @@ f007:
 t008:
         ; SRAM store word position
         m_word  r0, 0xAABBCCDD
-        mov     r1, r11
 
-        str     r0, [r1]
-        ldrb    r2, [r1]
-        cmp     r2, 0xDD
+        str     r0, [r11]
+        ldrb    r1, [r11]
+        cmp     r1, 0xDD
         bne     f008
 
-        str     r0, [r1, 1]
-        ldrb    r2, [r1, 1]
-        cmp     r2, 0xCC
+        str     r0, [r11, 1]
+        ldrb    r1, [r11, 1]
+        cmp     r1, 0xCC
         bne     f008
 
-        str     r0, [r1, 2]
-        ldrb    r2, [r1, 2]
-        cmp     r2, 0xBB
+        str     r0, [r11, 2]
+        ldrb    r1, [r11, 2]
+        cmp     r1, 0xBB
         bne     f008
 
-        str     r0, [r1, 3]
-        ldrb    r2, [r1, 3]
-        cmp     r2, 0xAA
+        str     r0, [r11, 3]
+        ldrb    r1, [r11, 3]
+        cmp     r1, 0xAA
         bne     f008
 
         add     r11, 32
@@ -176,23 +172,22 @@ f008:
 t009:
         ; SRAM store word just byte
         m_word  r0, 0xAABBCCDD
-        mov     r1, r11
-        str     r0, [r1]
+        str     r0, [r11]
 
-        ldrb    r2, [r1]
-        cmp     r2, 0xDD
+        ldrb    r1, [r11]
+        cmp     r1, 0xDD
         bne     f009
 
-        ldrb    r2, [r1, 1]
-        cmp     r2, 0xFF
+        ldrb    r1, [r11, 1]
+        cmp     r1, 0xFF
         bne     f009
 
-        ldrb    r2, [r1, 2]
-        cmp     r2, 0xFF
+        ldrb    r1, [r11, 2]
+        cmp     r1, 0xFF
         bne     f009
 
-        ldrb    r2, [r1, 3]
-        cmp     r2, 0xFF
+        ldrb    r1, [r11, 3]
+        cmp     r1, 0xFF
         bne     f009
 
         b       eval

@@ -1,2 +1,5 @@
 # FASM
 *.bin
+
+# GBA
+*.sav
