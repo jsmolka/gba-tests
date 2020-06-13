@@ -27,7 +27,7 @@ sram:
         dw      '_V  '
 
 t001:
-        ; Uninitialized SRAM
+        ; Uninitialized memory
         ldrb    r0, [r11]
         cmp     r0, 0xFF
         bne     f001
@@ -39,7 +39,7 @@ f001:
         m_exit  1
 
 t002:
-        ; SRAM mirror 1
+        ; Mirror 1
         mov     r0, 1
         mov     r1, r11
         strb    r0, [r1]
@@ -55,7 +55,7 @@ f002:
         m_exit  2
 
 t003:
-        ; SRAM mirror 2
+        ; Mirror 2
         mov     r0, 1
         mov     r1, r11
         strb    r0, [r1]
@@ -71,7 +71,7 @@ f003:
         m_exit  3
 
 t004:
-        ; SRAM load half
+        ; Load half
         mov     r0, 1
         strb    r0, [r11]
         ldrh    r0, [r11]
@@ -86,7 +86,7 @@ f004:
         m_exit  4
 
 t005:
-        ; SRAM load word
+        ; Load word
         mov     r0, 1
         strb    r0, [r11]
         ldr     r0, [r11]
@@ -101,7 +101,7 @@ f005:
         m_exit  5
 
 t006:
-        ; SRAM store half position
+        ; Store half position
         m_half  r0, 0xAABB
 
         strh    r0, [r11]
@@ -121,7 +121,7 @@ f006:
         m_exit  6
 
 t007:
-        ; SRAM store half just byte
+        ; Store half just byte
         m_half  r0, 0xAABB
         strh    r0, [r11]
 
@@ -140,7 +140,7 @@ f007:
         m_exit  7
 
 t008:
-        ; SRAM store word position
+        ; Store word position
         m_word  r0, 0xAABBCCDD
 
         str     r0, [r11]
@@ -170,7 +170,7 @@ f008:
         m_exit  8
 
 t009:
-        ; SRAM store word just byte
+        ; Store word just byte
         m_word  r0, 0xAABBCCDD
         str     r0, [r11]
 

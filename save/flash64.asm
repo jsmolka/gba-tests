@@ -26,8 +26,12 @@ flash:
         dw      'FLAS'
         dw      'H_V '
 
+        dw      'FLAS'
+        dw      'H512'
+        dw      '_V  '
+
 t001:
-        ; Uninitialized flash
+        ; Uninitialized memory
         ldrb    r0, [r11]
         cmp     r0, 0xFF
         bne     f001
@@ -39,7 +43,7 @@ f001:
         m_exit  1
 
 t002:
-        ; Flash mirror 1
+        ; Mirror 1
         mov     r0, 1
         mov     r1, r11
         strb    r0, [r1]
@@ -56,7 +60,7 @@ f002:
         m_exit  2
 
 t003:
-        ; Flash mirror 2
+        ; Mirror 2
         mov     r0, 1
         mov     r1, r11
         m_flash 0xA0
@@ -73,7 +77,7 @@ f003:
         m_exit  3
 
 t004:
-        ; Flash load half
+        ; Load half
         mov     r0, 1
         m_flash 0xA0
         strb    r0, [r11]
@@ -89,7 +93,7 @@ f004:
         m_exit  4
 
 t005:
-        ; Flash load word
+        ; Load word
         mov     r0, 1
         m_flash 0xA0
         strb    r0, [r11]
@@ -105,7 +109,7 @@ f005:
         m_exit  5
 
 t006:
-        ; Flash store half position
+        ; Store half position
         m_half  r0, 0xAABB
 
         m_flash 0xA0
@@ -127,7 +131,7 @@ f006:
         m_exit  6
 
 t007:
-        ; Flash store half just byte
+        ; Store half just byte
         m_half  r0, 0xAABB
         m_flash 0xA0
         strh    r0, [r11]
@@ -147,7 +151,7 @@ f007:
         m_exit  7
 
 t008:
-        ; Flash store word position
+        ; Store word position
         m_word  r0, 0xAABBCCDD
 
         m_flash 0xA0
@@ -181,7 +185,7 @@ f008:
         m_exit  8
 
 t009:
-        ; Flash store word just byte
+        ; Store word just byte
         m_word  r0, 0xAABBCCDD
         m_flash 0xA0
         str     r0, [r11]
@@ -202,10 +206,89 @@ t009:
         cmp     r1, 0xFF
         bne     f009
 
-        b       eval
+        b       t010
 
 f009:
         m_exit  9
+
+t010:
+        ; Erase chip
+        ; Fill chip with zeros
+        mov     r0, MEM_SRAM
+        add     r1, r0, 0x10000
+        mov     r2, 0
+.fill:
+        m_flash 0xA0
+        strb    r2, [r0], 1
+        cmp     r0, r1
+        bne     .fill
+
+        ; Erase chip
+        m_flash 0x80
+        m_flash 0x10
+
+        ; Wait for chip erase
+        mov     r0, MEM_SRAM
+.wait:
+        ldrb    r1, [r0]
+        cmp     r1, 0xFF
+        bne     .wait
+
+        ; Verify erased chip
+        mov     r0, MEM_SRAM
+        add     r1, r0, 0x10000
+.verify:
+        ldrb    r2, [r0], 1
+        cmp     r2, 0xFF
+        bne     f010
+        cmp     r0, r1
+        bne     .verify
+
+        b       t011
+
+f010:
+        m_exit  10
+
+t011:
+        ; Erase sector
+        ; Fill sector with zeros
+        mov     r0, MEM_SRAM
+        add     r1, r0, 0x1000
+        mov     r2, 0
+.fill:
+        m_flash 0xA0
+        strb    r2, [r0], 1
+        cmp     r0, r1
+        bne     .fill
+
+        ; Erase sector
+        m_flash 0x80
+        m_flash_prep
+        mov     r0, MEM_SRAM
+        mov     r1, 0
+        strb    r1, [r0]
+
+        ; Wait for sector erase
+        mov     r0, MEM_SRAM
+.wait:
+        ldrb    r1, [r0]
+        cmp     r1, 0xFF
+        bne     .wait
+
+        ; Verify erased sector
+        mov     r0, MEM_SRAM
+        add     r1, r0, 0x1000
+.verify:
+        ldrb    r2, [r0], 1
+        cmp     r2, 0xFF
+        bne     f011
+        cmp     r0, r1
+        bne     .verify
+
+        b       eval
+
+f011:
+        m_exit  11
 
 eval:
         m_vsync
