@@ -32,10 +32,10 @@ f001:
 t002:
         ; BIOS read returns 0x188+8 after SWI
         mov     r0, 0
-        m_word  r1, 0xE3A02004
+        m_word  r2, 0xE3A02004
         swi     0x80000  ; sqrt(r0)
-        ldr     r2, [r0]
-        cmp     r2, r1
+        ldr     r3, [r0]
+        cmp     r3, r2
         bne     f002
         b       t003
 
