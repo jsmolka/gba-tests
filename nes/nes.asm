@@ -60,13 +60,18 @@ t002:
         adr     r0, .dma_data
         adr     r1, .dma_pass
         mov     r2, 0x80000001
-        m_word  r3, (MEM_IO * REG_DMA0CNT)
+        m_word  r3, (MEM_IO + REG_DMA0CNT)
         stmda   r3, {r0-r2}
 
         adr     r0, .dma_fail
         ldr     r1, [r0]
         cmp     r1, 0xFF
         beq     f002
+
+        adr     r0, .dma_pass
+        ldr     r1, [r0]
+        cmp     r1, 0xFF
+        bne     f002
 
         b       eval
 
