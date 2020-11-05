@@ -469,9 +469,25 @@ t233:
         teq     r0, 0x80000000
         bcc     f233
 
-        b       data_processing_passed
+        b       t234
 
 f233:
         m_exit  233
+
+t234:
+        ; ARM 3: Bad CMP / CMN / TST / TEQ change the mode
+        mov     r8, 32
+        msr     cpsr, MODE_FIQ
+        mov     r8, 64
+        msr     spsr, MODE_SYS
+        dw      0xE15FF000  ; cmp pc, pc
+        beq     f234
+        cmp     r8, 32
+        bne     f234
+
+        b       data_processing_passed
+
+f234:
+        m_exit  234
 
 data_processing_passed:
