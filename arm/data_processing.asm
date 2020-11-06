@@ -481,13 +481,29 @@ t234:
         mov     r8, 64
         msr     spsr, MODE_SYS
         dw      0xE15FF000  ; cmp pc, pc
+        nop
+        nop
         beq     f234
         cmp     r8, 32
         bne     f234
 
-        b       data_processing_passed
+        b       t235
 
 f234:
         m_exit  234
+
+t235:
+        ; ARM 3: Bad CMP / CMN / TST / TEQ do not flush the pipeline
+        mov     r8, 0
+        dw      0xE15FF000  ; cmp pc, pc
+        mov     r8, 1
+        nop
+        cmp     r8, 0
+        beq     f235
+
+        b       data_processing_passed
+
+f235:
+        m_exit 235
 
 data_processing_passed:
