@@ -504,6 +504,6 @@ t235:
         b       data_processing_passed
 
 f235:
-        m_exit 235
+        m_exit  235
 
 data_processing_passed:
