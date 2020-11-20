@@ -53,7 +53,9 @@ macro m_text_char char {
 
 macro m_test_init {
         m_text_init
-        m_text_color 0xFFFF, 1
+        m_text_color 0xFFFF, 0
+        m_text_color 0x0000, 1
+        m_text_color 0xFFFF, 2
 }
 
 macro m_test_eval reg {

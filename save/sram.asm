@@ -1,4 +1,3 @@
-
 format binary as 'gba'
 
 include '../lib/constants.inc'
