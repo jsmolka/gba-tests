@@ -18,11 +18,13 @@ main:
         mov     r12, 0
 
         ; Tests start at 1
-        include 'mirrors.asm'
+        ;include 'mirrors.asm'
         ; Tests start at 50
-        include 'video_strb.asm'
+        ;include 'video_strb.asm'
         ; Tests start at 100
-        include 'mirrors32.asm'
+        ;include 'mirrors32.asm'
+        ; Tests start at 150
+        include 'bad_reads.asm'
 
 eval:
         m_vsync
@@ -32,3 +34,9 @@ idle:
         b       idle
 
 include '../lib/text.asm'
+
+align 4
+rom_end:
+        ; Reading this byte as a word or halfword will segfault if the emulator
+        ; just checks if the address is smaller than the size and then casts it.
+        db      0xFF
