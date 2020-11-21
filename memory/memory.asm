@@ -22,9 +22,7 @@ main:
         ; Tests start at 50
         include 'video_strb.asm'
         ; Tests start at 100
-        include 'mirrors32.asm'
-        ; Tests start at 150
-        include 'bad_reads.asm'
+        include 'rom_reads.asm'
 
 eval:
         m_vsync

@@ -1,4 +1,4 @@
-bad_reads:
+rom_reads:
         ; Tests for out of bounds rom reads
         ; Calculate virtual ROM size (next power of two)
         rom_size = rom_end + 1
@@ -10,57 +10,57 @@ bad_reads:
         rom_size = rom_size or rom_size shr 16
         rom_size = rom_size + 1
 
-t150:
+t100:
         ; Read ROM end byte
         m_word  r0, (0x8000000 + rom_end)
         ldrb    r1, [r0]
         cmp     r1, 0xFF
-        bne     f150
+        bne     f100
 
-        b       t151
+        b       t101
 
-f150:
-        m_exit  150
+f100:
+        m_exit  100
 
-t151:
+t101:
         ; Read ROM end byte as half
         m_word  r0, (0x8000000 + rom_end)
         ldrh    r1, [r0]
         cmp     r1, 0xFF
-        bne     f151
+        bne     f101
 
-        b       t152
+        b       t102
 
-f151:
-        m_exit  151
+f101:
+        m_exit  101
 
-t152:
+t102:
         ; Read ROM end byte as word
         m_word  r0, (0x8000000 + rom_end)
         ldr     r1, [r0]
         cmp     r1, 0xFF
-        bne     f152
+        bne     f102
 
-        b       t153
+        b       t103
 
-f152:
-        m_exit  152
+f102:
+        m_exit  102
 
-t153:
+t103:
         ; Bytes inside virtual rom size are zero
         m_word  r0, (0x8000000 + rom_end + 4)
         m_word  r1, (0x8000000 + rom_size)
 .loop:
         ldr     r2, [r0]
         cmp     r2, 0
-        bne     f153
+        bne     f103
         add     r0, 1
         cmp     r0, r1
         bne     .loop
 
-        b       bad_reads_passed
+        b       rom_reads_passed
 
-f153:
-        m_exit  153
+f103:
+        m_exit  103
 
-bad_reads_passed:
+rom_reads_passed:

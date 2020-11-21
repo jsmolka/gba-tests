@@ -40,6 +40,7 @@ f051:
 
 t052:
         ; Ignore VRAM byte stores in non-bitmap modes
+        ; Switch mode to tiled
         mov     r0, MEM_IO
         add     r0, REG_DISPCNT
         ldrh    r1, [r0]
@@ -52,9 +53,11 @@ t052:
         strb    r3, [r4, 0x10]
         ldr     r3, [r4, 0x10]
         cmp     r3, 2
-        beq     f052
 
+        ; Switch mode to bitmap
         strh    r1, [r0]
+
+        beq     f052
         b       t053
 
 f052:

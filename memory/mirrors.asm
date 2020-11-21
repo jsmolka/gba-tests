@@ -47,7 +47,7 @@ f003:
         m_exit  3
 
 t004:
-        ; VRAM mirror
+        ; VRAM mirror 128k
         mov     r0, 2
         mov     r1, MEM_VRAM
         str     r0, [r1]
@@ -62,6 +62,32 @@ f004:
         m_exit  4
 
 t005:
+        ; VRAM mirror 32k
+        ; Switch mode to tiled
+        mov     r0, MEM_IO
+        ldrh    r2, [r0, REG_DISPCNT]
+        mov     r1, 0
+        strh    r1, [r0, REG_DISPCNT]
+
+        mov     r0, 2
+        mov     r1, MEM_VRAM
+        add     r1, 0x10000
+        str     r0, [r1]
+        add     r1, 0x8000
+        ldr     r0, [r1]
+        cmp     r0, 2
+
+        ; Switch mode back to bitmap
+        mov     r0, MEM_IO
+        strh    r2, [r0, REG_DISPCNT]
+
+        bne     f005
+        b       t006
+
+f005:
+        m_exit  5
+
+t006:
         ; OAM mirror
         mov     r0, 1
         mov     r1, MEM_OAM
@@ -69,43 +95,43 @@ t005:
         add     r1, 0x400
         ldr     r0, [r1]
         cmp     r0, 1
-        bne     f005
-
-        b       t006
-
-f005:
-        m_exit  5
-
-t006:
-        ; GamePak mirror 1
-        adr     r1, .data
-        add     r1, 0x02000000
-        ldr     r0, [r1]
-        cmp     r0, 1
         bne     f006
 
         b       t007
-
-.data:
-        dw      1
 
 f006:
         m_exit  6
 
 t007:
-        ; GamePak mirror 2
+        ; GamePak mirror 1
         adr     r1, .data
-        add     r1, 0x04000000
+        add     r1, 0x02000000
         ldr     r0, [r1]
         cmp     r0, 1
         bne     f007
 
-        b       mirrors_passed
+        b       t008
 
 .data:
         dw      1
 
 f007:
         m_exit  7
+
+t008:
+        ; GamePak mirror 2
+        adr     r1, .data
+        add     r1, 0x04000000
+        ldr     r0, [r1]
+        cmp     r0, 1
+        bne     f008
+
+        b       mirrors_passed
+
+.data:
+        dw      1
+
+f008:
+        m_exit  8
 
 mirrors_passed:
