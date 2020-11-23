@@ -1,4 +1,5 @@
-# Attention
+# Warning
+I don't feel comfortable putting these tests into the test suite. The failures on hardware are probably caused by the flash card.
 
 ## SRAM Mirror
 This test checks the following GBATEK statement:
@@ -8,7 +9,7 @@ This test checks the following GBATEK statement:
 It passes on No$GBA and mGBA but not on real hardware.
 
 ## Zero Padded ROM
-The ROM area appears to be zero padded up to the next power of two. This has little to no impact in reality because all official ROMs are a multiple of two anyway.
+The ROM area appears to be zero padded up to the next power of two.
 
 The test passes on No$GBA, mGBA and real hardware.
 
@@ -17,4 +18,4 @@ This test checks the following GBATEK statement:
 
 > Because Gamepak uses the same signal-lines for both 16bit data and for lower 16bit halfword address, the entire gamepak ROM area is effectively filled by incrementing 16bit values (Address/2 AND FFFFh).
 
-It passes on neither No$GBA, mGBA or real hardware.
+It passes on mGBA but not on No$GBA or real hardware.
