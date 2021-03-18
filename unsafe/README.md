@@ -8,11 +8,6 @@ This test checks the following GBATEK statement:
 
 It passes on No$GBA and mGBA but not on real hardware.
 
-## Zero Padded ROM
-The ROM area appears to be zero padded up to the next power of two.
-
-The test passes on No$GBA, mGBA and real hardware.
-
 ## Unused ROM Reads
 This test checks the following GBATEK statement:
 

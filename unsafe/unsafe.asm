@@ -49,23 +49,6 @@ f001:
         m_exit  1
 
 t002:
-        ; Zero padded ROM
-        m_word  r0, (0x8000000 + rom_end)
-        m_word  r1, (0x8000000 + rom_size)
-.loop:
-        ldrb    r2, [r0]
-        cmp     r2, 0
-        bne     f002
-        add     r0, 1
-        cmp     r0, r1
-        bne     .loop
-
-        b       t003
-
-f002:
-        m_exit  2
-
-t003:
         ; Unused ROM reads
         m_word  r0, (0x8000000 + rom_size)
         m_word  r1, (0x8000000 + rom_size + 0x1000)
@@ -73,7 +56,7 @@ t003:
         bl      .calc
         ldrb    r3, [r0]
         cmp     r3, r2
-        bne     f003
+        bne     f002
         add     r0, 1
         cmp     r0, r1
         bne     .loop
@@ -90,8 +73,8 @@ t003:
         and     r2, 0xFF
         mov     pc, lr
 
-f003:
-        m_exit  3
+f002:
+        m_exit  2
 
 eval:
         m_vsync
