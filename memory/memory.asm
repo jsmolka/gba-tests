@@ -21,8 +21,6 @@ main:
         include 'mirrors.asm'
         ; Tests start at 50
         include 'video_strb.asm'
-        ; Tests start at 100
-        include 'rom_reads.asm'
 
 eval:
         m_vsync
@@ -32,9 +30,3 @@ idle:
         b       idle
 
 include '../lib/text.asm'
-
-align 4
-rom_end:
-        ; Reading this byte as a word or halfword will segfault if the emulator
-        ; just checks if the address is smaller than the size and then casts it
-        db      0xFF
