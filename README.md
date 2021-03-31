@@ -6,5 +6,5 @@ Each ROM contains multiple tests. Either all of them pass or the number of the f
 
 ![example](example.png)
 
-## Building
+## Build
 ROMs can be assembled with [FASMARM](https://arm.flatassembler.net/).
