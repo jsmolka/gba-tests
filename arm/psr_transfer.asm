@@ -64,9 +64,11 @@ f253:
 
 t254:
         ; ARM 4: Accessing SPSR
+        msr     cpsr_c, MODE_FIQ
         mrs     r0, cpsr
         msr     spsr, r0
         mrs     r1, spsr
+        msr     cpsr_c, MODE_SYS
         cmp     r1, r0
         bne     f254
 
