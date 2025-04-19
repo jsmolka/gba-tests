@@ -480,7 +480,7 @@ t234:
         msr     cpsr, MODE_FIQ
         mov     r8, 64
         msr     spsr, MODE_SYS
-        dw      0xE15FF000  ; cmp pc, pc
+        dw      0xE15FF000  ; cmp pc, pc, r0
         nop
         nop
         beq     f234
@@ -495,7 +495,7 @@ f234:
 t235:
         ; ARM 3: Bad CMP / CMN / TST / TEQ do not flush the pipeline
         mov     r8, 0
-        dw      0xE15FF000  ; cmp pc, pc
+        dw      0xE15FF000  ; cmp pc, pc, r0
         mov     r8, 1
         nop
         cmp     r8, 0
